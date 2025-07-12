@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// TODO: Clean up schema, remove unused models and fields
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // characters   Character[]
+}
+
+// -----------------------
+// Authentication models for NextAuth.js
+// -----------------------
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+ 
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@id([identifier, token])
+}
+
+// -----------------------
+// Game models
+// -----------------------
+
+model Biome {
+  id          String       @id @default(cuid())
+  key         String       @unique
+  name        String       @unique
+  image       String?      @default("")
+  description String?      @default("")
+
+  ingredients BiomeIngredient[]
+}
+
+model Ingredient {
+  id               String             @id @default(cuid())
+  name             String             @unique
+  rarity           String             @default("common") // e.g. "common", "uncommon", "rare"
+  description      String
+  boon             String             // positive effects, e.g. "increases strength"
+  bane             String             // negative effects, e.g. "decreases speed"
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  biomes           BiomeIngredient[]
+
+  // foragingEntries  ForagingEntry[]    @relation("ForagingEntries")
+}
+
+model Recipe {
+  id              Int                 @id @default(autoincrement())
+  title           String
+  description     String?
+  difficulty      Int                 @default(10)
+  successDesc     String?
+  successMod      String?
+  failureDesc     String?
+  failureMod      String?
+  authorId        Int?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+}
+
+// model Character {
+//   id           String          @id @default(cuid())
+//   name         String
+//   description  String?
+//   image        String?
+//   currentDay   Int             @default(1)    // start at day 1
+//   createdAt    DateTime        @default(now())
+//   updatedAt    DateTime        @updatedAt
+
+//   account      User            @relation(fields: [accountId], references: [id])
+//   accountId    String
+//   foragingLog  ForagingEntry[] @relation("CharacterForaging")
+
+//   @@unique([accountId, name])
+// }
+
+// model Supplies {
+//   id           Int        @id @default(autoincrement())
+//   character    Character  @relation(fields: [characterId], references: [id])
+//   characterId  Int
+//   ingredients  Ingredient[]
+//   quantity     Int        @default(1)
+// }
+
+// model CookedDish {
+//   id           Int        @id @default(autoincrement())
+//   character    Character  @relation(fields: [characterId], references: [id])
+//   characterId  Int
+//   recipe       Recipe     @relation(fields: [recipeId], references: [id])
+//   recipeId     Int
+//   modifier     String?    // positive or negative modifier applied to the character
+
+//   // integer days rather than DateTimes:
+//   cookedDay    Int        // set to character.currentDay when cooked
+//   expiresDay   Int        // = cookedDay + 7
+//   eaten        Boolean    @default(false)
+// }
+
+
+// model RecipeIngredient {
+//   id           Int        @id @default(autoincrement())
+//   recipe       Recipe     @relation(fields: [recipeId], references: [id])
+//   recipeId     Int
+//   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+//   ingredientId Int
+//   quantity     Int        @default(1)
+
+//   @@unique([recipeId, ingredientId])
+// }
+
+// model ForagingEntry {
+//   id           Int         @id @default(autoincrement())
+//   quantity     Int         @default(1)
+//   isCommon     Boolean     @default(true)
+//   pickedOn     Int
+
+//   character    Character   @relation("CharacterForaging", fields: [characterId], references: [id])
+//   characterId  Int
+//   ingredient   Ingredient? @relation("ForagingEntries", fields: [ingredientId], references: [id])
+//   ingredientId Int
+// }
+
+
+// -------------------------
+// Many-to-many relationships
+// --------------------------
+
+model BiomeIngredient {
+  biome       Biome      @relation(fields: [biomeId], references: [id])
+  biomeId     String
+  ingredient  Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredientId String
+
+  @@id([biomeId, ingredientId])
+}

@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`components/app-bar should should match snapshot 1`] = `
+<DocumentFragment>
+  <nav
+    class="flex items-center justify-between max-w-screen bg-appbar p-2 py-3 md:p-6 h-16"
+  >
+    <div
+      class="flex items-center flex-shrink-0 text-white md:-ml-3 gap-2"
+    >
+      <div
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        class="flex items-center gap-4 cursor-pointer"
+        data-state="closed"
+      >
+        <img
+          alt="logo"
+          data-nimg="1"
+          decoding="async"
+          height="48"
+          loading="lazy"
+          src="/_next/image?url=%2Flogo.png&w=96&q=75"
+          srcset="/_next/image?url=%2Flogo.png&w=48&q=75 1x, /_next/image?url=%2Flogo.png&w=96&q=75 2x"
+          style="color: transparent;"
+          width="48"
+        />
+      </div>
+      <a
+        class="hidden md:block text-4xl italic"
+        data-testid="app-bar__home-link"
+        href="/"
+      >
+        The Adventurer's Cookbook
+      </a>
+    </div>
+    <div>
+      Auth Component
+    </div>
+  </nav>
+</DocumentFragment>
+`;

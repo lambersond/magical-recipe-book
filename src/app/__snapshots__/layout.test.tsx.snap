@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`app/layout should render layout 1`] = `
+<DocumentFragment>
+  <div>
+    Hello World
+  </div>
+</DocumentFragment>
+`;
