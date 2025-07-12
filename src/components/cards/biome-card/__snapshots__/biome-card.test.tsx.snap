@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`components/cards/biome-card should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="p-4 border-border bg-card w-full rounded-none sm:rounded-lg"
+    data-testid="Card"
+  >
+    <h2
+      class="text-2xl font-semibold text-text-primary flex gap-2 items-center"
+    >
+      <p
+        class="text-4xl"
+      >
+        🌋
+      </p>
+       biomeName
+    </h2>
+    <p
+      class="text-text-secondary mb-4"
+    />
+    <p
+      class="text-text-secondary mb-2"
+    >
+      <span
+        class="font-semibold"
+      >
+        Ingredients:
+      </span>
+       0
+    </p>
+    <p
+      class="text-text-secondary mb-2"
+    />
+  </div>
+</DocumentFragment>
+`;

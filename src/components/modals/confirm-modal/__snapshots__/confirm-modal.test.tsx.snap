@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`compoenents/modals/confirm-modal should render defaults 1`] = `
+<DocumentFragment>
+  <div
+    class="fixed inset-0 flex items-center justify-center z-1200"
+  >
+    <summary
+      class="absolute inset-0 bg-black opacity-75"
+      data-testid="modal__backdrop"
+    />
+    <div
+      class="relative bg-paper rounded-lg max-w-2xl w-sm md:w-md p-3 z-1000"
+      data-testid="modal"
+    >
+      <div
+        class="flex justify-between items-center"
+      >
+        <p
+          class="text-2xl font-bold"
+        >
+          Confirmation
+        </p>
+        <button
+          class="bg-transparent text-tertiary hover:text-text-primary hover:bg-text-secondary/30 cursor-pointer hover:text-text-primary size-10 border-transparent min-w-fit rounded-full p-1 flex items-center justify-center flex justify-between"
+        >
+          <svg
+            class="min-w-fit min-h-fit"
+            data-testid="CloseIcon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="max-h-["100vh_-_52px"] overflow-y-auto"
+        style="max-height: calc(100vh - 52px;"
+      >
+        <p
+          class="my-8 font-bold italic"
+        >
+          Are you sure you want to proceed?
+        </p>
+        <div
+          class="flex justify-end mt-4 gap-2"
+        >
+          <button
+            class="border border-secondary py-2 px-4 hover:border-tertiary hover:text-tertiary rounded-xl text-lg text-secondary uppercase text-center font-bold cursor-pointer flex items-center justify-center gap-2"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-primary py-2 px-4 hover:bg-primary/85 hover:text-text-primary rounded-xl text-lg text-tertiary uppercase text-center font-bold cursor-pointer flex items-center justify-center gap-2"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`compoenents/modals/confirm-modal should render with passed props 1`] = `
+<DocumentFragment>
+  <div
+    class="fixed inset-0 flex items-center justify-center z-1200"
+  >
+    <summary
+      class="absolute inset-0 bg-black opacity-75"
+      data-testid="modal__backdrop"
+    />
+    <div
+      class="relative bg-paper rounded-lg max-w-2xl w-sm md:w-md p-3 z-1000"
+      data-testid="modal"
+    >
+      <div
+        class="flex justify-between items-center"
+      >
+        <p
+          class="text-2xl font-bold"
+        >
+          Test title
+        </p>
+        <button
+          class="bg-transparent text-tertiary hover:text-text-primary hover:bg-text-secondary/30 cursor-pointer hover:text-text-primary size-10 border-transparent min-w-fit rounded-full p-1 flex items-center justify-center flex justify-between"
+        >
+          <svg
+            class="min-w-fit min-h-fit"
+            data-testid="CloseIcon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="max-h-["100vh_-_52px"] overflow-y-auto"
+        style="max-height: calc(100vh - 52px;"
+      >
+        <p
+          class="my-8 font-bold italic"
+        >
+          Test message
+        </p>
+        <div
+          class="flex justify-end mt-4 gap-2"
+        >
+          <button
+            class="border border-secondary py-2 px-4 hover:border-tertiary hover:text-tertiary rounded-xl text-lg text-secondary uppercase text-center font-bold cursor-pointer flex items-center justify-center gap-2"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-primary py-2 px-4 hover:bg-primary/85 hover:text-text-primary rounded-xl text-lg text-tertiary uppercase text-center font-bold cursor-pointer flex items-center justify-center gap-2"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

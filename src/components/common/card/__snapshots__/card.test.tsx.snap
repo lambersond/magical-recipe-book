@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`components/common/card should match snapshot for basic card 1`] = `
+<DocumentFragment>
+  <div
+    class="p-4 border-border bg-card w-full rounded-none sm:rounded-lg"
+    data-testid="Card"
+  >
+    Hello World
+  </div>
+</DocumentFragment>
+`;
+
+exports[`components/common/card should match snapshot for clickable card 1`] = `
+<DocumentFragment>
+  <button
+    class="p-4 border-border bg-card w-full rounded-none sm:rounded-lg hover:border-hover cursor-pointer"
+    data-testid="Card"
+  >
+    Hello World
+  </button>
+</DocumentFragment>
+`;

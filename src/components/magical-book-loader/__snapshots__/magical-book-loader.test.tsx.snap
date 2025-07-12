@@ -1,0 +1,375 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`components/magical-book-loader matches snapshot 1`] = `
+<div>
+  <div
+    class="magical-book-container "
+  >
+    <div
+      class="recipe-book"
+    >
+      <div
+        class="book-base"
+      />
+      <div
+        class="page-left-bg"
+      />
+      <div
+        class="page-right-bg"
+      />
+      <div
+        class="right-page-content"
+      >
+        <div
+          class="right-content-1"
+        >
+          <div
+            class="squiggle-title"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line short"
+          />
+          <div
+            class="squiggle-line medium"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line indent"
+          />
+          <div
+            class="squiggle-line indent short"
+          />
+          <div
+            class="image-placeholder"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line medium"
+          />
+          <div
+            class="magical-symbol"
+          >
+            ✧ ◆ ✧
+          </div>
+        </div>
+        <div
+          class="right-content-2"
+        >
+          <div
+            class="squiggle-title"
+          />
+          <div
+            class="squiggle-line medium"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line indent"
+          />
+          <div
+            class="squiggle-line indent medium"
+          />
+          <div
+            class="squiggle-line short"
+          />
+          <div
+            class="image-placeholder"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line indent short"
+          />
+          <div
+            class="squiggle-line medium"
+          />
+          <div
+            class="magical-symbol"
+          >
+            ◊ ⬟ ◊
+          </div>
+        </div>
+        <div
+          class="right-content-3"
+        >
+          <div
+            class="squiggle-title"
+          />
+          <div
+            class="image-placeholder"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line medium"
+          />
+          <div
+            class="squiggle-line indent"
+          />
+          <div
+            class="squiggle-line indent short"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line short"
+          />
+          <div
+            class="squiggle-line medium"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="magical-symbol"
+          >
+            ❋ ◈ ❋
+          </div>
+        </div>
+        <div
+          class="right-content-4"
+        >
+          <div
+            class="squiggle-title"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line short"
+          />
+          <div
+            class="squiggle-line medium"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line indent"
+          />
+          <div
+            class="squiggle-line indent short"
+          />
+          <div
+            class="image-placeholder"
+          />
+          <div
+            class="squiggle-line"
+          />
+          <div
+            class="squiggle-line medium"
+          />
+          <div
+            class="magical-symbol"
+          >
+            ✧ ◆ ✧
+          </div>
+        </div>
+      </div>
+      <div
+        class="spine"
+      />
+      <div
+        class="page page-1"
+      >
+        <div
+          class="squiggle-title"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line medium"
+        />
+        <div
+          class="squiggle-line short"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line indent"
+        />
+        <div
+          class="squiggle-line indent short"
+        />
+        <div
+          class="squiggle-line indent"
+        />
+        <div
+          class="image-placeholder"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line medium"
+        />
+        <div
+          class="magical-symbol"
+        >
+          ⚡ ✨ ⚡
+        </div>
+      </div>
+      <div
+        class="page page-2"
+      >
+        <div
+          class="squiggle-title"
+        />
+        <div
+          class="image-placeholder"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line short"
+        />
+        <div
+          class="squiggle-line indent"
+        />
+        <div
+          class="squiggle-line indent medium"
+        />
+        <div
+          class="squiggle-line indent short"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line medium"
+        />
+        <div
+          class="squiggle-line short"
+        />
+        <div
+          class="magical-symbol"
+        >
+          ⟐ ◉ ⟐
+        </div>
+      </div>
+      <div
+        class="page page-3"
+      >
+        <div
+          class="squiggle-title"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line medium"
+        />
+        <div
+          class="squiggle-line indent"
+        />
+        <div
+          class="squiggle-line indent short"
+        />
+        <div
+          class="squiggle-line indent"
+        />
+        <div
+          class="squiggle-line indent medium"
+        />
+        <div
+          class="image-placeholder"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line short"
+        />
+        <div
+          class="magical-symbol"
+        >
+          ◯ ◉ ●
+        </div>
+      </div>
+      <div
+        class="page page-4"
+      >
+        <div
+          class="squiggle-title"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line medium"
+        />
+        <div
+          class="squiggle-line short"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line indent"
+        />
+        <div
+          class="squiggle-line indent short"
+        />
+        <div
+          class="squiggle-line indent"
+        />
+        <div
+          class="image-placeholder"
+        />
+        <div
+          class="squiggle-line"
+        />
+        <div
+          class="squiggle-line medium"
+        />
+        <div
+          class="magical-symbol"
+        >
+          ⚡ ✨ ⚡
+        </div>
+      </div>
+      <div
+        class="sparkles"
+      >
+        <div
+          class="sparkle"
+        />
+        <div
+          class="sparkle"
+        />
+        <div
+          class="sparkle"
+        />
+        <div
+          class="sparkle"
+        />
+        <div
+          class="sparkle"
+        />
+        <div
+          class="sparkle"
+        />
+      </div>
+    </div>
+    <div
+      class="loading-text"
+    >
+      Loading...
+    </div>
+  </div>
+</div>
+`;
