@@ -3,11 +3,11 @@
 exports[`components/cards/ingredient-card should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="p-4 border-border bg-card w-full rounded-none sm:rounded-lg w-full"
+    class="p-4 border-border bg-card w-full rounded-none sm:rounded-lg"
     data-testid="Card"
   >
     <h2
-      class="text-2xl font-semibold text-text-primary flex gap-2 items-center"
+      class="text-2xl font-semibold text-text-primary"
     >
       Name
     </h2>

@@ -6,3 +6,6 @@ export const secondaryButton =
 
 export const card =
   'p-4 border-border bg-card w-full rounded-none sm:rounded-lg'
+
+export const pageMain =
+  'pt-8 pb-20 xs:px-2 sm:px-4 md:px-8 lg:px-12 xl:px-16 2xl:px-20 flex flex-col items-center gap-4 max-w-[1536px] mx-auto'

@@ -1,7 +1,20 @@
-export async function Masonry({ children }: { children: React.ReactNode }) {
+'use client'
+
+import Masonry from 'react-masonry-css'
+
+export function MasonryCustom({ children }: { children: React.ReactNode }) {
   return (
-    <div className='grid gap-4 justify-items-start grid-cols-[repeat(auto-fit,_minmax(320px,_1fr))]'>
+    <Masonry
+      className='react-masonry'
+      columnClassName='react-masonry_column'
+      breakpointCols={{
+        default: 4,
+        1280: 3,
+        1024: 2,
+        768: 1,
+      }}
+    >
       {children}
-    </div>
+    </Masonry>
   )
 }

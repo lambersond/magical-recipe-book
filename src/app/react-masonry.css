@@ -1,0 +1,16 @@
+.react-masonry {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: -16px;
+  width: auto;
+}
+
+.react-masonry_column {
+  padding-left: 16px;
+  background-clip: padding-box;
+}
+
+.react-masonry_column > div {
+  margin-bottom: 16px;
+}
