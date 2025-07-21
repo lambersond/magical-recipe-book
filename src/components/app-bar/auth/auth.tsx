@@ -7,7 +7,11 @@ import { AccountIcon, LogoutIcon } from '@/components/common/icons'
 import { useAuth } from '@/hooks/use-auth'
 
 export function Auth() {
-  const { isAuthenticated, signIn, signOut, user } = useAuth()
+  const { isAuthenticated, signIn, signOut, user, isEnabled } = useAuth()
+
+  if (!isEnabled) {
+    return
+  }
 
   const options = [
     {
