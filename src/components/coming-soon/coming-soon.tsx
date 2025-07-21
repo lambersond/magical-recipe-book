@@ -24,15 +24,14 @@ export function ComingSoon() {
       id: 1,
       title: 'Character Creation',
       description:
-        'Comprehensive analytics and insights with real-time data visualization',
+        'Manage your seperate characters cookbooks and recipes with ease.',
       icon: <CharacterIcon className='size-6' />,
       status: 'in-progress',
     },
     {
       id: 2,
       title: 'Foraging Log',
-      description:
-        'Enhanced collaboration tools with shared workspaces and live editing',
+      description: 'Never again what you have foraged and when you did it.',
       icon: <LogBookIcon className='size-6' />,
       status: 'coming-soon',
     },
@@ -40,7 +39,7 @@ export function ComingSoon() {
       id: 3,
       title: 'Ingredients Pouch',
       description:
-        'Advanced encryption and two-factor authentication for ultimate protection',
+        'Keep track of all your ingredients reguardless of if they have expired or not.',
       icon: <BackpackIcon className='size-6' />,
       status: 'coming-soon',
     },
