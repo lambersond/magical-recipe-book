@@ -21,6 +21,18 @@ const geistMono = GeistMono({
 export const metadata: Metadata = {
   title: "The Adventurer's Cookbook",
   description: 'For Adventurers who like to eat well while traveling',
+  metadataBase: new URL('https://cookbook.illagria.com'),
+  openGraph: {
+    title: "The Adventurer's Cookbook",
+    images: {
+      url: '/logo.png',
+      secureUrl: '/logo.png',
+      alt: "The Adventurer's Cookbook Logo",
+      type: 'image/png',
+      width: 1024,
+      height: 1024,
+    },
+  },
 }
 export const viewport: Viewport = {
   width: 'device-width',

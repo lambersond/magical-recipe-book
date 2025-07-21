@@ -33,7 +33,7 @@ export function ComingSoon() {
       title: 'Foraging Log',
       description: 'Never again what you have foraged and when you did it.',
       icon: <LogBookIcon className='size-6' />,
-      status: 'coming-soon',
+      status: 'in-progress',
     },
     {
       id: 3,
