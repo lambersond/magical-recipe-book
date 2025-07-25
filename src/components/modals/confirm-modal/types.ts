@@ -2,6 +2,9 @@ import type { ModalProps } from '../types'
 
 export interface ConfirmModalProps extends ModalProps {
   onConfirm: VoidFunction
-  message?: string
+  message?: string | React.ReactNode
   title?: string
+  confirmButtonText?: string
+  cancelButtonText?: string
+  hideCancelButton?: boolean
 }

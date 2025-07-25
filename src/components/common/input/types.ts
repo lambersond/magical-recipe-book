@@ -1,3 +1,4 @@
+import { Color, Size } from '@/types'
 import type { InputHTMLAttributes } from 'react'
 import type {
   FieldValue,
@@ -14,11 +15,16 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export interface SwitchProps
-  extends Omit<InputProps, 'type' | 'error' | 'size'> {
+  extends Omit<InputProps, 'type' | 'error' | 'size' | 'color'> {
   label: string
+  labelSize?: Size
   defaultChecked?: boolean
   labelClassName?: string
-  size?: 'sm' | 'md' | 'lg'
+  size?: Size
+  orientation?: 'horizontal' | 'vertical'
+  color?: Omit<Color, 'transparent'>
+  leftText?: string
+  rightText?: string
 }
 
 export interface CheckboxProps

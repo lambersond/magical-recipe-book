@@ -1,6 +1,7 @@
 export type DropdownOption<S = string, T = string> = {
   id: S
   label: React.ReactNode
+  searchText?: string
   value?: T
 }
 
@@ -14,4 +15,6 @@ export type DropdownProps<S = string, T = string | number> = {
   defaultEmpty?: boolean
   placeholder?: string
   width?: string
+  searchable?: boolean
+  searchPlaceholder?: string
 }

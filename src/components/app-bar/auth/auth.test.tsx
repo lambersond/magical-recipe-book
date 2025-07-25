@@ -1,10 +1,17 @@
 import { render } from '@test-utils'
 import { Auth } from './auth'
+import { ModalProvider } from '@/components/modals/modal-provider'
 
 const mockUseAuth = jest.fn()
 
 jest.mock('@/hooks/use-auth', () => ({
   useAuth: () => mockUseAuth(),
+}))
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
 }))
 
 describe('components/app-bar/auth', () => {
@@ -16,7 +23,9 @@ describe('components/app-bar/auth', () => {
       user: { name: 'Guest' },
     })
 
-    const { getByTestId, getByText } = render(<Auth />)
+    const { getByTestId, getByText } = render(<Auth />, {
+      wrapper: ModalProvider,
+    })
 
     expect(getByText('Login')).toBeInTheDocument()
     expect(getByTestId('AccountIcon')).toBeInTheDocument()
@@ -30,7 +39,9 @@ describe('components/app-bar/auth', () => {
       user: { name: 'User' },
     })
 
-    const { getByText, getByTestId } = render(<Auth />)
+    const { getByTestId, getByText } = render(<Auth />, {
+      wrapper: ModalProvider,
+    })
 
     expect(getByText('User')).toBeInTheDocument()
     expect(getByTestId('AccountIcon')).toBeInTheDocument()

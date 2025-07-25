@@ -23,7 +23,7 @@ model User {
 }
 
 // -----------------------
-// Authentication models for NextAuth.js
+// Authentication models for Auth.js
 // -----------------------
 model Account {
   userId            String
@@ -82,6 +82,7 @@ model Ingredient {
   id               String             @id @default(cuid())
   name             String             @unique
   rarity           String             @default("common") // e.g. "common", "uncommon", "rare"
+  image            String?            @default("")
   description      String
   boon             String             // positive effects, e.g. "increases strength"
   bane             String             // negative effects, e.g. "decreases speed"
@@ -91,14 +92,14 @@ model Ingredient {
 
   biomes           BiomeIngredient[]
   recipes          RecipeIngredient[]
-
-
+  foragedIngredients ForagedIngredient[]
 }
 
 model Recipe {
   id                  String              @id @default(cuid())
   name                String              @unique
   description         String?
+  image               String?             @default("")
   difficulty          Int                 @default(10)
   boonText            String?
   baneText            String?
@@ -108,35 +109,128 @@ model Recipe {
   updatedAt           DateTime            @updatedAt
 
   magicalIngredients  RecipeIngredient[]
+  knownRecipes        Cookbook[]
+  cookedDishes        CookedDish[]
 }
 
 model Character {
   id           String          @id @default(cuid())
   name         String
-  description  String?
-  image        String?
+  description  String?         @default("")
+  image        String?         @default("")
   currentDay   Int             @default(1)    // start at day 1
+
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
 
-  account      User            @relation(fields: [accountId], references: [id])
-  accountId    String
+  user         User            @relation(fields: [userId], references: [id])
+  userId       String
 
-  @@unique([accountId, name])
+  foragingLog       ForagedIngredient[]
+  ingredientsPouch  IngredientsPouch?
+  cookbook          Cookbook?
+  backpack          Backpack?
+
+  @@unique([userId, name])
 }
 
-// model ForagingEntry {
-//   id           Int         @id @default(autoincrement())
-//   quantity     Int         @default(1)
-//   isCommon     Boolean     @default(true)
-//   pickedOn     Int
+model Cookbook {
+  id           String      @id @default(cuid())
+  image        String?     @default("")
+  
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
-//   character    Character   @relation("CharacterForaging", fields: [characterId], references: [id])
-//   characterId  Int
-//   ingredient   Ingredient? @relation("ForagingEntries", fields: [ingredientId], references: [id])
-//   ingredientId Int
-// }
+  character Character      @relation(fields: [characterId], references: [id])
+  characterId  String      @unique
+  
+  knownRecipes Recipe[]
 
+  @@index([characterId])
+}
+
+model IngredientsPouch {
+  id           String      @id @default(cuid())
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  character    Character   @relation(fields: [characterId], references: [id])
+  characterId  String      @unique
+  
+  magicalIngredients ForagedIngredient[] @relation("PouchMagicalIngredients")
+  commonIngredients  Int @default(0)
+
+  @@index([characterId])
+}
+
+model ForagedIngredient {
+  id                String      @id @default(cuid())
+  foundOnDay        Int         
+  commonIngredients Int         @default(0)
+  isExpired         Boolean     @default(false)
+  isUsed            Boolean     @default(false)
+  
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  character    Character   @relation(fields: [characterId], references: [id])
+  characterId  String
+  
+  magicalIngredient Ingredient? @relation(fields: [magicalIngredientId], references: [id])
+  magicalIngredientId String?
+  
+  ingredientsPouch IngredientsPouch? @relation("PouchMagicalIngredients", fields: [pouchId], references: [id])
+  pouchId          String?
+  
+  @@index([characterId])
+}
+
+model Backpack {
+  id           String       @id @default(cuid())
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  character    Character    @relation(fields: [characterId], references: [id])
+  characterId  String       @unique
+  
+  cookedDishes CookedDish[]
+  infusedItems InfusedItem[]
+
+  @@index([characterId])
+}
+
+model CookedDish {
+  id           String      @id @default(cuid())
+  status       String      // success | fail | boon | bane
+  cookedOnDay  Int
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  recipe       Recipe      @relation(fields: [recipeId], references: [id])
+  recipeId     String
+  
+  backpack     Backpack?   @relation(fields: [backpackId], references: [id])
+  backpackId   String?
+
+  @@index([backpackId])
+}
+
+model InfusedItem {
+  id           String      @id @default(cuid())
+  infusedOnDay Int
+  quantity     Int
+  
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  
+  backpack     Backpack?   @relation(fields: [backpackId], references: [id])
+  backpackId   String?
+
+  @@index([backpackId])
+}
 
 // -------------------------
 // Many-to-many relationships

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { ArrowDownIcon } from '../icons/arrow-down'
 import type { DropdownOption, DropdownProps } from './types'
 
@@ -13,6 +14,8 @@ export function Dropdown<S, T>({
   selected,
   defaultEmpty = false,
   placeholder = 'No options available',
+  searchable = false,
+  searchPlaceholder = 'Search...',
   ...props
 }: Readonly<DropdownProps<S, T>>) {
   const [open, setOpen] = useState(false)
@@ -21,15 +24,37 @@ export function Dropdown<S, T>({
       ? { id: 'default-empty', label: placeholder }
       : options[0],
   )
+  const [searchTerm, setSearchTerm] = useState('')
+  const [dropdownPosition, setDropdownPosition] = useState({
+    top: 0,
+    left: 0,
+    width: 0,
+  })
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  // Filter options based on search term
+  const filteredOptions =
+    searchable && searchTerm
+      ? options.filter(
+          option =>
+            option.searchText
+              ?.toLowerCase()
+              .includes(searchTerm.toLowerCase()) ?? false,
+        )
+      : options
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setOpen(false)
+        setSearchTerm('')
       }
     }
 
@@ -43,17 +68,98 @@ export function Dropdown<S, T>({
     }
   }, [selected])
 
+  useEffect(() => {
+    if (open && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+      })
+
+      // Focus search input when dropdown opens (if searchable)
+      if (searchable) {
+        setTimeout(() => {
+          searchInputRef.current?.focus()
+        }, 0)
+      }
+    }
+  }, [open, searchable])
+
   const handleSelect = (option: DropdownOption<S, T>) => () => {
     setChoice(option)
     onSelect(option)
     setOpen(false)
+    setSearchTerm('')
   }
 
-  return (
+  const handleToggle = () => {
+    setOpen(!open)
+    if (!open) {
+      setSearchTerm('')
+    }
+  }
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      setOpen(false)
+      setSearchTerm('')
+    } else if (e.key === 'ArrowDown' && filteredOptions.length > 0) {
+      e.preventDefault()
+      // Focus first option or implement keyboard navigation
+    }
+  }
+
+  const dropdownList = open && (
     <div
       ref={dropdownRef}
-      className='relative inline-flex flex-col text-left w-fit rounded-md'
+      className='fixed bg-card shadow-2xl rounded-sm z-[9999] max-h-60 overflow-hidden'
+      style={{
+        top: `${dropdownPosition.top}px`,
+        left: `${dropdownPosition.left}px`,
+        width: `${dropdownPosition.width}px`,
+      }}
     >
+      {searchable && (
+        <div className='p-2 border-b border-border'>
+          <input
+            ref={searchInputRef}
+            type='text'
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyDown={handleSearchKeyDown}
+            placeholder={searchPlaceholder}
+            className='w-full px-3 py-2 text-sm bg-paper border border-border rounded focus:outline-none focus:ring-1 focus:ring-primary text-text-primary placeholder-text-secondary'
+          />
+        </div>
+      )}
+      <div className='py-1 cursor-pointer overflow-y-auto max-h-52'>
+        {filteredOptions.length > 0 ? (
+          filteredOptions.map(option => (
+            <button
+              key={`${option.id}-${option.label}`}
+              data-testid={`Dropdown__option-${option.id}`}
+              onClick={handleSelect(option)}
+              className='w-full text-left px-4 py-2 text-md text-text-secondary hover:text-text-primary hover:bg-neutral-950/50 cursor-pointer'
+            >
+              {option.label}
+            </button>
+          ))
+        ) : (
+          <div className='px-4 py-2 text-md text-text-secondary italic'>
+            No options found
+          </div>
+        )}
+      </div>
+    </div>
+  )
+
+  return (
+    <div className='relative inline-flex flex-col text-left w-fit rounded-md'>
       {!!label && (
         <label
           className='text-sm text-text-secondary font-bold uppercase'
@@ -64,10 +170,11 @@ export function Dropdown<S, T>({
         </label>
       )}
       <button
+        ref={buttonRef}
         name={name}
         type='button'
         data-testid='Dropdown__button'
-        onClick={() => setOpen(!open)}
+        onClick={handleToggle}
         className={`
           inline-flex justify-between ${width} rounded-md border border-border
           pl-4 pr-2 py-2 bg-paper text-md text-text-primary focus:outline-none
@@ -77,24 +184,8 @@ export function Dropdown<S, T>({
         {choice.label}
         <ArrowDownIcon className='ml-auto' />
       </button>
-      {open && (
-        <div
-          className={`origin-bottom-right absolute left-0 top-full ${width} rounded-sm bg-paper shadow-lg`}
-        >
-          <div className='py-1 cursor-pointer'>
-            {options.map(option => (
-              <button
-                key={`${option.id}-${option.label}`}
-                data-testid={`Dropdown__option-${option.id}`}
-                onClick={handleSelect(option)}
-                className='w-full text-left px-4 py-2 text-md text-text-secondary hover:text-text-primary hover:bg-neutral-950/50 cursor-pointer'
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      {globalThis.window !== undefined &&
+        createPortal(dropdownList, document.body)}
     </div>
   )
 }

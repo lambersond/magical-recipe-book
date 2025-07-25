@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./magic-book-loader.css";
 @import "./react-masonry.css";
+@import "./react-tabs.css";
 @import "./loader.css";
 
 @theme {
@@ -8,10 +9,11 @@
   --font-mono: var(--font-geist-mono);
 
   /* Background colors - dark base with warm undertones */
+  --color-page: oklch(21% 0.034 264.665);
   --color-paper: oklch(21.6% 0.006 56.043);
-  --color-card: oklch(23.6% 0.006 56.043);
-  --color-page: oklch(17.5% 0 0);
-  --color-appbar: oklch(29.5% 0.194 86.047);
+  --color-card: oklch(27.8% 0.033 256.848);
+  /* --color-appbar: oklch(29.5% 0.194 86.047); */
+  --color-appbar: oklch(27.8% 0.033 256.848);
 
   /* Primary colors - your gold and orange palette */
   --color-primary: oklch(79.5% 0.184 86.047);
@@ -22,7 +24,7 @@
   --color-hover: oklch(0.65 0.16 70); /* Warmer orange for hover */
   
   /* UI elements */
-  --color-border: oklch(0.25 0.02 45); /* Subtle warm border */
+  --color-border: oklch(37.3% 0.034 259.733);
   
   /* Status colors - adjusted for dark theme */
   --color-success: oklch(0.65 0.15 140); /* Warm green */
@@ -45,6 +47,10 @@
   --color-rarity-rare: oklch(0.65 0.18 240); /* Blue */
   --color-rarity-very-rare: oklch(0.70 0.18 65); /* Orange */
   --color-rarity-epic: oklch(0.70 0.20 300); /* Purple */
+
+  --color-stat-common-ingredients: oklch(45.7% 0.24 277.023);
+  --color-stat-magic-ingredients: oklch(51.8% 0.253 323.949);
+  --color-stat-recipes: oklch(50.8% 0.118 165.612);
 }
 
 :root {

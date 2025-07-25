@@ -16,7 +16,7 @@ export function MenuSidebar() {
           className='cursor-pointer'
         />
       }
-      className='w-full sm:w-sm bg-linear-10/oklch from-tertiary from-37% to-appbar'
+      className='w-full sm:w-sm bg-linear-42/oklch from-primary from-17% to-page z-[50]'
     >
       <p className='sm:hidden text-2xl italic w-full text-center pt-4'>
         The Adventurer&apos;s Cookbook

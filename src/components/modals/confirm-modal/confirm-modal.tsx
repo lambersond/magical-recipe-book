@@ -8,6 +8,9 @@ export function ConfirmModal({
   open = true,
   message = 'Are you sure you want to proceed?',
   title = 'Confirmation',
+  confirmButtonText = 'Confirm',
+  cancelButtonText = 'Cancel',
+  hideCancelButton = false,
 }: Readonly<ConfirmModalProps>) {
   const { closeModal } = useModals()
 
@@ -22,13 +25,15 @@ export function ConfirmModal({
 
   return (
     <Modal title={title} isOpen={open} onClose={onClose}>
-      <p className='my-8 font-bold italic'>{message}</p>
+      <span className='my-8 font-bold italic'>{message}</span>
       <div className='flex justify-end mt-4 gap-2'>
-        <button onClick={onClose} className={secondaryButton}>
-          Cancel
-        </button>
+        {!hideCancelButton && (
+          <button onClick={onClose} className={secondaryButton}>
+            {cancelButtonText}
+          </button>
+        )}
         <button onClick={handleConfirm} className={primaryButton}>
-          Confirm
+          {confirmButtonText}
         </button>
       </div>
     </Modal>

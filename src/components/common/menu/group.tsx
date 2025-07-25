@@ -6,6 +6,7 @@ export function Group({
   icon,
   options,
   showHeader,
+  emptyText = 'No options available',
 }: Readonly<GroupOption>) {
   return (
     <div className='text-text-secondary hover:text-text-primary text-md'>
@@ -16,6 +17,9 @@ export function Group({
         {label}
         {icon}
       </div>
+      {options.length === 0 && (
+        <p className='p-2 pl-4 text-text-secondary italic'>{emptyText}</p>
+      )}
       <Options options={options} hideBorder indent />
     </div>
   )

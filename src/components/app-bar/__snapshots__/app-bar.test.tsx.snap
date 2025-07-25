@@ -22,7 +22,7 @@ exports[`components/app-bar should should match snapshot 1`] = `
         width="40"
       />
       <div
-        class="fixed top-16 left-0 h-full bg-tertiary shadow-lg transform transition-transform w-full sm:w-sm bg-linear-10/oklch from-tertiary from-37% to-appbar -translate-x-full z-5000"
+        class="fixed top-16 left-0 h-full bg-tertiary shadow-lg transform transition-transform w-full sm:w-sm bg-linear-42/oklch from-primary from-17% to-page z-[50] -translate-x-full z-5000"
         data-testid="sidebar"
       >
         <p
@@ -39,7 +39,7 @@ exports[`components/app-bar should should match snapshot 1`] = `
           >
             <img
               alt="Mechanics"
-              class="opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300"
+              class="opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300 w-full"
               data-nimg="1"
               decoding="async"
               height="48"
@@ -61,7 +61,7 @@ exports[`components/app-bar should should match snapshot 1`] = `
           >
             <img
               alt="Recipes"
-              class="opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300"
+              class="opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300 w-full"
               data-nimg="1"
               decoding="async"
               height="48"
@@ -83,7 +83,7 @@ exports[`components/app-bar should should match snapshot 1`] = `
           >
             <img
               alt="Ingredients"
-              class="opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300"
+              class="opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300 w-full"
               data-nimg="1"
               decoding="async"
               height="48"
@@ -105,7 +105,7 @@ exports[`components/app-bar should should match snapshot 1`] = `
           >
             <img
               alt="Biomes"
-              class="opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300"
+              class="opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300 w-full"
               data-nimg="1"
               decoding="async"
               height="48"

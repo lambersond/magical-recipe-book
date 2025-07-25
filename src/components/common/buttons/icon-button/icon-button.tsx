@@ -33,7 +33,7 @@ export function IconButton({
       'bg-secondary text-tertiary hover:bg-secondary/90':
         isSecondaryColor(color),
       'bg-tertiary text-secondary hover:bg-tertiary/90': isTertiaryColor(color),
-      'bg-transparent text-tertiary hover:text-text-primary hover:bg-text-secondary/30':
+      'bg-transparent text-text-primary hover:text-text-primary hover:bg-text-secondary/30':
         isTransparentColor(color),
       'bg-gray-200 text-gray-500 cursor-not-allowed': disabled,
       'cursor-pointer hover:text-text-primary': !disabled,
@@ -45,7 +45,7 @@ export function IconButton({
         showBorder,
       'border-transparent': !showBorder,
     },
-    'min-w-fit rounded-full p-1 flex items-center justify-center flex justify-between',
+    'min-w-fit rounded-full p-1 flex items-center justify-center flex justify-between focus-within:outline-none focus:outline-none',
     className,
   )
 

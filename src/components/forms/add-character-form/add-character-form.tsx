@@ -22,7 +22,7 @@ export function AddCharacterForm({
         label='Name'
         name='name'
         data-testid='add-character-form__name'
-        placeholder='Hello World App'
+        placeholder='Spencer Stukeley'
         register={register}
         required
       />

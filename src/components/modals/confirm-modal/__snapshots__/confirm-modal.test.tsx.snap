@@ -10,11 +10,11 @@ exports[`compoenents/modals/confirm-modal should render defaults 1`] = `
       data-testid="modal__backdrop"
     />
     <div
-      class="relative bg-paper rounded-lg max-w-2xl w-sm md:w-md p-3 z-1000"
+      class="relative bg-paper max-w-2xl w-sm md:w-md z-1000 overflow-hidden shadow-lg h-full min-w-full sm:min-w-sm  sm:rounded-xl sm:h-fit"
       data-testid="modal"
     >
       <div
-        class="flex justify-between items-center"
+        class="flex justify-between items-center p-3"
       >
         <p
           class="text-2xl font-bold"
@@ -22,7 +22,7 @@ exports[`compoenents/modals/confirm-modal should render defaults 1`] = `
           Confirmation
         </p>
         <button
-          class="bg-transparent text-tertiary hover:text-text-primary hover:bg-text-secondary/30 cursor-pointer hover:text-text-primary size-10 border-transparent min-w-fit rounded-full p-1 flex items-center justify-center flex justify-between"
+          class="bg-transparent text-text-primary hover:text-text-primary hover:bg-text-secondary/30 cursor-pointer hover:text-text-primary size-10 border-transparent min-w-fit rounded-full p-1 flex items-center justify-center flex justify-between focus-within:outline-none focus:outline-none"
         >
           <svg
             class="min-w-fit min-h-fit"
@@ -39,14 +39,14 @@ exports[`compoenents/modals/confirm-modal should render defaults 1`] = `
         </button>
       </div>
       <div
-        class="max-h-["100vh_-_52px"] overflow-y-auto"
-        style="max-height: calc(100vh - 52px;"
+        class="overflow-y-auto p-3"
+        style="max-height: calc(100vh - 0px);"
       >
-        <p
+        <span
           class="my-8 font-bold italic"
         >
           Are you sure you want to proceed?
-        </p>
+        </span>
         <div
           class="flex justify-end mt-4 gap-2"
         >
@@ -77,11 +77,11 @@ exports[`compoenents/modals/confirm-modal should render with passed props 1`] = 
       data-testid="modal__backdrop"
     />
     <div
-      class="relative bg-paper rounded-lg max-w-2xl w-sm md:w-md p-3 z-1000"
+      class="relative bg-paper max-w-2xl w-sm md:w-md z-1000 overflow-hidden shadow-lg h-full min-w-full sm:min-w-sm  sm:rounded-xl sm:h-fit"
       data-testid="modal"
     >
       <div
-        class="flex justify-between items-center"
+        class="flex justify-between items-center p-3"
       >
         <p
           class="text-2xl font-bold"
@@ -89,7 +89,7 @@ exports[`compoenents/modals/confirm-modal should render with passed props 1`] = 
           Test title
         </p>
         <button
-          class="bg-transparent text-tertiary hover:text-text-primary hover:bg-text-secondary/30 cursor-pointer hover:text-text-primary size-10 border-transparent min-w-fit rounded-full p-1 flex items-center justify-center flex justify-between"
+          class="bg-transparent text-text-primary hover:text-text-primary hover:bg-text-secondary/30 cursor-pointer hover:text-text-primary size-10 border-transparent min-w-fit rounded-full p-1 flex items-center justify-center flex justify-between focus-within:outline-none focus:outline-none"
         >
           <svg
             class="min-w-fit min-h-fit"
@@ -106,14 +106,14 @@ exports[`compoenents/modals/confirm-modal should render with passed props 1`] = 
         </button>
       </div>
       <div
-        class="max-h-["100vh_-_52px"] overflow-y-auto"
-        style="max-height: calc(100vh - 52px;"
+        class="overflow-y-auto p-3"
+        style="max-height: calc(100vh - 0px);"
       >
-        <p
+        <span
           class="my-8 font-bold italic"
         >
           Test message
-        </p>
+        </span>
         <div
           class="flex justify-end mt-4 gap-2"
         >

@@ -1,3 +1,5 @@
 export { BiomeCard } from './biome-card'
 export { IngredientCard } from './ingredient-card'
 export { RecipeCard } from './recipe-card'
+export { MagicalForagingEntryCard } from './magical-foraging-entry-card'
+export { CommonForagingEntryCard } from './common-foraging-entry-card'

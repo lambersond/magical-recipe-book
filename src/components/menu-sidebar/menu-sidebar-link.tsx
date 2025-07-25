@@ -28,7 +28,7 @@ export function MenuSidebarLink({
         src={imgSrc}
         alt={altText}
         loading='lazy'
-        className='opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300'
+        className='opacity-40 overflow-hidden hover:opacity-100 transition-opacity duration-300 w-full'
       />
       <p className='absolute top-0 left-0 w-full h-full rounded-r-lg flex items-center justify-center text-primary text-lg font-bold bg-black/50 transition-all duration-300 hover:text-white hover:opacity-70'>
         {text}

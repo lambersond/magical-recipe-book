@@ -5,6 +5,7 @@ export type CardProps = {
   children: React.ReactNode
   className?: string
   onClick?: MouseEventHandler<HTMLButtonElement>
+  overrideViews?: boolean
 }
 
 export type CardWithActionsProps = Omit<CardProps, 'children'> & {

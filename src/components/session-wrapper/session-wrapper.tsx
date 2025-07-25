@@ -10,12 +10,13 @@ export function SessionWrapper({
   children: React.ReactNode
 }>) {
   return (
-    <div className='min-h-screen flex flex-col'>
+    <div className='min-h-screen flex flex-col overflow-x-hidden'>
       <SessionProvider>
         <ModalProvider>
-          <header className='sticky top-0 shadow-md'>
+          <header className='min-w-screen fixed top-0 shadow-md z-[10000]'>
             <AppBar />
           </header>
+          <div className='h-16 w-screen' />
           {children}
         </ModalProvider>
       </SessionProvider>

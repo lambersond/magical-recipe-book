@@ -13,14 +13,11 @@ jest.mock('@prisma/client', () => {
   }
 })
 
-// Set up the testing environment variables
-process.env.GITLAB_GRAPHQL_API = 'https://gitlab.com/api/graphql'
-process.env.GITLAB_REST_API = 'https://gitlab.com/api/v4'
-process.env.BOE_PROJECT_ID = '42'
-process.env.GITLAB_API_TOKEN = 'fake-token'
-process.env.BOE_PROJECT_PATH = 'boe'
-process.env.AUTH_KEYCLOAK_ID = ''
-process.env.USE_MOCK_INVENTORY = 'false'
+globalThis.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}))
 
 globalThis.fetch = jest.fn()
 /**

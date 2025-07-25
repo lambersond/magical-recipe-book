@@ -1,14 +1,16 @@
 import clsx from 'classnames'
 import { RARITY_DC, RARITY_LABELS } from '@/constants/rarity'
+import { useRarityIcons } from '@/hooks/use-rarity-icons'
 import { getDCColor } from '@/utils/rarity'
 import type { Rarity } from '@/types'
 
 export default function MechanicsPage() {
+  const rarityIcons = useRarityIcons()
   return (
     <main className='pt-8 pb-20 sm:p-20'>
       <div className='max-w-6xl mx-auto flex flex-col items-center gap-2 md:gap-4 lg:gap-6'>
         {/* Overview */}
-        <div className='bg-stone-800 rounded-none sm:rounded-lg shadow-lg p-8'>
+        <div className='bg-card rounded-none sm:rounded-lg shadow-lg p-8'>
           <h2 className='text-3xl font-bold text-secondary mb-6'>
             How It Works
           </h2>
@@ -76,7 +78,7 @@ export default function MechanicsPage() {
 
         {/* Cooking Requirements */}
         <div className='grid lg:grid-cols-2 gap-2 md:gap-4 lg:gap-6 w-full'>
-          <div className='bg-stone-800 rounded-lg shadow-lg p-6'>
+          <div className='bg-card rounded-lg shadow-lg p-6'>
             <h2 className='text-2xl font-bold text-secondary mb-4 flex items-center'>
               <span className='mr-2'>🍳</span> Cooking Requirements
             </h2>
@@ -106,7 +108,7 @@ export default function MechanicsPage() {
             </ul>
           </div>
 
-          <div className='bg-stone-800 rounded-lg shadow-lg p-6'>
+          <div className='bg-card rounded-lg shadow-lg p-6'>
             <h2 className='text-2xl font-bold text-secondary mb-4 flex items-center'>
               <span className='mr-2'>🧂</span> Infusing Items
             </h2>
@@ -131,7 +133,7 @@ export default function MechanicsPage() {
         </div>
 
         {/* Gathering Ingredients */}
-        <div className='bg-stone-800 rounded-lg shadow-lg p-8 w-full'>
+        <div className='bg-card rounded-lg shadow-lg p-8 w-full'>
           <h2 className='text-3xl font-bold text-secondary mb-6'>
             Gathering Ingredients
           </h2>
@@ -176,11 +178,13 @@ export default function MechanicsPage() {
             <div className='flex flex-wrap gap-4 justify-evenly'>
               {Object.entries(RARITY_LABELS).map(([key, label]) => {
                 const dc = RARITY_DC[key as Rarity]
+                const Icon = rarityIcons[key as Rarity]
                 const classes = clsx(
                   `${getDCColor(dc - 1)} rounded-lg p-4 text-center flex-grow`,
                 )
                 return (
                   <div key={key} className={classes}>
+                    <Icon className='size-8 mx-auto' />
                     <h4 className='font-bold'>{label}</h4>
                     <p className='text-2xl font-bold'>DC {dc}</p>
                   </div>
@@ -191,7 +195,7 @@ export default function MechanicsPage() {
         </div>
 
         {/* Cooking Outcomes */}
-        <div className='bg-stone-800 rounded-lg shadow-lg p-8'>
+        <div className='bg-card rounded-lg shadow-lg p-8'>
           <h2 className='text-3xl font-bold text-secondary mb-6'>
             Cooking Outcomes
           </h2>
@@ -238,7 +242,7 @@ export default function MechanicsPage() {
         </div>
 
         {/* Important Notes */}
-        <div className='bg-stone-800 border border-primary rounded-lg p-6'>
+        <div className='bg-card border border-primary rounded-lg p-6'>
           <h2 className='text-2xl font-bold text-secondary mb-4 flex items-center'>
             <span className='mr-2'>⚠️</span> Important Notes
           </h2>

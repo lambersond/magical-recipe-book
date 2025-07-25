@@ -13,6 +13,7 @@ export type GroupOption = {
   icon?: React.ReactNode
   key: string
   showHeader?: boolean
+  emptyText?: string
   options: Option[]
 }
 
@@ -20,4 +21,5 @@ export type Option = {
   label: string
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
   icon?: React.ReactNode
+  divider?: boolean
 }

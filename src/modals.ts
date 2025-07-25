@@ -11,4 +11,9 @@ export const MODALS = {
       default: module.ConfirmModal,
     })),
   ),
+  GoForagingModal: lazy(() =>
+    import('./components/modals').then(module => ({
+      default: module.GoForagingModal,
+    })),
+  ),
 }

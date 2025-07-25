@@ -13,4 +13,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     maxAge: +(process.env.AUTH_MAX_AGE as unknown as number) || 30 * 86_400,
     updateAge: 86_400,
   },
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) token.id = user.id
+      return token
+    },
+    session({ session, token }) {
+      session.user.id = token.id as string
+      return session
+    },
+  },
 })
