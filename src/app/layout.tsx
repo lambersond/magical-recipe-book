@@ -29,8 +29,8 @@ export const metadata: Metadata = {
       secureUrl: '/logo.png',
       alt: "The Adventurer's Cookbook Logo",
       type: 'image/png',
-      width: 1024,
-      height: 1024,
+      width: 64,
+      height: 64,
     },
   },
 }

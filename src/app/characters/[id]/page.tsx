@@ -17,7 +17,7 @@ export default async function CharacterPage({
     notFound()
   }
   return (
-    <main>
+    <main className='w-screen'>
       <Suspense
         fallback={
           <div className={pageMain}>

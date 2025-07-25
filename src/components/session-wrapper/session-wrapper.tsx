@@ -17,7 +17,7 @@ export function SessionWrapper({
             <AppBar />
           </header>
           <div className='h-16 w-screen' />
-          {children}
+          <div className='flex flex-col items-center'>{children}</div>
         </ModalProvider>
       </SessionProvider>
     </div>
