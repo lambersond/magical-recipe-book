@@ -141,7 +141,7 @@ model Cookbook {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
-  character Character      @relation(fields: [characterId], references: [id])
+  character Character      @relation(fields: [characterId], references: [id], onDelete: Cascade)
   characterId  String      @unique
   
   knownRecipes Recipe[]
@@ -155,7 +155,7 @@ model IngredientsPouch {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
-  character    Character   @relation(fields: [characterId], references: [id])
+  character    Character   @relation(fields: [characterId], references: [id], onDelete: Cascade)
   characterId  String      @unique
   
   magicalIngredients ForagedIngredient[] @relation("PouchMagicalIngredients")
@@ -174,13 +174,13 @@ model ForagedIngredient {
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
 
-  character    Character   @relation(fields: [characterId], references: [id])
+  character    Character   @relation(fields: [characterId], references: [id], onDelete: Cascade)
   characterId  String
   
   magicalIngredient Ingredient? @relation(fields: [magicalIngredientId], references: [id])
   magicalIngredientId String?
   
-  ingredientsPouch IngredientsPouch? @relation("PouchMagicalIngredients", fields: [pouchId], references: [id])
+  ingredientsPouch IngredientsPouch? @relation("PouchMagicalIngredients", fields: [pouchId], references: [id], onDelete: Cascade)
   pouchId          String?
   
   @@index([characterId])
@@ -192,7 +192,7 @@ model Backpack {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
-  character    Character    @relation(fields: [characterId], references: [id])
+  character    Character    @relation(fields: [characterId], references: [id], onDelete: Cascade)
   characterId  String       @unique
   
   cookedDishes CookedDish[]
@@ -212,7 +212,7 @@ model CookedDish {
   recipe       Recipe      @relation(fields: [recipeId], references: [id])
   recipeId     String
   
-  backpack     Backpack?   @relation(fields: [backpackId], references: [id])
+  backpack     Backpack?   @relation(fields: [backpackId], references: [id], onDelete: Cascade)
   backpackId   String?
 
   @@index([backpackId])
@@ -226,7 +226,7 @@ model InfusedItem {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   
-  backpack     Backpack?   @relation(fields: [backpackId], references: [id])
+  backpack     Backpack?   @relation(fields: [backpackId], references: [id], onDelete: Cascade)
   backpackId   String?
 
   @@index([backpackId])

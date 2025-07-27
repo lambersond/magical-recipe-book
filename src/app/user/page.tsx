@@ -14,19 +14,17 @@ export default async function UserPage() {
   }
 
   return (
-    <main className={pageMain}>
+    <main style={{ alignItems: 'baseline' }} className={pageMain}>
       <Suspense
         fallback={
           <div className={pageMain}>
-            <MagicalBookLoader loadingText='Loading user...' />
+            <MagicalBookLoader loadingText='Loading user data...' />
           </div>
         }
       >
-        <div className='mb-4'>
-          <h1 className='text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'>
-            Your Characters
-          </h1>
-        </div>
+        <h1 className='text-4xl font-bold mb-2 text-text-primary'>
+          Your Characters
+        </h1>
         <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4'>
           <UserContainer userId={session.user.id} />
           <NewCharacterCard />

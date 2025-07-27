@@ -1,8 +1,19 @@
 import * as repository from './repository'
-import type { LogForagingResults, NewCharacter } from '@/types'
+import type { EditableCharacter, LogForagingResults } from '@/types'
 
-export async function createCharacter(data: NewCharacter, accountId: string) {
+export async function createCharacter(
+  data: EditableCharacter,
+  accountId: string,
+) {
   return repository.createCharacter(data, accountId)
+}
+
+export async function updateCharacter(
+  data: EditableCharacter,
+  accountId: string,
+  id: string,
+) {
+  return repository.updateCharacterById(data, accountId, id)
 }
 
 export async function findCharactersByUserId(userId: string) {
@@ -60,4 +71,8 @@ export async function logForagingResults(
 
 export async function getUserCharactersLite(userId: string) {
   return repository.getUserCharactersLite(userId)
+}
+
+export async function deleteCharacterById(id: string, userId: string) {
+  return repository.deleteCharacterById(id, userId)
 }

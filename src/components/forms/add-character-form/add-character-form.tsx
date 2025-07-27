@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { AddCharacterResolver, type AddCharacterFields } from './schema'
 import { Form, Input, SubmitButton, TextArea } from '@/components/common'
 import type { AddCharacterFormProps } from './types'
-import type { NewCharacter } from '@/types'
+import type { EditableCharacter } from '@/types'
 
 export function AddCharacterForm({
   onSubmit,
@@ -12,7 +12,7 @@ export function AddCharacterForm({
     resolver: AddCharacterResolver,
   })
 
-  const handleOnSubmit = (data: NewCharacter) => {
+  const handleOnSubmit = (data: EditableCharacter) => {
     onSubmit(data)
   }
 

@@ -6,6 +6,11 @@ export const MODALS = {
       default: module.AddCharacterModal,
     })),
   ),
+  EditCharacterModal: lazy(() =>
+    import('./components/modals').then(module => ({
+      default: module.EditCharacterModal,
+    })),
+  ),
   ConfirmModal: lazy(() =>
     import('./components/modals').then(module => ({
       default: module.ConfirmModal,

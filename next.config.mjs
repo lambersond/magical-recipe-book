@@ -46,7 +46,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Access-Control-Allow-Methods',
-            value: 'GET,POST,DELETE',
+            value: 'GET,POST,PUT,DELETE',
           },
           {
             key: 'Strict-Transport-Security',

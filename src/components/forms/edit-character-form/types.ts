@@ -1,5 +1,6 @@
 import type { EditableCharacter } from '@/types'
 
-export type AddCharacterFormProps = {
+export type EditCharacterFormProps = {
+  character: EditableCharacter
   onSubmit(character: EditableCharacter): void
 }

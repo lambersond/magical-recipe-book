@@ -6,6 +6,10 @@ jest.mock('../hooks/use-character', () => ({
   useCharacter: () => useCharacterMock(),
 }))
 
+jest.mock('../character-actions-menu', () => ({
+  CharacterActionsMenu: () => <div>Character Actions Menu</div>,
+}))
+
 describe('CharacterHeader', () => {
   it('renders the basics with no image', () => {
     useCharacterMock.mockReturnValue({

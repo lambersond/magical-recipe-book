@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { CharacterCardStat } from './character-card-stat'
 import { characterCardStyles } from './utils'
 import { Card } from '@/components/common'
@@ -20,12 +20,11 @@ export function CharacterCard({
   updatedAt,
   details = 'full',
 }: Readonly<CharacterCardProps>) {
-  const router = useRouter()
   const styles = characterCardStyles(details)
   const imgSize = details === 'full' ? 64 : 32
 
   const handleClick = () => {
-    router.push(`/characters/${id}`)
+    redirect(`/characters/${id}`)
   }
 
   const stats = [

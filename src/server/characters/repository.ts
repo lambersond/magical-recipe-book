@@ -1,6 +1,6 @@
 import prisma from '@/clients/prisma'
 import { NotFoundError } from '@/errors'
-import type { Character, NewCharacter, Prisma } from '@/types/db'
+import type { Character, EditableCharacter, Prisma } from '@/types/db'
 
 export async function findFullCharacterById(id: string) {
   return prisma.character.findFirst({
@@ -49,7 +49,7 @@ export async function findCharactersByUserId(userId: string) {
   })
 }
 
-export async function createCharacter(data: NewCharacter, userId: string) {
+export async function createCharacter(data: EditableCharacter, userId: string) {
   return prisma.character.create({
     data: {
       ...data,
@@ -70,6 +70,20 @@ export async function createCharacter(data: NewCharacter, userId: string) {
       ingredientsPouch: true,
       cookbook: true,
       backpack: true,
+    },
+  })
+}
+
+export async function updateCharacterById(
+  data: EditableCharacter,
+  userId: string,
+  id: string,
+) {
+  return prisma.character.update({
+    where: { id, userId },
+    data: {
+      ...data,
+      userId,
     },
   })
 }
@@ -227,11 +241,17 @@ export async function getUserCharactersLite(userId: string) {
         select: {
           _count: {
             select: {
-              knownRecipes: true, // Count of known recipes
+              knownRecipes: true,
             },
           },
         },
       },
     },
+  })
+}
+
+export async function deleteCharacterById(id: string, userId: string) {
+  return prisma.character.delete({
+    where: { id, userId },
   })
 }

@@ -22,4 +22,5 @@ export type Option = {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
   icon?: React.ReactNode
   divider?: boolean
+  color?: 'primary' | 'danger'
 }

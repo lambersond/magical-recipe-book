@@ -25,23 +25,24 @@ export function AccountSidebarContent({ email }: { email: string }) {
         {characters.length > 0 && (
           <div className='flex flex-col gap-2 my-2'>
             {characters.map(character => (
-              <CharacterCard
-                key={character.id}
-                details='lite'
-                id={character.id}
-                name={character.name}
-                currentDay={character.currentDay}
-                description={character.description}
-                image={character.image}
-                recipes={character.cookbook?._count.knownRecipes}
-                commonIngredients={
-                  character.ingredientsPouch?.commonIngredients
-                }
-                magicalIngredients={
-                  character.ingredientsPouch?._count.magicalIngredients
-                }
-                updatedAt={character.updatedAt}
-              />
+              <SidebarItem key={character.id}>
+                <CharacterCard
+                  details='lite'
+                  id={character.id}
+                  name={character.name}
+                  currentDay={character.currentDay}
+                  description={character.description}
+                  image={character.image}
+                  recipes={character.cookbook?._count.knownRecipes}
+                  commonIngredients={
+                    character.ingredientsPouch?.commonIngredients
+                  }
+                  magicalIngredients={
+                    character.ingredientsPouch?._count.magicalIngredients
+                  }
+                  updatedAt={character.updatedAt}
+                />
+              </SidebarItem>
             ))}
           </div>
         )}

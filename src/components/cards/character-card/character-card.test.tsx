@@ -4,9 +4,7 @@ import { CharacterCard } from './character-card'
 const mockPush = jest.fn()
 
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: mockPush,
-  }),
+  redirect: (route: string) => mockPush(route),
 }))
 
 describe('CharacterCard', () => {

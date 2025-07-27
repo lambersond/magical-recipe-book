@@ -7,4 +7,5 @@ export interface ConfirmModalProps extends ModalProps {
   confirmButtonText?: string
   cancelButtonText?: string
   hideCancelButton?: boolean
+  color?: 'primary' | 'danger'
 }

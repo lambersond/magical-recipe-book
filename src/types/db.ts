@@ -124,7 +124,8 @@ export type FullCharacter = {
   }
 }
 
-export type NewCharacter = {
+export type EditableCharacter = {
+  id?: string
   name: string
   description?: string
 }

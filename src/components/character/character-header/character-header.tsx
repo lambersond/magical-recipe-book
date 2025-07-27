@@ -2,6 +2,7 @@
 
 import { Calendar } from 'lucide-react'
 import Image from 'next/image'
+import { CharacterActionsMenu } from '../character-actions-menu'
 import { useCharacter } from '../hooks/use-character'
 
 export function CharacterHeader() {
@@ -9,7 +10,7 @@ export function CharacterHeader() {
   return (
     <div className='bg-card w-full border-b border-border'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex items-center justify-between py-6'>
+        <div className='flex items-start justify-between py-6'>
           <div className='flex items-center space-x-4'>
             <div className='flex items-center space-x-4'>
               {!!image && (
@@ -30,6 +31,7 @@ export function CharacterHeader() {
               </div>
             </div>
           </div>
+          <CharacterActionsMenu />
         </div>
       </div>
     </div>
