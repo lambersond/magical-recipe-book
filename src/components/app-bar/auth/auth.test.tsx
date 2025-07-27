@@ -14,6 +14,10 @@ jest.mock('next/navigation', () => ({
   }),
 }))
 
+jest.mock('@/components/account-sidebar', () => ({
+  AccountSidebar: () => <div data-testid='account-sidebar' />,
+}))
+
 describe('components/app-bar/auth', () => {
   it('should render login button if not authenticated', () => {
     mockUseAuth.mockReturnValue({
@@ -39,11 +43,10 @@ describe('components/app-bar/auth', () => {
       user: { name: 'User' },
     })
 
-    const { getByTestId, getByText } = render(<Auth />, {
+    const { getByTestId } = render(<Auth />, {
       wrapper: ModalProvider,
     })
 
-    expect(getByText('User')).toBeInTheDocument()
-    expect(getByTestId('AccountIcon')).toBeInTheDocument()
+    expect(getByTestId('account-sidebar')).toBeInTheDocument()
   })
 })

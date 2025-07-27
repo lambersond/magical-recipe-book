@@ -1,16 +1,12 @@
 'use client'
 
-import { AuthOptions } from './auth-options'
+import { AccountSidebar } from '@/components/account-sidebar'
 import { IconButton } from '@/components/common/buttons'
 import { AccountIcon } from '@/components/common/icons'
 import { useAuth } from '@/hooks/use-auth'
 
 export function Auth() {
-  const { isAuthenticated, signIn, user, isEnabled, status } = useAuth()
-
-  if (!isEnabled || status === 'loading') {
-    return
-  }
+  const { isAuthenticated, signIn, user } = useAuth()
 
   if (!isAuthenticated) {
     return (
@@ -26,5 +22,5 @@ export function Auth() {
     )
   }
 
-  return <AuthOptions user={user} />
+  return <AccountSidebar user={user} />
 }

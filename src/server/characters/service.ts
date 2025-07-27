@@ -57,3 +57,7 @@ export async function logForagingResults(
 
   return updatedCharacter
 }
+
+export async function getUserCharactersLite(userId: string) {
+  return repository.getUserCharactersLite(userId)
+}

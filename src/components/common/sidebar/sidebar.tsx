@@ -1,19 +1,14 @@
 'use client'
 
-import {
-  cloneElement,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { SidebarTrigger } from './sidebar-trigger'
 import type { SidebarProps } from './types'
 
 export function Sidebar({
   children,
   trigger,
   className = 'w-sm',
+  side = 'left',
 }: Readonly<SidebarProps>) {
   const [open, setOpen] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
@@ -21,21 +16,6 @@ export function Sidebar({
   const closeSidebar = () => {
     setOpen(false)
   }
-
-  const handleTriggerClick = () => setOpen(o => !o)
-
-  const triggerElement = cloneElement(
-    trigger as React.ReactElement,
-    {
-      onClick: (e: React.MouseEvent) => {
-        const originalOnClick = ((trigger as React.ReactElement).props as any)
-          .onClick
-        originalOnClick?.(e)
-        handleTriggerClick()
-      },
-      'data-testid': 'sidebar__button',
-    } as React.HTMLAttributes<HTMLButtonElement>,
-  )
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -56,22 +36,37 @@ export function Sidebar({
     }
   }, [open])
 
+  const sideClasses = {
+    left: {
+      position: 'left-0',
+      transform: open ? 'translate-x-0' : '-translate-x-full',
+    },
+    right: {
+      position: 'right-0',
+      transform: open ? 'translate-x-0' : 'translate-x-full',
+    },
+  }
+
+  const currentSide = sideClasses[side]
+
   return (
     <>
-      {triggerElement}
+      <SidebarTrigger setOpen={setOpen} trigger={trigger} />
       <div
         ref={sidebarRef}
         data-testid='sidebar'
-        className={`fixed top-16 left-0 h-full bg-tertiary shadow-lg transform transition-transform ${className} ${open ? 'translate-x-0' : '-translate-x-full'} z-5000`}
+        className={`fixed top-16 h-full bg-card shadow-lg transform transition-transform z-50 ${currentSide.position} ${currentSide.transform} ${className}`}
       >
-        <SidebarContext.Provider value={{ onClose: closeSidebar }}>
+        <SidebarContext.Provider
+          value={{ onClose: closeSidebar, side, isOpen: open }}
+        >
           {children}
         </SidebarContext.Provider>
       </div>
       {open && (
         <div
           data-testid='sidebar__overlay'
-          className='fixed inset-0 bg-black/0 z-40'
+          className='fixed inset-0 bg-black/01 z-40'
           onClick={closeSidebar}
         />
       )}
@@ -81,6 +76,8 @@ export function Sidebar({
 
 const SidebarContext = createContext<{
   onClose?: VoidFunction
-}>({})
+  side?: 'left' | 'right'
+  isOpen?: boolean
+}>({ isOpen: false })
 
 export const useSidebar = () => useContext(SidebarContext)

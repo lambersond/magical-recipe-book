@@ -202,3 +202,36 @@ export async function updateCharacterForagingLogById(
     }
   })
 }
+
+export async function getUserCharactersLite(userId: string) {
+  return prisma.character.findMany({
+    where: { userId },
+    select: {
+      id: true,
+      name: true,
+      image: true,
+      description: true,
+      currentDay: true,
+      updatedAt: true,
+      ingredientsPouch: {
+        select: {
+          commonIngredients: true,
+          _count: {
+            select: {
+              magicalIngredients: true,
+            },
+          },
+        },
+      },
+      cookbook: {
+        select: {
+          _count: {
+            select: {
+              knownRecipes: true, // Count of known recipes
+            },
+          },
+        },
+      },
+    },
+  })
+}

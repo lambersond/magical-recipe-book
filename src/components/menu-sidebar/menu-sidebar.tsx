@@ -16,11 +16,8 @@ export function MenuSidebar() {
           className='cursor-pointer'
         />
       }
-      className='w-full sm:w-sm bg-linear-42/oklch from-primary from-17% to-page z-[50]'
+      className='w-full sm:w-sm bg-card shadow-r-xl z-[50]'
     >
-      <p className='sm:hidden text-2xl italic w-full text-center pt-4'>
-        The Adventurer&apos;s Cookbook
-      </p>
       <div className='flex flex-col gap-2 pt-2 pr-2'>
         <MenuSidebarLink
           href='/mechanics'
