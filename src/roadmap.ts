@@ -3,7 +3,7 @@ import type { RoadmapItem } from './types/roadmap'
 export const ROADMAP: RoadmapItem[] = [
   {
     id: 6,
-    phase: 'Basic site enhancements',
+    phase: 'Subscriber Features',
     quarter: 'Q1 2026',
     status: 'planned',
     progress: 0,
@@ -48,7 +48,7 @@ export const ROADMAP: RoadmapItem[] = [
     progress: 0,
     description: 'Enhancements to the site to improve user experience.',
     milestones: [
-      { task: 'Enhance Sidebar', completed: false, date: 'TBD' },
+      { task: 'Enhance Sidebar', completed: true, date: 'Jul 27' },
       { task: 'Add Vercel Metrics gathering', completed: false, date: 'TBD' },
       { task: 'Support uploading of images', completed: false, date: 'TBD' },
       {
