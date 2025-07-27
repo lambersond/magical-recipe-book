@@ -19,7 +19,7 @@ exports[`components/app-bar should should match snapshot 1`] = `
       width="40"
     />
     <div
-      class="fixed top-16 h-full bg-card shadow-lg transform transition-transform z-50 left-0 -translate-x-full w-full sm:w-sm bg-card shadow-r-xl z-[50]"
+      class="overflow-y-scroll max-h-[calc(100vh_-_64px)] fixed top-16 h-full bg-card shadow-lg transform transition-transform z-50 left-0 -translate-x-full w-full sm:w-sm bg-card shadow-r-xl z-[50]"
       data-testid="sidebar"
     >
       <div

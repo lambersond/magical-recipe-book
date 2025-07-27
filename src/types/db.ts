@@ -126,7 +126,9 @@ export type FullCharacter = {
 
 export type NewCharacter = {
   name: string
+  description?: string
 }
+
 export type LogForagingResults = {
   quantity: number
   isMagical: boolean

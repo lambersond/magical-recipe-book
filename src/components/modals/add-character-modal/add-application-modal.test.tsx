@@ -19,10 +19,15 @@ describe('components/modals/add-character-modal', () => {
     expect(getByText('Add Character')).toBeInTheDocument()
 
     await user.type(getByTestId('add-character-form__name'), 'Name')
+    await user.type(
+      getByTestId('add-character-form__description'),
+      'Description',
+    )
     await user.click(getByTestId('add-character-form__submit'))
 
     expect(onSubmit).toHaveBeenCalledWith({
       name: 'Name',
+      description: 'Description',
     })
     expect(mockCloseModal).toHaveBeenCalledWith('AddCharacterModal')
   })

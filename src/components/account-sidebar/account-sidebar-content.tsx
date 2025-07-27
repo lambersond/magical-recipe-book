@@ -10,7 +10,7 @@ import { useAccountData } from './use-account-data'
 export function AccountSidebarContent({ email }: { email: string }) {
   const { characters } = useAccountData()
   return (
-    <div className='flex flex-col gap-4 p-2'>
+    <div className='flex flex-col gap-4 p-2 pt-0'>
       <section className='flex items-start justify-between border-b border-border sticky top-0 bg-card z-10 pb-4'>
         <div className='flex flex-col'>
           <p className='text-2xl font-bold'>Account</p>

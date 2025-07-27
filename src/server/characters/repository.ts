@@ -52,7 +52,7 @@ export async function findCharactersByUserId(userId: string) {
 export async function createCharacter(data: NewCharacter, userId: string) {
   return prisma.character.create({
     data: {
-      name: data.name,
+      ...data,
       userId,
       ingredientsPouch: {
         create: {

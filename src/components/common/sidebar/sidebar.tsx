@@ -55,7 +55,7 @@ export function Sidebar({
       <div
         ref={sidebarRef}
         data-testid='sidebar'
-        className={`fixed top-16 h-full bg-card shadow-lg transform transition-transform z-50 ${currentSide.position} ${currentSide.transform} ${className}`}
+        className={`overflow-y-scroll max-h-[calc(100vh_-_64px)] fixed top-16 h-full bg-card shadow-lg transform transition-transform z-50 ${currentSide.position} ${currentSide.transform} ${className}`}
       >
         <SidebarContext.Provider
           value={{ onClose: closeSidebar, side, isOpen: open }}
