@@ -27,7 +27,7 @@ describe('components/character/tabs/character-overview/sections/quick-actions', 
 
     expect(getByText('Quick Actions')).toBeInTheDocument()
     expect(getByText('Advance Day')).toBeInTheDocument()
-    expect(queryByText('Learn Recipe')).not.toBeInTheDocument()
+    expect(getByText('Learn Recipe')).toBeInTheDocument()
     expect(getByText('Go Foraging')).toBeInTheDocument()
     expect(queryByText('Cook Meal')).not.toBeInTheDocument()
   })
@@ -57,13 +57,22 @@ describe('components/character/tabs/character-overview/sections/quick-actions', 
     })
   })
 
-  it.skip('unimplemented btns', () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation()
+  it('calls the update function when Learn Recipe is clicked', async () => {
+    mockFetch({ status: 200, responseData: { recipe: { id: 'recipe-id' } } })
 
     const { getByText } = render(<QuickActions />, { wrapper: ModalProvider })
 
     fireEvent.click(getByText('Learn Recipe'))
-    expect(consoleSpy).toHaveBeenCalledWith('Learn Recipe')
+
+    expect(mockOpenModal).toHaveBeenCalledWith('AddCookbookRecipeModal', {
+      onSubmit: expect.any(Function),
+    })
+  })
+
+  it.skip('unimplemented btns', () => {
+    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation()
+
+    const { getByText } = render(<QuickActions />, { wrapper: ModalProvider })
 
     fireEvent.click(getByText('Cook Meal'))
     expect(consoleSpy).toHaveBeenCalledWith('Bake Bread')

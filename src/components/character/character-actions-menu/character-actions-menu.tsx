@@ -82,7 +82,7 @@ export function CharacterActionsMenu() {
       placement='bottom-end'
       asChild
     >
-      <MoreVertical className='size-10 p-2 text-text-secondary hover:text-text-primary hover:bg-black/10 rounded-full cursor-pointer' />
+      <MoreVertical className='size-10 p-2 text-text-secondary hover:text-text-primary hover:bg-hover rounded-full cursor-pointer' />
     </Popover>
   )
 }

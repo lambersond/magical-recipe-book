@@ -11,7 +11,7 @@ export function RarityChip({ rarity }: { rarity: Rarity }) {
     <div className='flex items-center justify-between gap-2'>
       <div className={classes.chipClasses}>
         <Icon className={classes.iconClasses} />
-        {RARITY_LABELS[rarity]}
+        <p className='hidden sm:block'>{RARITY_LABELS[rarity]}</p>
       </div>
     </div>
   )

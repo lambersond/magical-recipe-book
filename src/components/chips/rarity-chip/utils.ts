@@ -19,7 +19,7 @@ export function getStyles(rarity: Rarity) {
       'text-rarity-epic': isEpic(rarity),
       'text-rarity-legendary': isLegendary(rarity),
     },
-    'inline mr-2 size-4',
+    'inline sm:mr-2 size-4',
   )
   const chipClasses = clsx(
     {
@@ -30,7 +30,7 @@ export function getStyles(rarity: Rarity) {
       'border-rarity-epic bg-rarity-epic/10': isEpic(rarity),
       'border-rarity-legendary bg-rarity-legendary/10': isLegendary(rarity),
     },
-    'text-xs rounded-full px-2 py-1 border',
+    'text-xs rounded-full px-2 py-1 border flex min-w-fit items-center',
   )
 
   return {

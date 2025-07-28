@@ -159,7 +159,7 @@ export function Dropdown<S, T>({
   )
 
   return (
-    <div className='relative inline-flex flex-col text-left w-fit rounded-md'>
+    <div className='relative inline-flex flex-col text-left rounded-md w-full'>
       {!!label && (
         <label
           className='text-sm text-text-secondary font-bold uppercase'

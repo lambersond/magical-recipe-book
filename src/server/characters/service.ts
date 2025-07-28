@@ -76,3 +76,11 @@ export async function getUserCharactersLite(userId: string) {
 export async function deleteCharacterById(id: string, userId: string) {
   return repository.deleteCharacterById(id, userId)
 }
+
+export async function addRecipeToCharacterCookbook(
+  characterId: string,
+  recipeId: string,
+  userId: string,
+) {
+  return repository.addRecipeToCharacterCookbook(characterId, recipeId, userId)
+}

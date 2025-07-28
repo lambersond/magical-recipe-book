@@ -1,8 +1,8 @@
 'use client'
 
-import { User, LeafyGreen } from 'lucide-react'
-// import { User, Book, LeafyGreen } from 'lucide-react'
+import { User, Book, LeafyGreen } from 'lucide-react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
+import { CharacterCookbook } from '../tabs/character-cookbook'
 import { CharacterForagingLog } from '../tabs/character-foraging-log'
 import { CharacterIngredientsPouch } from '../tabs/character-ingredients-pouch'
 import { CharacterOverview } from '../tabs/character-overview'
@@ -27,9 +27,9 @@ export function CharacterTabs() {
           >
             <PouchIcon className='size-5 min-w-14 sm:min-w-5' />
           </Tab>
-          {/* <Tab className={`${tabStyles} sm:after:content-['Cookbook']`}>
+          <Tab className={`${tabStyles} sm:after:content-['Cookbook']`}>
             <Book className='size-5 min-w-14 sm:min-w-5' />
-          </Tab> */}
+          </Tab>
         </TabList>
       </div>
       <TabPanel className={tabPanelStyles}>
@@ -41,9 +41,9 @@ export function CharacterTabs() {
       <TabPanel className={tabPanelStyles}>
         <CharacterIngredientsPouch />
       </TabPanel>
-      {/* <TabPanel className={tabPanelStyles}>
-        <div className='w-full'>Cookbook</div>
-      </TabPanel> */}
+      <TabPanel className={tabPanelStyles}>
+        <CharacterCookbook />
+      </TabPanel>
     </Tabs>
   )
 }

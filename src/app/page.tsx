@@ -142,7 +142,7 @@ export default function HomePage() {
           </p>
           <button
             onClick={signin}
-            className='inline-block bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1 animate-fade-in-up animation-delay-400'
+            className='cursor-pointer inline-block bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1 animate-fade-in-up animation-delay-400'
           >
             Start your Cookbook
           </button>

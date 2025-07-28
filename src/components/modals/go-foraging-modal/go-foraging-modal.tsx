@@ -26,7 +26,7 @@ export function GoForagingModal({
       isMagical,
       magicalIngredientId: isMagical ? magicalIngredient : undefined,
     })
-    // onClose()
+    onClose()
   }
 
   const onClose = () => {

@@ -10,14 +10,14 @@ export function IngredientsPouchIngredients() {
 
   const counts = [
     {
-      key: 'c',
+      key: 'common',
       count: ingredientsPouch.commonIngredients,
       image: '🌿',
       classes:
         'text-xl font-bold text-text-primary sm:after:ml-2 after:text-text-secondary after:text-sm after:content-[""] md:after:content-["Common"] lg:after:content-["Common_Ingredients"]',
     },
     {
-      key: 'm',
+      key: 'magical',
       count: ingredientsPouch.magicalIngredients.length,
       image: '✨',
       classes:
@@ -59,6 +59,11 @@ export function IngredientsPouchIngredients() {
               isUsed={ingredient.isUsed}
             />
           ))}
+        {ingredientsPouch.magicalIngredients.length === 0 && (
+          <div className='col-span-1 md:col-span-2 lg:col-span-3 text-center text-text-tertiary text-left'>
+            No magical ingredients found.
+          </div>
+        )}
       </div>
     </Card>
   )

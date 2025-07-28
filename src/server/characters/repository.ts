@@ -2,29 +2,66 @@ import prisma from '@/clients/prisma'
 import { NotFoundError } from '@/errors'
 import type { Character, EditableCharacter, Prisma } from '@/types/db'
 
-export async function findFullCharacterById(id: string) {
-  return prisma.character.findFirst({
-    where: { id },
-    include: {
-      foragingLog: {
-        orderBy: { foundOnDay: 'desc' },
-        include: {
-          magicalIngredient: true,
-        },
-      },
-      ingredientsPouch: {
-        include: {
-          magicalIngredients: {
-            where: { isUsed: false, isExpired: false },
-            include: {
-              magicalIngredient: true,
+const cookbookInclude = {
+  include: {
+    knownRecipes: {
+      include: {
+        magicalIngredients: {
+          select: {
+            ingredient: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                image: true,
+                rarity: true,
+                boon: true,
+                bane: true,
+              },
             },
           },
         },
       },
-      cookbook: true,
-      backpack: true,
     },
+  },
+}
+
+const returnFields = {
+  foragingLog: {
+    orderBy: { foundOnDay: 'desc' },
+    select: {
+      foundOnDay: true,
+      isExpired: true,
+      isUsed: true,
+      commonIngredients: true,
+      magicalIngredient: {
+        select: {
+          name: true,
+          rarity: true,
+          image: true,
+        },
+      },
+    },
+  },
+  // TODO: Reduce the amount of data fetched here
+  ingredientsPouch: {
+    include: {
+      magicalIngredients: {
+        where: { isUsed: false, isExpired: false },
+        include: {
+          magicalIngredient: true,
+        },
+      },
+    },
+  },
+  cookbook: cookbookInclude,
+  backpack: true,
+} as const
+
+export async function findFullCharacterById(id: string) {
+  return prisma.character.findFirst({
+    where: { id },
+    include: returnFields,
   })
 }
 
@@ -66,11 +103,7 @@ export async function createCharacter(data: EditableCharacter, userId: string) {
         create: {},
       },
     },
-    include: {
-      ingredientsPouch: true,
-      cookbook: true,
-      backpack: true,
-    },
+    include: returnFields,
   })
 }
 
@@ -129,20 +162,9 @@ export async function advanceDayForCharacterById(
       include: {
         foragingLog: {
           orderBy: { foundOnDay: 'desc' },
-          include: {
-            magicalIngredient: true,
-          },
+          select: returnFields.foragingLog.select,
         },
-        ingredientsPouch: {
-          include: {
-            magicalIngredients: {
-              where: { isUsed: false, isExpired: false },
-              include: {
-                magicalIngredient: true,
-              },
-            },
-          },
-        },
+        ingredientsPouch: returnFields.ingredientsPouch,
       },
     })
 
@@ -167,9 +189,9 @@ export async function updateCharacterForagingLogById(
       include: {
         foragingLog: {
           orderBy: { createdAt: 'desc' },
-          include: { magicalIngredient: true },
+          select: returnFields.foragingLog.select,
         },
-        ingredientsPouch: { select: { id: true } },
+        ingredientsPouch: returnFields.ingredientsPouch,
       },
     })
 
@@ -253,5 +275,65 @@ export async function getUserCharactersLite(userId: string) {
 export async function deleteCharacterById(id: string, userId: string) {
   return prisma.character.delete({
     where: { id, userId },
+  })
+}
+
+export async function addRecipeToCharacterCookbook(
+  characterId: string,
+  recipeId: string,
+  userId: string,
+) {
+  return prisma.$transaction(async tx => {
+    const character = await tx.character.findUnique({
+      where: { id: characterId, userId },
+      include: {
+        cookbook: {
+          include: {
+            knownRecipes: {
+              where: { id: recipeId },
+              select: { id: true },
+            },
+          },
+        },
+      },
+    })
+    if (!character) {
+      throw new Error('Character not found or unauthorized')
+    }
+
+    if (
+      character.cookbook?.knownRecipes.some(recipe => recipe.id === recipeId)
+    ) {
+      return tx.character.findUnique({
+        where: { id: characterId },
+        include: {
+          cookbook: returnFields.cookbook,
+        },
+      })
+    }
+
+    // Add the recipe to the cookbook
+    return tx.character.update({
+      where: { id: characterId, userId },
+      data: {
+        cookbook: {
+          upsert: {
+            create: {
+              knownRecipes: {
+                connect: { id: recipeId },
+              },
+            },
+            update: {
+              knownRecipes: {
+                connect: { id: recipeId },
+              },
+            },
+          },
+        },
+      },
+      include: {
+        cookbook: cookbookInclude,
+      },
+    })
   })
 }

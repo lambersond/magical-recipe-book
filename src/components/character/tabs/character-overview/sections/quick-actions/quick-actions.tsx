@@ -1,10 +1,10 @@
 import { noop } from 'lodash'
-import { TentTree, Binoculars } from 'lucide-react'
+import { TentTree, Binoculars, BookPlus } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useCharacterApi } from '@/components/character/hooks/use-character'
 import { Card } from '@/components/common'
 import { useModals } from '@/hooks/use-modals'
-import type { FullCharacter, LogForagingResults } from '@/types'
+import type { FullCharacter, LearnRecipe, LogForagingResults } from '@/types'
 
 export function QuickActions() {
   const { id } = useParams<{ id: string }>()
@@ -79,11 +79,26 @@ export function QuickActions() {
         })
       },
     },
-    // {
-    //   label: 'Learn Recipe',
-    //   icon: <BookPlus className='size-5' />,
-    //   action: () => console.warn('Learn Recipe'),
-    // },
+    {
+      label: 'Learn Recipe',
+      icon: <BookPlus className='size-5' />,
+      action: async () => {
+        openModal('AddCookbookRecipeModal', {
+          onSubmit: async (recipe: LearnRecipe) => {
+            const res = await fetch(`/api/characters/${id}/add-recipe`, {
+              method: 'POST',
+              credentials: 'include',
+              body: JSON.stringify(recipe),
+            })
+            const data = await res.json()
+            updateCharacter((prev: FullCharacter) => ({
+              ...prev,
+              ...data,
+            }))
+          },
+        })
+      },
+    },
   ]
 
   return (

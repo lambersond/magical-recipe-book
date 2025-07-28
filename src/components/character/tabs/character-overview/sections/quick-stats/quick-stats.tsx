@@ -8,7 +8,7 @@ export function QuickStats() {
     character.ingredientsPouch.commonIngredients || 0
   const magicalIngredientsCount =
     character.ingredientsPouch.magicalIngredients.length || 0
-  const recipesKnownCount = character.cookbook?.recipes?.length || 0
+  const recipesKnownCount = character.cookbook?.knownRecipes?.length || 0
 
   return (
     <Card className='lg:col-span-2 space-y-6 border border-border'>

@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`components/common/dropdown should render correctly 1`] = `
 <DocumentFragment>
   <div
-    class="relative inline-flex flex-col text-left w-fit rounded-md"
+    class="relative inline-flex flex-col text-left rounded-md w-full"
   >
     <label
       class="text-sm text-text-secondary font-bold uppercase"
@@ -42,7 +42,7 @@ exports[`components/common/dropdown should render correctly 1`] = `
 exports[`components/common/dropdown should render correctly with defaultEmpty 1`] = `
 <DocumentFragment>
   <div
-    class="relative inline-flex flex-col text-left w-fit rounded-md"
+    class="relative inline-flex flex-col text-left rounded-md w-full"
   >
     <label
       class="text-sm text-text-secondary font-bold uppercase"

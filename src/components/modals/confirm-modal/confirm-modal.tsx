@@ -11,7 +11,7 @@ export function ConfirmModal({
   confirmButtonText = 'Confirm',
   cancelButtonText = 'Cancel',
   hideCancelButton = false,
-  color = 'danger',
+  color = 'primary',
 }: Readonly<ConfirmModalProps>) {
   const { closeModal } = useModals()
 

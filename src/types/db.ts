@@ -53,25 +53,30 @@ export type FullCharacter = {
 
   cookbook: {
     id: string
+    image: string
     createdAt: Date
     updatedAt: Date
     characterId: string
-    recipes: {
+    knownRecipes: {
       id: string
       name: string
+      image: string
       description: string
       difficulty: number
       boonText: string
-      banText: string
+      baneText: string
       createdAt: Date
       updatedAt: Date
+      mundaneIngredients: string[]
       magicalIngredients: {
-        id: string
-        name: string
-        description: string
-        rarity: string
-        boon: string
-        bane: string
+        ingredient: {
+          id: string
+          name: string
+          description: string
+          rarity: Rarity
+          boon: string
+          bane: string
+        }
       }[]
     }[]
   }
@@ -134,4 +139,8 @@ export type LogForagingResults = {
   quantity: number
   isMagical: boolean
   magicalIngredientId?: string
+}
+
+export type LearnRecipe = {
+  recipeId: string
 }

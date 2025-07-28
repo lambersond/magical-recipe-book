@@ -1,5 +1,5 @@
 import { getStatusText, getStyles } from './utils'
-import { RarityChip } from '@/components/character/rarity-chip'
+import { RarityChip } from '@/components/chips'
 import { Card } from '@/components/common'
 import type { MagicalForagingEntryCardProps } from './types'
 

@@ -33,6 +33,11 @@ export function CharacterForagingLog() {
             ),
           )}
         </Timeline>
+        {foragingLog.length === 0 && (
+          <div className='text-left text-text-tertiary'>
+            No foraging entries found.
+          </div>
+        )}
       </div>
     </div>
   )
