@@ -14,7 +14,7 @@ export function SessionWrapper({
     <div className='min-h-screen flex flex-col overflow-x-hidden'>
       <SessionProvider>
         <ModalProvider>
-          <header className='min-w-screen fixed top-0 shadow-md z-[10000]'>
+          <header className='min-w-screen fixed top-0 shadow-md z-[1100]'>
             <AppBar />
           </header>
           <div className='h-16 w-screen' />
