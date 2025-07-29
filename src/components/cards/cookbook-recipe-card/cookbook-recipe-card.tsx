@@ -99,7 +99,7 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
       <div className='px-6 py-4'>
         <button
           onClick={() => openModal('CookRecipeModal', { onConfirm: () => {} })}
-          className='bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl w-full font-bold text-lg cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1'
+          className='hidden bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl w-full font-bold text-lg cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1'
         >
           Cook this Recipe
         </button>
