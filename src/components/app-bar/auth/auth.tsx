@@ -1,8 +1,8 @@
 'use client'
 
-import { AccountSidebar } from '@/components/account-sidebar'
 import { IconButton } from '@/components/common/buttons'
 import { AccountIcon } from '@/components/common/icons'
+import { AccountSidebar } from '@/components/sidebars/account-sidebar'
 import { useAuth } from '@/hooks/use-auth'
 
 export function Auth() {

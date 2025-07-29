@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { Sidebar } from '../common'
 import { AccountSidebarContent } from './account-sidebar-content'
+import { Sidebar } from '@/components/common'
 
 export function AccountSidebar({
   user,

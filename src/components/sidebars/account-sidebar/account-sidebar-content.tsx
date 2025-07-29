@@ -1,11 +1,10 @@
 'use client'
 
-import { SidebarCloseIcon } from 'lucide-react'
+import { LogOutIcon, SidebarCloseIcon } from 'lucide-react'
 import { signOut } from 'next-auth/react'
-import { CharacterCard, NewCharacterCard } from '../cards'
-import { SidebarItem } from '../common'
-import { LogoutIcon } from '../common/icons'
 import { useAccountData } from './use-account-data'
+import { CharacterCard, NewCharacterCard } from '@/components/cards'
+import { SidebarItem } from '@/components/common'
 
 export function AccountSidebarContent({ email }: { email: string }) {
   const { characters } = useAccountData()
@@ -59,7 +58,7 @@ export function AccountSidebarContent({ email }: { email: string }) {
             onClick={() => signOut({ redirectTo: '/' })}
             className='w-full flex gap-2 cursor-pointer'
           >
-            <LogoutIcon className='text-error size-6 mb-2' />
+            <LogOutIcon className='text-error size-6 mb-2' />
             <p className='text-error font-bold'>Sign Out</p>
           </button>
         </SidebarItem>

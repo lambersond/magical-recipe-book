@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useSidebar } from '../common'
+import { useSidebar } from '@/components/common'
 
 export function useAccountData() {
   const { isOpen } = useSidebar()

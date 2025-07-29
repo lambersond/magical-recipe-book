@@ -1,4 +1,4 @@
-import { MenuSidebar } from '../menu-sidebar'
+import { MenuSidebar } from '../sidebars/menu-sidebar'
 import { Auth } from './auth'
 
 export function AppBar() {

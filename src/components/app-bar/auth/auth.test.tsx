@@ -8,7 +8,7 @@ jest.mock('@/hooks/use-auth', () => ({
   useAuth: () => mockUseAuth(),
 }))
 
-jest.mock('@/components/account-sidebar', () => ({
+jest.mock('@/components/sidebars/account-sidebar', () => ({
   AccountSidebar: () => <div data-testid='account-sidebar' />,
 }))
 

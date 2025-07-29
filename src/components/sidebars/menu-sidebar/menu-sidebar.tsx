@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { Sidebar } from '../common'
 import { MenuSidebarLink } from './menu-sidebar-link'
+import { Sidebar } from '@/components/common'
 
 export function MenuSidebar() {
   return (

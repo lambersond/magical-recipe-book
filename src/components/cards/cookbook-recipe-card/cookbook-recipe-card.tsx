@@ -4,10 +4,13 @@ import { ChevronDown } from 'lucide-react'
 import { DifficultyChallengeChip, MundaneChip } from '@/components/chips'
 import { Card } from '@/components/common'
 import { MagicalIngredient } from '@/components/magical-ingredient'
+import { RecipeOutcome } from '@/components/recipe-outcome'
+import { useModals } from '@/hooks/use-modals'
 import { expandablePaneClasses, updateStateAttribute } from '@/utils/expandable'
 import type { CookbookRecipeCardProps } from './types'
 
 export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
+  const { openModal } = useModals()
   return (
     <Card
       className='border-y sm:border border-border rounded-none sm:rounded-lg bg-card'
@@ -79,57 +82,25 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
             onClick={e => e.stopPropagation()}
           >
             <div className='flex flex-col space-y-3 cursor-text'>
-              <div className='border-l-4 border-success pl-4 py-2 bg-success/4 rounded-r-xl'>
-                <div className='flex items-center space-x-2 mb-1'>
-                  <span className='text-lg'>✨</span>
-                  <span className='text-sm font-semibold text-success'>
-                    Divine Success
-                  </span>
-                </div>
-                <p className='text-left text-sm text-green-300 mb-2'>
-                  {recipe.boonText}
-                </p>
-                {recipe.magicalIngredients.map(({ ingredient }) => (
-                  <span
-                    key={ingredient.id}
-                    className='text-sm text-green-300 flex items-start gap-1'
-                  >
-                    <p className='font-semibold text-success'>
-                      {ingredient.name}:
-                    </p>
-                    {ingredient.boon}
-                  </span>
-                ))}
-              </div>
-
-              <div className='border-l-4 border-danger pl-4 py-2 bg-danger/6 rounded-r-xl'>
-                <div className='flex items-center space-x-2 mb-1'>
-                  <span className='text-lg'>💀</span>
-                  <span className='text-sm font-semibold text-danger'>
-                    Disastrous Failure
-                  </span>
-                </div>
-                <p className='text-left text-sm text-red-300 mb-2'>
-                  {recipe.baneText}
-                </p>
-                {recipe.magicalIngredients.map(({ ingredient }) => (
-                  <span
-                    key={ingredient.id}
-                    className='text-sm text-red-300 flex items-start gap-1'
-                  >
-                    <p className='font-semibold text-danger'>
-                      {ingredient.name}:
-                    </p>
-                    {ingredient.bane}
-                  </span>
-                ))}
-              </div>
+              <RecipeOutcome
+                type='success'
+                flavorText={recipe.boonText}
+                ingredients={recipe.magicalIngredients}
+              />
+              <RecipeOutcome
+                type='failure'
+                flavorText={recipe.baneText}
+                ingredients={recipe.magicalIngredients}
+              />
             </div>
           </div>
         </Card>
       </div>
-      <div className='px-6 py-4 hidden'>
-        <button className='bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl w-full font-bold text-lg cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1'>
+      <div className='px-6 py-4'>
+        <button
+          onClick={() => openModal('CookRecipeModal', { onConfirm: () => {} })}
+          className='hidden bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl w-full font-bold text-lg cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1'
+        >
           Cook this Recipe
         </button>
       </div>

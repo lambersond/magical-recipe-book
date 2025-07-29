@@ -23,4 +23,5 @@ export type Option = {
   icon?: React.ReactNode
   divider?: boolean
   color?: 'primary' | 'danger'
+  className?: string
 }

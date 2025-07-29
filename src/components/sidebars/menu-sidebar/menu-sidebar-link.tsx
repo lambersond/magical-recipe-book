@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSidebar } from '../common'
+import { useSidebar } from '@/components/common'
 
 export function MenuSidebarLink({
   href,

@@ -1,5 +1,6 @@
 export { AddCharacterModal } from './add-character-modal'
 export { AddCookbookRecipeModal } from './add-cookbook-recipe-modal'
 export { ConfirmModal } from './confirm-modal'
+export { CookRecipeModal } from './cook-recipe-modal'
 export { EditCharacterModal } from './edit-character-modal'
 export { GoForagingModal } from './go-foraging-modal'

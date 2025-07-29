@@ -11,6 +11,11 @@ export const MODALS = {
       default: module.AddCookbookRecipeModal,
     })),
   ),
+  CookRecipeModal: lazy(() =>
+    import('./components/modals').then(module => ({
+      default: module.CookRecipeModal,
+    })),
+  ),
   EditCharacterModal: lazy(() =>
     import('./components/modals').then(module => ({
       default: module.EditCharacterModal,

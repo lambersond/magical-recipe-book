@@ -1,88 +1,42 @@
 'use client'
 
-import { Delete, EditIcon, MoreVertical } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useCharacter, useCharacterApi } from '../hooks/use-character'
-import { Menu, type Option, Popover } from '@/components/common'
-import { useModals } from '@/hooks/use-modals'
-import type { EditableCharacter, FullCharacter } from '@/types'
+import { MoreVertical, TentTree, Binoculars, BookPlus } from 'lucide-react'
+import { useCharacterActions } from '../hooks/use-character-actions'
+import { Menu, Popover, Tooltip } from '@/components/common'
 
 export function CharacterActionsMenu() {
-  const { openModal } = useModals()
-  const router = useRouter()
-  const character = useCharacter()
-  const setCharacter = useCharacterApi()
+  const { options, ...actions } = useCharacterActions()
 
-  const options: Option[] = [
-    {
-      label: 'Edit Character',
-      icon: <EditIcon />,
-      onClick: () => {
-        openModal('EditCharacterModal', {
-          character,
-          onSubmit: async (updatedCharacter: EditableCharacter) => {
-            try {
-              const res = await fetch(`/api/characters/${character.id}`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify(updatedCharacter),
-              })
-              if (!res.ok) {
-                throw new Error('Failed to update character')
-              }
-              const updatedData = await res.json()
-              setCharacter((prev: FullCharacter) => ({
-                ...prev,
-                ...updatedData,
-              }))
-            } catch (error) {
-              console.error('Error updating character:', error)
-            }
-          },
-        })
-      },
-    },
-    {
-      label: 'Delete Character',
-      icon: <Delete />,
-      color: 'danger',
-      onClick: () => {
-        openModal('ConfirmModal', {
-          confirmButtonText: 'Delete',
-          cancelButtonText: 'Cancel',
-          message: `Do you really wanna delete "${character.name}"? This action cannot be undone.`,
-          onConfirm: async () => {
-            try {
-              const res = await fetch(`/api/characters/${character.id}`, {
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-              })
-              if (!res.ok) {
-                throw new Error('Failed to delete character')
-              }
-              router.push('/user')
-            } catch (error) {
-              console.error('Error deleting character:', error)
-            }
-          },
-        })
-      },
-    },
-  ]
+  const iconClasses =
+    'size-10 rounded-full hover:bg-hover p-2.25 cursor-pointer text-text-primary hover:text-primary hidden sm:block'
 
   return (
-    <Popover
-      content={<Menu options={options} />}
-      placement='bottom-end'
-      asChild
-    >
-      <MoreVertical className='size-10 p-2 text-text-secondary hover:text-text-primary hover:bg-hover rounded-full cursor-pointer' />
-    </Popover>
+    <div className='flex items-center justify-end gap-4'>
+      <Tooltip title='Go Foraging' asChild>
+        <Binoculars
+          className={iconClasses}
+          onClick={actions.forage.onClick as any}
+        />
+      </Tooltip>
+      <Tooltip title='End Day' asChild>
+        <TentTree
+          className={iconClasses}
+          onClick={actions.advanceDay.onClick as any}
+        />
+      </Tooltip>
+      <Tooltip title='Learn Recipe' asChild>
+        <BookPlus
+          className={iconClasses}
+          onClick={actions.learnRecipe.onClick as any}
+        />
+      </Tooltip>
+      <Popover
+        content={<Menu options={options} />}
+        placement='bottom-end'
+        asChild
+      >
+        <MoreVertical className='size-10 p-2 text-text-secondary hover:text-text-primary hover:bg-hover rounded-full cursor-pointer' />
+      </Popover>
+    </div>
   )
 }
