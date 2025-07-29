@@ -8,11 +8,9 @@ export function RarityChip({ rarity }: { rarity: Rarity }) {
   const classes = getStyles(rarity)
   const Icon = RarityIcon[rarity]
   return (
-    <div className='flex items-center justify-between gap-2'>
-      <div className={classes.chipClasses}>
-        <Icon className={classes.iconClasses} />
-        <p className='hidden sm:block'>{RARITY_LABELS[rarity]}</p>
-      </div>
+    <div className={classes.containerClasses}>
+      <Icon className='inline sm:mr-2 size-4' />
+      <p className='hidden sm:block'>{RARITY_LABELS[rarity]}</p>
     </div>
   )
 }

@@ -1,7 +1,6 @@
 'use client'
 
-import { IconButton } from '@/components/common/buttons'
-import { AccountIcon } from '@/components/common/icons'
+import { LogIn } from 'lucide-react'
 import { AccountSidebar } from '@/components/sidebars/account-sidebar'
 import { useAuth } from '@/hooks/use-auth'
 
@@ -10,15 +9,13 @@ export function Auth() {
 
   if (!isAuthenticated) {
     return (
-      <IconButton
+      <button
+        className='px-6 py-2 bg-secondary/80 hover:bg-secondary rounded-2xl text-text-primary text-xl font-semibold flex gap-2 items-center cursor-pointer'
         onClick={() => signIn('google')}
-        Icon={AccountIcon}
-        color='primary'
-        size='lg'
-        showBorder
-        className=''
-        text={<p className='text-xl mr-4 font-bold'>Login</p>}
-      />
+      >
+        Sign In
+        <LogIn className='size-6' />
+      </button>
     )
   }
 

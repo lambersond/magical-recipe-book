@@ -1,9 +1,9 @@
 import clsx from 'classnames'
 import { Card } from '@/components/common'
-import { Recipe } from '@/types'
+import { RecipeOld } from '@/types'
 import { getDCColor } from '@/utils/rarity'
 
-export function RecipeCard({ ...recipe }: Readonly<Recipe>) {
+export function RecipeCard({ ...recipe }: Readonly<RecipeOld>) {
   const dcTagClasses = clsx(
     'px-3 py-1 rounded-full text-sm font-semibold',
     getDCColor(recipe.difficulty),

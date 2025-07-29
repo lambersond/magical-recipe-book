@@ -23,7 +23,7 @@ export function CharacterHeader() {
                 />
               )}
               <div>
-                <h1 className='text-3xl font-bold text-primary'>{name}</h1>
+                <h1 className='text-3xl font-bold text-text-primary'>{name}</h1>
                 <p className='text-text-secondary flex items-center'>
                   <Calendar className='size-4 mr-2' />
                   Day {currentDay}

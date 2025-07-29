@@ -1,27 +1,36 @@
 'use client'
 
+import { DifficultyChallengeChip } from '@/components/chips'
 import { Modal } from '@/components/common'
+import { CookRecipe } from '@/components/cook-recipe'
 import { useModals } from '@/hooks/use-modals'
 import type { CookRecipeModalProps } from './types'
 
 export function CookRecipeModal({
-  // onSubmit,
   open,
+  recipe,
+  ingredientsPouch,
 }: Readonly<CookRecipeModalProps>) {
   const { closeModal } = useModals()
-
-  // const handleOnSubmit = (character: any) => {
-  //   onSubmit(character)
-  //   onClose()
-  // }
 
   const onClose = () => {
     closeModal('CookRecipeModal')
   }
 
+  if (!open || !recipe || !ingredientsPouch) {
+    return
+  }
+
   return (
-    <Modal title='{DISH_NAME}' isOpen={!!open} onClose={onClose}>
-      <div>ehllo</div>
+    <Modal
+      title={recipe.name}
+      headerClassName='border-b border-border'
+      width='w-sm md:w-lg' // May remove this. will decide after built
+      subtitle={<DifficultyChallengeChip difficulty={recipe.difficulty} />}
+      isOpen={!!open}
+      onClose={onClose}
+    >
+      <CookRecipe recipe={recipe} ingredientsPouch={ingredientsPouch} />
     </Modal>
   )
 }

@@ -21,12 +21,11 @@ describe('components/app-bar/auth', () => {
       user: { name: 'Guest' },
     })
 
-    const { getByTestId, getByText } = render(<Auth />, {
+    const { getByText } = render(<Auth />, {
       wrapper: ModalProvider,
     })
 
-    expect(getByText('Login')).toBeInTheDocument()
-    expect(getByTestId('AccountIcon')).toBeInTheDocument()
+    expect(getByText(/Sign In/)).toBeInTheDocument()
   })
 
   it('should render logout button if authenticated', () => {

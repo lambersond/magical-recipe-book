@@ -12,6 +12,7 @@ export function Modal({
   isOpen,
   onClose,
   title,
+  subtitle,
   width = 'w-sm md:w-md',
 }: Readonly<ModalProps>) {
   const headerRef = useRef<HTMLDivElement>(null)
@@ -55,7 +56,10 @@ export function Modal({
         className={`relative bg-paper max-w-2xl ${width} z-1000 overflow-hidden shadow-lg h-full min-w-full sm:min-w-sm  sm:rounded-xl sm:h-fit`}
       >
         <div className={headerClassNames} ref={headerRef}>
-          <p className='text-2xl font-bold'>{title}</p>
+          <div>
+            <p className='text-2xl font-bold'>{title}</p>
+            {subtitle}
+          </div>
           <IconButton color='transparent' Icon={CloseIcon} onClick={onClose} />
         </div>
         <div

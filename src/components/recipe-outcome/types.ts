@@ -1,7 +1,7 @@
-import type { FullCharacter } from '@/types'
+import type { Recipe } from '@/types'
 
 export type RecipeOutcomeProps = {
   type: 'success' | 'failure'
-  flavorText: string
-  ingredients: FullCharacter['cookbook']['knownRecipes'][number]['magicalIngredients']
+  flavorText?: string
+  ingredients: Recipe['magicalIngredients']
 }

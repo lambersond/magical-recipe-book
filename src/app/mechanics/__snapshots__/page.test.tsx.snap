@@ -329,7 +329,7 @@ exports[`app/mechanics/page should match snapshot 1`] = `
             class="flex flex-wrap gap-4 justify-evenly"
           >
             <div
-              class="text-rarity-common bg-rarity-common/10 rounded-lg p-4 text-center flex-grow"
+              class="text-text-rarity-common bg-rarity-common/20 rounded-lg p-4 text-center flex-grow"
             >
               <svg
                 class="size-8 mx-auto"
@@ -356,7 +356,7 @@ exports[`app/mechanics/page should match snapshot 1`] = `
               </p>
             </div>
             <div
-              class="text-rarity-uncommon bg-rarity-uncommon/10 rounded-lg p-4 text-center flex-grow"
+              class="text-text-rarity-uncommon bg-rarity-uncommon/20 rounded-lg p-4 text-center flex-grow"
             >
               <svg
                 class="size-8 mx-auto"
@@ -382,7 +382,7 @@ exports[`app/mechanics/page should match snapshot 1`] = `
               </p>
             </div>
             <div
-              class="text-rarity-rare bg-rarity-rare/10 rounded-lg p-4 text-center flex-grow"
+              class="text-text-rarity-rare bg-rarity-rare/20 rounded-lg p-4 text-center flex-grow"
             >
               <svg
                 class="size-8 mx-auto"
@@ -409,7 +409,7 @@ exports[`app/mechanics/page should match snapshot 1`] = `
               </p>
             </div>
             <div
-              class="text-rarity-very-rare bg-rarity-very-rare/10 rounded-lg p-4 text-center flex-grow"
+              class="text-text-rarity-very-rare bg-rarity-very-rare/20 rounded-lg p-4 text-center flex-grow"
             >
               <svg
                 class="size-8 mx-auto"
@@ -436,7 +436,7 @@ exports[`app/mechanics/page should match snapshot 1`] = `
               </p>
             </div>
             <div
-              class="text-rarity-epic bg-rarity-epic/10 rounded-lg p-4 text-center flex-grow"
+              class="text-text-rarity-epic bg-rarity-epic/20 rounded-lg p-4 text-center flex-grow"
             >
               <svg
                 class="size-8 mx-auto"

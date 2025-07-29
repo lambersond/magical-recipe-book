@@ -12,7 +12,9 @@ export function RecipeOutcome(result: Readonly<RecipeOutcomeProps>) {
         <span className='text-lg'>{outcome.emoji}</span>
         <span className={outcome.titleClasses}>{outcome.title}</span>
       </div>
-      <p className={outcome.flavorTextClasses}>{flavorText}</p>
+      {!!flavorText && (
+        <p className={outcome.flavorTextClasses}>{flavorText}</p>
+      )}
       {ingredients.map(({ ingredient }) => (
         <span
           key={ingredient.id}

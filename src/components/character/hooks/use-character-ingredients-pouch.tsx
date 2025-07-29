@@ -3,14 +3,12 @@ import {
   CharacterIngredientsPouchApiContext,
   CharacterIngredientsPouchContext,
 } from '../providers/character-ingredients-pouch-provider'
-import type { FullCharacter } from '@/types'
+import type { ForagedIngredient } from '@/types'
 
 export function useCharacterIngredientsPouch() {
   const data = use(CharacterIngredientsPouchContext)
 
-  const filter = (
-    item: FullCharacter['ingredientsPouch']['magicalIngredients'][number],
-  ) => {
+  const filter = (item: ForagedIngredient) => {
     // Search string filter
     if (data.searchString) {
       const matchesSearch = item.magicalIngredient?.name
@@ -18,14 +16,6 @@ export function useCharacterIngredientsPouch() {
         .includes(data.searchString.toLowerCase())
       if (!matchesSearch) return false
     }
-
-    // Rarity filter
-    if (
-      data.filterRarity &&
-      data.filterRarity !== 'all' &&
-      item.rarity !== data.filterRarity
-    )
-      return false
 
     // Status filter
     if (data.filterStatus && data.filterStatus !== 'all') {

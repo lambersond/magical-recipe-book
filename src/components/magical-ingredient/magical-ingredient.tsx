@@ -1,12 +1,12 @@
 import { RarityChip } from '../chips'
-import { makeStyles } from './utils'
+import { getStyles } from './utils'
 import type { MagicalIngredientProps } from './types'
 
 export function MagicalIngredient(props: Readonly<MagicalIngredientProps>) {
   const { name, rarity, description } = props
-  const styles = makeStyles(rarity)
+  const styles = getStyles(rarity)
   return (
-    <div className={styles.wrapperClasses}>
+    <div className={styles.containerClasses}>
       <div className='flex justify-between items-center'>
         <span className='font-semibold'>{name}</span>
         <RarityChip rarity={rarity} />

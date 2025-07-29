@@ -1,7 +1,8 @@
 'use client'
 
-import { ChevronDown } from 'lucide-react'
-import { DifficultyChallengeChip, MundaneChip } from '@/components/chips'
+import { ChevronDown, CookingPot } from 'lucide-react'
+import { useCharacter } from '@/components/character/hooks/use-character'
+import { CommonChip, DifficultyChallengeChip } from '@/components/chips'
 import { Card } from '@/components/common'
 import { MagicalIngredient } from '@/components/magical-ingredient'
 import { RecipeOutcome } from '@/components/recipe-outcome'
@@ -11,6 +12,7 @@ import type { CookbookRecipeCardProps } from './types'
 
 export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
   const { openModal } = useModals()
+  const { ingredientsPouch } = useCharacter()
   return (
     <Card
       className='border-y sm:border border-border rounded-none sm:rounded-lg bg-card'
@@ -33,11 +35,11 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
           <div className='mb-4'>
             <div className='flex items-center space-x-2 mb-2'>
               <span className='text-sm'>🌿</span>
-              <span className='text-sm text-text-tertiary'>Mundane:</span>
+              <span className='text-sm text-text-tertiary'>Common:</span>
             </div>
             <div className='flex flex-wrap gap-2'>
               {recipe.mundaneIngredients.map((ingredient, index) => (
-                <MundaneChip key={index} text={ingredient} />
+                <CommonChip key={index} text={ingredient} />
               ))}
             </div>
           </div>
@@ -68,8 +70,10 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
           onClick={updateStateAttribute}
           overrideViews
         >
-          <div className='flex items-center justify-between cursor-pointer text-text-tertiary'>
-            <span className='font-semibold'>Possible Outcomes</span>
+          <div className='flex items-center justify-between cursor-pointer text-text-secondary'>
+            <span className='font-semibold tracking-wide'>
+              Possible Magical Outcomes
+            </span>
             <ChevronDown
               data-expandable
               className='data-[state=true]:rotate-180 transform transition-transform'
@@ -96,12 +100,19 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
           </div>
         </Card>
       </div>
-      <div className='px-6 py-4'>
+      <div className='hidden px-6 py-4'>
         <button
-          onClick={() => openModal('CookRecipeModal', { onConfirm: () => {} })}
-          className='hidden bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl w-full font-bold text-lg cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1'
+          onClick={() =>
+            openModal('CookRecipeModal', {
+              recipe,
+              ingredientsPouch,
+            })
+          }
+          className='bg-primary/80 flex gap-2 text-text-primary justify-center text-2xl py-4 rounded-xl w-full font-bold cursor-pointer hover:shadow-xl hover:bg-primary uppercase'
         >
+          <CookingPot className='size-6' />
           Cook this Recipe
+          <CookingPot className='size-6' />
         </button>
       </div>
     </Card>

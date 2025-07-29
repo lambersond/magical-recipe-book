@@ -1,6 +1,6 @@
 import prisma from '@/clients/prisma'
 import { NotFoundError } from '@/errors'
-import type { Character, EditableCharacter, Prisma } from '@/types/db'
+import type { EditableCharacter, FullCharacter, Prisma } from '@/types/db'
 
 const cookbookInclude = {
   include: {
@@ -124,7 +124,7 @@ export async function updateCharacterById(
 export async function updateCharacterBasicsById(
   id: string,
   data: Partial<
-    Pick<Character, 'name' | 'description' | 'image' | 'currentDay'>
+    Pick<FullCharacter, 'name' | 'description' | 'image' | 'currentDay'>
   >,
   userId: string,
 ) {

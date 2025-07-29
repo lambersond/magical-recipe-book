@@ -11,13 +11,16 @@
   /* Background colors - dark base with warm undertones */
   --color-page: oklch(21% 0.034 264.665);
   --color-paper: oklch(21.6% 0.006 56.043);
+  --color-paper-light: oklch(29.6% 0.006 56.043);
   --color-card: oklch(26.2% 0.033 256.848);
   /* --color-appbar: oklch(29.5% 0.194 86.047); */
   --color-appbar: oklch(27.8% 0.033 256.848);
 
   /* Primary colors - your gold and orange palette */
-  --color-primary: oklch(79.5% 0.184 86.047);
-  --color-secondary: oklch(55.3% 0.195 38.402);
+  /* --color-primary: oklch(79.5% 0.184 86.047); */
+  /* --color-secondary: oklch(55.3% 0.195 38.402); */
+  --color-primary: oklch(66.6% 0.179 58.318);
+  --color-secondary: oklch(58.6% 0.253 17.585);
   --color-tertiary: oklch(0.35 0.08 75);
   
   --color-hover: #0000003F;
@@ -42,11 +45,17 @@
   --color-text-tertiary: oklch(55.6% 0.02 259.802);
 
   /* Rarity colors  */
-  --color-rarity-common: oklch(0.60 0.02 45); /* Gray */
-  --color-rarity-uncommon: oklch(0.70 0.15 140); /* Green */
-  --color-rarity-rare: oklch(68.5% 0.169 237.323); /* Blue */
-  --color-rarity-very-rare: oklch(0.70 0.18 65); /* Orange */
-  --color-rarity-epic: oklch(0.70 0.20 300); /* Purple */
+  --color-rarity-common: oklch(44.2% 0.017 285.786); /* zinc-600 */
+  --color-rarity-uncommon: oklch(62.7% 0.194 149.214); /* green-600 */
+  --color-rarity-rare: oklch(54.6% 0.245 262.881); /* blue-600 */
+  --color-rarity-very-rare: oklch(59.1% 0.293 322.896); /* fuchsia-600 */
+  --color-rarity-epic: oklch(54.1% 0.281 293.009); /* violet-600 */
+
+  --color-text-rarity-common: oklch(70.5% 0.015 286.067); /* zinc-400 */
+  --color-text-rarity-uncommon: oklch(79.2% 0.209 151.711); /* green-400 */
+  --color-text-rarity-rare: oklch(70.7% 0.165 254.624); /* blue-400 */
+  --color-text-rarity-very-rare: oklch(74% 0.238 322.16); /* fuchsia-400 */
+  --color-text-rarity-epic: oklch(70.2% 0.183 293.541); /* violet-400 */
 
   --color-stat-common-ingredients: oklch(45.7% 0.24 277.023);
   --color-stat-magic-ingredients: oklch(51.8% 0.253 323.949);
@@ -56,6 +65,10 @@
 :root {
   --background: var(--color-page);
   --foreground: var(--color-text-primary);
+}
+
+:focus-visible {
+  outline: none;
 }
 
 body {
@@ -155,4 +168,17 @@ body {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   animation: float 6s ease-in-out infinite;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
