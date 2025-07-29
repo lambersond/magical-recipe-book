@@ -10,13 +10,13 @@ export function AccountSidebarContent({ email }: { email: string }) {
   const { characters } = useAccountData()
   return (
     <div className='flex flex-col gap-4 p-2 pt-0'>
-      <section className='flex items-start justify-between border-b border-border sticky top-0 bg-card z-10 pb-4'>
+      <section className='flex items-start justify-between border-b border-border sticky top-0 bg-appbar z-10 pb-4'>
         <div className='flex flex-col'>
           <p className='text-2xl font-bold'>Account</p>
           <p className='text-lg italic text-text-secondary -mt-1'>{email}</p>
         </div>
         <SidebarItem>
-          <SidebarCloseIcon className='size-10 p-2 transform rotate-180 hover:bg-black/20 rounded-full cursor-pointer' />
+          <SidebarCloseIcon className='size-10 p-2 transform rotate-180 text-text-secondary hover:text-text-primary hover:bg-hover rounded-full cursor-pointer' />
         </SidebarItem>
       </section>
       <section className='border-b border-border pb-4'>

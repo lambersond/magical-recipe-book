@@ -14,14 +14,15 @@ export function AccountSidebar({
       side='right'
       trigger={
         <Image
-          width={40}
-          height={40}
-          src={user.image || '/logo.png'}
+          width={48}
+          height={48}
+          src={user.image || '/no-image.jpg'}
+          fetchPriority='high'
           alt={user.name}
-          className='cursor-pointer rounded-full'
+          className='cursor-pointer rounded-full max-h-12'
         />
       }
-      className='w-full sm:w-sm'
+      className='w-full sm:w-sm shadow-xl'
     >
       <AccountSidebarContent email={user.email} />
     </Sidebar>

@@ -60,7 +60,7 @@ export function CharacterCard({
             className='rounded-full'
           />
         )}
-        <div className='grid gap-1 h-8'>
+        <div className={styles.headerTextClasses}>
           <p className={styles.nameClasses}>{name}</p>
           <span className={styles.dayClasses}>
             Day
@@ -69,7 +69,7 @@ export function CharacterCard({
         </div>
       </div>
       {details === 'full' && (
-        <p className='text-text-secondary italic'>{description}</p>
+        <p className='text-text-secondary text-left italic'>{description}</p>
       )}
       <div className={styles.statsContainerClasses}>
         {stats.map((stat, index) => (

@@ -16,7 +16,7 @@ export function MenuSidebar() {
           className='cursor-pointer'
         />
       }
-      className='w-full sm:w-sm bg-card shadow-r-xl z-[50]'
+      className='w-full sm:w-sm shadow-r-xl z-[50]'
     >
       <div className='flex flex-col gap-2 pt-2 pr-2'>
         <MenuSidebarLink
