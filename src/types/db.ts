@@ -8,6 +8,8 @@ import type {
 export type { DefaultArgs } from '@prisma/client/runtime/client'
 export type { Prisma } from '@prisma/client'
 
+export type CookedDishStatus = 'success' | 'failure' | 'boon' | 'bane'
+
 export type Biome = PrismaBiome & {
   ingredientCount?: number
   ingredients?: Partial<PrismaIngredient>[]
@@ -74,6 +76,12 @@ export type IngredientsPouch = {
   magicalIngredients: ForagedIngredient[]
 }
 
+export type Backpack = {
+  updatedAt: Date
+  cookedDishes: any[] // TODO: Define cooked dish type
+  infusedItems: any[] // TODO: Define infused item type
+}
+
 export type FullCharacter = {
   id: string
   name: string
@@ -85,6 +93,7 @@ export type FullCharacter = {
   cookbook: Cookbook
   foragingLog: ForagedIngredient[]
   ingredientsPouch: IngredientsPouch
+  backpack: Backpack
 }
 
 export type EditableCharacter = {

@@ -10,6 +10,7 @@ export function CookRecipeModal({
   open,
   recipe,
   ingredientsPouch,
+  onCook,
 }: Readonly<CookRecipeModalProps>) {
   const { closeModal } = useModals()
 
@@ -25,12 +26,16 @@ export function CookRecipeModal({
     <Modal
       title={recipe.name}
       headerClassName='border-b border-border'
-      width='w-sm md:w-lg' // May remove this. will decide after built
+      width='w-sm md:w-lg'
       subtitle={<DifficultyChallengeChip difficulty={recipe.difficulty} />}
       isOpen={!!open}
       onClose={onClose}
     >
-      <CookRecipe recipe={recipe} ingredientsPouch={ingredientsPouch} />
+      <CookRecipe
+        recipe={recipe}
+        ingredientsPouch={ingredientsPouch}
+        onCook={onCook}
+      />
     </Modal>
   )
 }

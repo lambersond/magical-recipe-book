@@ -1,5 +1,9 @@
 import * as repository from './repository'
-import type { EditableCharacter, LogForagingResults } from '@/types'
+import type {
+  CookedDishStatus,
+  EditableCharacter,
+  LogForagingResults,
+} from '@/types'
 
 export async function createCharacter(
   data: EditableCharacter,
@@ -83,4 +87,20 @@ export async function addRecipeToCharacterCookbook(
   userId: string,
 ) {
   return repository.addRecipeToCharacterCookbook(characterId, recipeId, userId)
+}
+
+export function cookRecipe(
+  id: string,
+  userId: string,
+  recipeId: string,
+  status: CookedDishStatus,
+  isConsumed: boolean = true,
+) {
+  return repository.createCookedDishForCharacter(
+    id,
+    userId,
+    recipeId,
+    status,
+    isConsumed,
+  )
 }

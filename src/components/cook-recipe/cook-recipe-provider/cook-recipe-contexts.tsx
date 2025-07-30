@@ -10,6 +10,8 @@ export const CookRecipeDataContext = createContext<CookRecipeDataContextType>({
   cookingState: 'selection',
   requiredIngredientsSelected: {},
   rollResults: 0,
+  characterId: undefined,
+  recipeId: undefined,
 } as any)
 
 export const CookRecipeDispatchContext =

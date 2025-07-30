@@ -4,17 +4,14 @@ import {
   CookRecipeDataContext,
   CookRecipeDispatchContext,
 } from './cook-recipe-contexts'
-import type { IngredientsPouch, Recipe } from '@/types'
+import type { CookRecipeProviderProps } from './types'
 
 export function CookRecipeProvider({
   children,
   recipe,
   ingredientsPouch,
-}: {
-  children: React.ReactNode
-  recipe: Recipe
-  ingredientsPouch: IngredientsPouch
-}) {
+  onCook,
+}: Readonly<CookRecipeProviderProps>) {
   const [cookingState, setCookingState] = useState<CookingState>('selection')
   const [rollResults, setRollResults] = useState<number>(0)
   const [requiredIngredientsSelected, setRequiredIngredientsSelected] =
@@ -31,11 +28,14 @@ export function CookRecipeProvider({
     cookingState,
     requiredIngredientsSelected,
     rollResults,
+    characterId: ingredientsPouch.characterId,
+    recipeId: recipe.id,
   }
   const dispatchValue = {
     setCookingState,
     setRequiredIngredientsSelected,
     setRollResults,
+    onCook,
   }
 
   return (

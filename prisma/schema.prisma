@@ -202,18 +202,19 @@ model Backpack {
 }
 
 model CookedDish {
-  id           String      @id @default(cuid())
-  status       String      // success | fail | boon | bane
-  cookedOnDay  Int
+  id            String      @id @default(cuid())
+  status        String      // success | fail | boon | bane
+  consumedOnDay Int?        // null if not consumed yet
+  cookedOnDay   Int
 
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-  recipe       Recipe      @relation(fields: [recipeId], references: [id])
-  recipeId     String
+  recipe        Recipe      @relation(fields: [recipeId], references: [id])
+  recipeId      String
   
-  backpack     Backpack?   @relation(fields: [backpackId], references: [id], onDelete: Cascade)
-  backpackId   String?
+  backpack      Backpack?   @relation(fields: [backpackId], references: [id], onDelete: Cascade)
+  backpackId    String?
 
   @@index([backpackId])
 }

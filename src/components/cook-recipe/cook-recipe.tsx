@@ -7,9 +7,14 @@ import type { CookRecipeProps } from './types'
 export function CookRecipe({
   recipe,
   ingredientsPouch,
+  onCook,
 }: Readonly<CookRecipeProps>) {
   return (
-    <CookRecipeProvider recipe={recipe} ingredientsPouch={ingredientsPouch}>
+    <CookRecipeProvider
+      recipe={recipe}
+      ingredientsPouch={ingredientsPouch}
+      onCook={onCook}
+    >
       <CookRecipeContainer />
     </CookRecipeProvider>
   )

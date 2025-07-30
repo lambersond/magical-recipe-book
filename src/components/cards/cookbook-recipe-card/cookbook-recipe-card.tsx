@@ -1,7 +1,10 @@
 'use client'
 
 import { ChevronDown, CookingPot } from 'lucide-react'
-import { useCharacter } from '@/components/character/hooks/use-character'
+import {
+  useCharacter,
+  useCharacterApi,
+} from '@/components/character/hooks/use-character'
 import { CommonChip, DifficultyChallengeChip } from '@/components/chips'
 import { Card } from '@/components/common'
 import { MagicalIngredient } from '@/components/magical-ingredient'
@@ -9,19 +12,47 @@ import { RecipeOutcome } from '@/components/recipe-outcome'
 import { useModals } from '@/hooks/use-modals'
 import { expandablePaneClasses, updateStateAttribute } from '@/utils/expandable'
 import type { CookbookRecipeCardProps } from './types'
+import type { FullCharacter } from '@/types'
 
 export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
   const { openModal } = useModals()
   const { ingredientsPouch } = useCharacter()
+  const updateCharacter = useCharacterApi()
+
+  const onCookRecipe = () => {
+    openModal('CookRecipeModal', {
+      recipe,
+      ingredientsPouch,
+      onCook: async ({ ingredientsPouch, foragingLog, backpack }) => {
+        updateCharacter((prev: FullCharacter) => ({
+          ...prev,
+          ingredientsPouch,
+          foragingLog,
+          backpack,
+        }))
+      },
+    })
+  }
+
   return (
     <Card
       className='border-y sm:border border-border rounded-none sm:rounded-lg bg-card'
       overrideViews
     >
       <div className='p-6 border-b border-border'>
-        <div className='flex justify-between items-start mb-3'>
-          <h3 className='text-xl font-bold text-text-primary'>{recipe.name}</h3>
-          <DifficultyChallengeChip difficulty={recipe.difficulty} />
+        <div className='flex justify-between items-center mb-3'>
+          <div className='flex gap-1 sm:gap-2 items-center'>
+            <h3 className='text-xl font-bold text-text-primary'>
+              {recipe.name}
+            </h3>
+            <DifficultyChallengeChip difficulty={recipe.difficulty} />
+          </div>
+          <button
+            onClick={onCookRecipe}
+            className='sm:after:content-["Cook"] py-1.75 px-6 bg-gradient-to-r from-purple-600/70 to-fuchsia-600/60 rounded-xl text-text-primary font-semibold text-lg hover:bg-primary/80 transition-colors duration-200 cursor-pointer shadow-lg hover:shadow-xl flex items-center justify-center gap-2'
+          >
+            <CookingPot />
+          </button>
         </div>
         <p className='text-text-secondary text-sm leading-relaxed'>
           {recipe.description}
@@ -99,21 +130,6 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
             </div>
           </div>
         </Card>
-      </div>
-      <div className='hidden px-6 py-4'>
-        <button
-          onClick={() =>
-            openModal('CookRecipeModal', {
-              recipe,
-              ingredientsPouch,
-            })
-          }
-          className='bg-primary/80 flex gap-2 text-text-primary justify-center text-2xl py-4 rounded-xl w-full font-bold cursor-pointer hover:shadow-xl hover:bg-primary uppercase'
-        >
-          <CookingPot className='size-6' />
-          Cook this Recipe
-          <CookingPot className='size-6' />
-        </button>
       </div>
     </Card>
   )
