@@ -3,14 +3,16 @@ import { RARITY_DC } from '@/constants/rarity'
 import { Rarity } from '@/types'
 
 export function getDCColor(dc: number) {
-  if (dc < RARITY_DC.common)
+  if (dc <= RARITY_DC.common)
     return 'text-text-rarity-common bg-rarity-common/20'
-  if (dc < RARITY_DC.uncommon)
+  if (dc <= RARITY_DC.uncommon)
     return 'text-text-rarity-uncommon bg-rarity-uncommon/20'
-  if (dc < RARITY_DC.rare) return 'text-text-rarity-rare bg-rarity-rare/20'
-  if (dc < RARITY_DC['very-rare'])
+  if (dc <= RARITY_DC.rare) return 'text-text-rarity-rare bg-rarity-rare/20'
+  if (dc <= RARITY_DC['very-rare'])
     return 'text-text-rarity-very-rare bg-rarity-very-rare/20'
-  if (dc < RARITY_DC.epic) return 'text-text-rarity-epic bg-rarity-epic/20'
+  if (dc <= RARITY_DC.epic) return 'text-text-rarity-epic bg-rarity-epic/20'
+  if (dc <= RARITY_DC.legendary)
+    return 'text-text-rarity-legendary bg-rarity-legendary/20'
 }
 
 export function isUncommon(rarity: string = ''): rarity is 'uncommon' {

@@ -1,0 +1,89 @@
+{
+  "modifierTypes": {
+    "coreStat": [
+      "Strength",
+      "Dexterity",
+      "Constitution",
+      "Intelligence",
+      "Wisdom",
+      "Charisma"
+    ],
+    "skillCheckAdvantage": [
+      "Acrobatics",
+      "Animal Handling",
+      "Arcana",
+      "Athletics",
+      "Deception",
+      "History",
+      "Insight",
+      "Intimidation",
+      "Investigation",
+      "Medicine",
+      "Nature",
+      "Perception",
+      "Performance",
+      "Persuasion",
+      "Religion",
+      "Sleight of Hand",
+      "Stealth",
+      "Survival"
+    ],
+    "tempHPRaise": [
+      "Small (3+1d6)",
+      "Medium (10+1d8)",
+      "Large (15+1d12)",
+      "Massive (25+1d20)"
+    ],
+    "damageResistance": [
+      "Acid",
+      "Bludgeoning",
+      "Cold",
+      "Fire",
+      "Force",
+      "Lightning",
+      "Necrotic",
+      "Piercing",
+      "Poison",
+      "Psychic",
+      "Radiant",
+      "Slashing",
+      "Thunder"
+    ],
+    "savingThrowAdvantage": [
+      "Strength",
+      "Dexterity",
+      "Constitution",
+      "Intelligence",
+      "Wisdom",
+      "Charisma"
+    ],
+    "ability": [
+      "Darkvision (60 ft)",
+      "Extended Darkvision (120 ft)",
+      "Blindsight (10 ft)",
+      "Tremorsense (30 ft)",
+      "Truesight (30 ft)",
+      "Water Breathing",
+      "Spider Climb",
+      "Fly Speed (30 ft)",
+      "Swim Speed (30 ft)"
+    ],
+    "additionalHitDmg": [
+      "Attack Roll Bonus (+1, +2, +3)",
+      "Damage Bonus (+1, +2, +3)",
+      "Critical Hit Range (19-20, 18-20)"
+    ]
+  },
+  "combinationRules": {
+    "nonStacking": "Only the highest bonus of each specific type applies",
+    "dcCalculation": "Highest Individual Boon DC + tier modifiers for additional ingredients",
+    "tierModifiers": {
+      "uncommon": 2,
+      "rare": 3,
+      "veryRare": 4,
+      "epic": 5,
+      "legendary": 6,
+      "mythic": 7
+    }
+  }
+}

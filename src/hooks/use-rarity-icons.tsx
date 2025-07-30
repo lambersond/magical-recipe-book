@@ -1,6 +1,7 @@
 import {
   D10Icon,
   D12Icon,
+  D20Icon,
   D4Icon,
   D6Icon,
   D8Icon,
@@ -14,5 +15,6 @@ export function useRarityIcons(): Record<Rarity, React.ComponentType<any>> {
     rare: D8Icon,
     'very-rare': D10Icon,
     epic: D12Icon,
+    legendary: D20Icon,
   }
 }

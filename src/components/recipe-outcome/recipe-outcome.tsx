@@ -21,7 +21,7 @@ export function RecipeOutcome(result: Readonly<RecipeOutcomeProps>) {
           className={outcome.ingredientContainerClasses}
         >
           <p className={outcome.ingredientNameClasses}>{ingredient.name}:</p>
-          {ingredient.bane}
+          {ingredient[outcome.key]}
         </span>
       ))}
     </div>

@@ -180,7 +180,7 @@ export default function MechanicsPage() {
                 const dc = RARITY_DC[key as Rarity]
                 const Icon = rarityIcons[key as Rarity]
                 const classes = clsx(
-                  `${getDCColor(dc - 1)} rounded-lg p-4 text-center flex-grow`,
+                  `${getDCColor(dc)} rounded-lg p-4 text-center flex-grow`,
                 )
                 return (
                   <div key={key} className={classes}>

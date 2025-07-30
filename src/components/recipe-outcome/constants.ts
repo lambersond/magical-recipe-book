@@ -1,5 +1,6 @@
 export const outcomes = {
   success: {
+    key: 'boon',
     title: 'Devine Success',
     containerClasses:
       'border-l-4 border-success px-4 py-2 bg-success/4 rounded-r-xl',
@@ -10,6 +11,7 @@ export const outcomes = {
     ingredientNameClasses: 'font-semibold text-success',
   },
   failure: {
+    key: 'bane',
     title: 'Disastrous Failure',
     containerClasses:
       'border-l-4 border-danger px-4 py-2 bg-danger/6 rounded-r-xl',
