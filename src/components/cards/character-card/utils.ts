@@ -41,7 +41,7 @@ export function characterCardStyles(details: 'lite' | 'full') {
       'grid-cols-1 md:grid-cols-3': details === 'full',
       'grid-cols-3': details === 'lite',
     },
-    'grid gap-3 mb-auto',
+    'grid gap-3 mb-auto @container',
   )
   const headerTextClasses = clsx(
     {

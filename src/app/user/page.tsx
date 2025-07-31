@@ -21,12 +21,12 @@ export default async function UserPage() {
           </div>
         }
       >
-        <h1 className='text-4xl font-bold mb-2 text-text-primary'>
-          Your Characters
-        </h1>
-        {/* <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4'> */}
-        <UserContainer userId={session.user.id} />
-        {/* </div> */}
+        <div>
+          <h1 className='text-4xl font-bold mb-4 text-text-primary'>
+            Your Characters
+          </h1>
+          <UserContainer userId={session.user.id} />
+        </div>
       </Suspense>
     </main>
   )

@@ -9,6 +9,10 @@ jest.mock('@/hooks/use-modals', () => ({
   })),
 }))
 
+jest.mock('@/hooks/use-lazy-data-fetching', () => ({
+  useLazyDataFetching: jest.fn(() => ['Old Name']),
+}))
+
 describe('components/modals/edit-character-modal', () => {
   it('should call onSubmit with the new character', async () => {
     const onSubmit = jest.fn()

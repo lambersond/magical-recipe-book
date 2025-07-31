@@ -117,7 +117,7 @@ export function Dropdown<S, T>({
   const dropdownList = open && (
     <div
       ref={dropdownRef}
-      className='fixed bg-card shadow-2xl rounded-sm z-[9999] max-h-60 overflow-hidden'
+      className='fixed bg-card shadow-2xl rounded-lg overflow-hidden z-[9999] max-h-66 mt-1'
       style={{
         top: `${dropdownPosition.top}px`,
         left: `${dropdownPosition.left}px`,
@@ -137,7 +137,7 @@ export function Dropdown<S, T>({
           />
         </div>
       )}
-      <div className='py-1 cursor-pointer overflow-y-auto max-h-52'>
+      <div className='cursor-pointer max-h-52 overflow-y-auto'>
         {filteredOptions.length > 0 ? (
           filteredOptions.map(option => (
             <button
