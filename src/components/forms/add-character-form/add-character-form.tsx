@@ -1,15 +1,16 @@
 import { noop } from 'lodash'
 import { useForm } from 'react-hook-form'
-import { AddCharacterResolver, type AddCharacterFields } from './schema'
+import { addCharacterResolver, type AddCharacterFields } from './schema'
 import { Form, Input, SubmitButton, TextArea } from '@/components/common'
 import type { AddCharacterFormProps } from './types'
 import type { EditableCharacter } from '@/types'
 
 export function AddCharacterForm({
   onSubmit,
+  existingCharacterNames,
 }: Readonly<AddCharacterFormProps>) {
-  const { handleSubmit, register } = useForm<AddCharacterFields>({
-    resolver: AddCharacterResolver,
+  const { formState, handleSubmit, register } = useForm<AddCharacterFields>({
+    resolver: addCharacterResolver(existingCharacterNames),
   })
 
   const handleOnSubmit = (data: EditableCharacter) => {
@@ -22,9 +23,11 @@ export function AddCharacterForm({
         onClick={noop}
         label='Name'
         name='name'
+        max={101}
         data-testid='add-character-form__name'
         placeholder='Spencer Stukeley'
         register={register}
+        error={formState.errors.name?.message}
         required
       />
       <TextArea
@@ -34,9 +37,9 @@ export function AddCharacterForm({
         data-testid='add-character-form__description'
         placeholder='A brave adventurer with a knack for cooking...'
         register={register}
-        rows={3}
-        maxLength={500}
-        className='mb-4'
+        rows={4}
+        maxLength={1001}
+        error={formState.errors.description?.message}
       />
       <SubmitButton data-testid='add-character-form__submit' />
     </Form>

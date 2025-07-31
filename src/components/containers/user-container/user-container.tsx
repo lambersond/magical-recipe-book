@@ -1,11 +1,13 @@
-import { CharacterCard } from '@/components/cards'
+import { CharacterCard, NewCharacterCard } from '@/components/cards'
+import { Masonry } from '@/components/common'
 import { characterService } from '@/server/characters'
 
 export async function UserContainer({ userId }: { userId: string }) {
   const characters = await characterService.getUserCharactersLite(userId)
+  const existingCharacterNames = characters.map(character => character.name)
 
   return (
-    <>
+    <Masonry breakpointCols={{ default: 3, 1536: 2, 1024: 1 }}>
       {characters.map(character => (
         <CharacterCard
           key={character.id}
@@ -22,6 +24,7 @@ export async function UserContainer({ userId }: { userId: string }) {
           updatedAt={character.updatedAt}
         />
       ))}
-    </>
+      <NewCharacterCard existingCharacterNames={existingCharacterNames} />
+    </Masonry>
   )
 }

@@ -12,12 +12,35 @@ export async function createCharacter(
   return repository.createCharacter(data, accountId)
 }
 
+export async function getUserCharacterNamesByUserId(userId: string) {
+  const characters = await repository.findCharactersByUserId(userId)
+  return characters.map(character => character.name)
+}
+
 export async function updateCharacter(
   data: EditableCharacter,
   accountId: string,
   id: string,
 ) {
-  return repository.updateCharacterById(data, accountId, id)
+  const processedData = {
+    ...data,
+    name: data.name.trim().slice(0, 100),
+    description: data.description?.trim().slice(0, 1000),
+  }
+
+  if (data.name.length > 100) {
+    console.warn(
+      `Character name truncated from ${data.name.length} to 100 characters`,
+    )
+  }
+
+  if (data.description && data.description.length > 1000) {
+    console.warn(
+      `Character description truncated from ${data.description.length} to 1000 characters`,
+    )
+  }
+
+  return repository.updateCharacterById(processedData, accountId, id)
 }
 
 export async function findCharactersByUserId(userId: string) {
@@ -59,10 +82,12 @@ export async function logForagingResults(
   data: LogForagingResults,
   userId: string,
 ) {
+  const minQuantity = Math.max(0, data.quantity || 0)
+  const quantity = Math.min(minQuantity, 7)
   const updatedCharacter = await repository.updateCharacterForagingLogById(
     id,
     {
-      commonIngredients: data.quantity,
+      commonIngredients: quantity,
       magicalIngredientId: data.isMagical
         ? data.magicalIngredientId
         : undefined,

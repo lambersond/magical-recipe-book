@@ -8,6 +8,7 @@ import type { AddCharacterModalProps } from './types'
 export function AddCharacterModal({
   onSubmit,
   open,
+  existingCharacterNames = [],
 }: Readonly<AddCharacterModalProps>) {
   const { closeModal } = useModals()
 
@@ -22,7 +23,10 @@ export function AddCharacterModal({
 
   return (
     <Modal title='Add Character' isOpen={!!open} onClose={onClose}>
-      <AddCharacterForm onSubmit={handleOnSubmit} />
+      <AddCharacterForm
+        onSubmit={handleOnSubmit}
+        existingCharacterNames={existingCharacterNames}
+      />
     </Modal>
   )
 }

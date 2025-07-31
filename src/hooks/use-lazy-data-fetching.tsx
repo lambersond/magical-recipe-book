@@ -2,18 +2,20 @@ import { useState, useEffect, useCallback } from 'react'
 
 type LoadingState = 'not-loaded' | 'loading' | 'loaded'
 
-interface UseLazyDataOptions<T, R> {
+interface UseLazyDataOptions<T, R = any> {
   url: string
   enabled: boolean
-  transform?: (data: T[]) => R[]
+  transform?: (data: T) => R
+  defaultData?: R
 }
 
 export function useLazyDataFetching<T = any, R = T>({
   url,
   enabled,
   transform,
+  defaultData = [] as R,
 }: UseLazyDataOptions<T, R>) {
-  const [data, setData] = useState<R[]>([])
+  const [data, setData] = useState<R>(defaultData)
   const [loadingState, setLoadingState] = useState<LoadingState>('not-loaded')
 
   const fetchData = useCallback(async () => {
@@ -32,7 +34,7 @@ export function useLazyDataFetching<T = any, R = T>({
       setData(transformedData)
     } catch (error) {
       console.error('Error fetching:', error)
-      setData([])
+      setData(defaultData)
     } finally {
       setLoadingState('loaded')
     }

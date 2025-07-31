@@ -11,6 +11,7 @@
   background-clip: padding-box;
 }
 
-.react-masonry_column > div {
+.react-masonry_column > div,
+.react-masonry_column > button {
   margin-bottom: 16px;
 }

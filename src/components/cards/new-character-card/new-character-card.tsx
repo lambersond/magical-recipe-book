@@ -10,6 +10,7 @@ import { useModals } from '@/hooks/use-modals'
 export function NewCharacterCard({
   color = 'primary',
   variant = 'large',
+  existingCharacterNames = [],
 }: Readonly<NewCharacterCardProps>) {
   const { openModal } = useModals()
   const router = useRouter()
@@ -17,6 +18,7 @@ export function NewCharacterCard({
 
   const handleClick = () => {
     openModal('AddCharacterModal', {
+      existingCharacterNames,
       onSubmit: async (character: any) => {
         try {
           const res = await fetch('/api/characters', {

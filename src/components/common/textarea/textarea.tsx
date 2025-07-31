@@ -3,6 +3,7 @@ import type { TextAreaProps } from './types'
 
 export function TextArea({
   label,
+  error,
   register,
   className = '',
   name = 'textarea',
@@ -15,7 +16,7 @@ export function TextArea({
   )
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex flex-col gap-1 mb-2'>
       {!!label && (
         <label
           className='text-sm text-text-secondary font-bold uppercase'
@@ -32,6 +33,7 @@ export function TextArea({
         {...register?.(name, registerOptions)}
         {...props}
       />
+      <p className='text-primary text-xs italic h-4 mb-2'>{error}</p>
     </div>
   )
 }

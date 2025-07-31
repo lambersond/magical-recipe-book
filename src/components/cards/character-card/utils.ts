@@ -20,7 +20,7 @@ export function characterCardStyles(details: 'lite' | 'full') {
       'text-xl lg:text-2xl -mt-1.25': details === 'lite',
       'text-3xl lg:text-5xl': details === 'full',
     },
-    'font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-left',
+    'font-bold truncate bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-left',
   )
   const dayClasses = clsx(
     {
@@ -41,11 +41,11 @@ export function characterCardStyles(details: 'lite' | 'full') {
       'grid-cols-1 md:grid-cols-3': details === 'full',
       'grid-cols-3': details === 'lite',
     },
-    'grid gap-3 pt-4 mb-auto',
+    'grid gap-3 mb-auto',
   )
   const headerTextClasses = clsx(
     {
-      'h-8': details === 'lite',
+      'h-fit': details === 'lite',
       'h-unset': details === 'full',
     },
     'grid gap-1',

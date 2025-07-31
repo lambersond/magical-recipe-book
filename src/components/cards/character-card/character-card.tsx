@@ -69,7 +69,9 @@ export function CharacterCard({
         </div>
       </div>
       {details === 'full' && (
-        <p className='text-text-secondary text-left italic'>{description}</p>
+        <p className='text-text-secondary text-left italic line-clamp-3 sm:line-clamp-5'>
+          {description}
+        </p>
       )}
       <div className={styles.statsContainerClasses}>
         {stats.map((stat, index) => (

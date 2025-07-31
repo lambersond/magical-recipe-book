@@ -4,7 +4,7 @@ import type { NewCharacterCardProps } from './types'
 export function newCharacterCardStyles({
   color,
   variant,
-}: Required<NewCharacterCardProps>) {
+}: Required<Pick<NewCharacterCardProps, 'color' | 'variant'>>) {
   const containerClasses = clsx(
     {
       'text-text-primary': color === 'primary',

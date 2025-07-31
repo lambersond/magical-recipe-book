@@ -8,6 +8,7 @@ import { SidebarItem } from '@/components/common'
 
 export function AccountSidebarContent({ email }: { email: string }) {
   const { characters } = useAccountData()
+  const existingCharacterNames = characters.map(character => character.name)
   return (
     <div className='flex flex-col gap-4 p-2 pt-0'>
       <section className='flex items-start justify-between border-b border-border sticky top-0 bg-appbar z-10 pb-4'>
@@ -46,7 +47,11 @@ export function AccountSidebarContent({ email }: { email: string }) {
           </div>
         )}
         <SidebarItem>
-          <NewCharacterCard variant='small' color='secondary' />
+          <NewCharacterCard
+            variant='small'
+            color='secondary'
+            existingCharacterNames={existingCharacterNames}
+          />
         </SidebarItem>
       </section>
       <section className='hidden border-b border-border pb-4'>
