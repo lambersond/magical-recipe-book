@@ -16,7 +16,11 @@ export const ingredients = [
     description: 'Simple green moss that grows in damp cave entrances.',
     boon: '+1 Maximum Hit Points.',
     bane: '-1 Maximum Hit Points.',
-    biomes: [biomes.biomeUnderdark, biomes.biomeSubterranean],
+    biomes: [
+      biomes.biomeUnderdark,
+      biomes.biomeSubterranean,
+      biomes.biomeLakes,
+    ],
   },
   {
     name: 'Ashland Butter',
@@ -50,7 +54,7 @@ export const ingredients = [
     description: 'Resilient seaweed that enhances physical endurance.',
     boon: 'Advantage on Strength Checks.',
     bane: 'Disadvantage on Strength Checks.',
-    biomes: [biomes.biomeCoastal, biomes.biomeOcean],
+    biomes: [biomes.biomeCoastal, biomes.biomeOcean, biomes.biomeLakes],
   },
   {
     name: 'Frost Lichen',
@@ -99,7 +103,11 @@ export const ingredients = [
     description: 'Delicate petals that enhance divine connection.',
     boon: 'Advantage on Religion Checks.',
     bane: 'Disadvantage on Religion Checks.',
-    biomes: [biomes.biomeExtraplanar, biomes.biomeCelestial],
+    biomes: [
+      biomes.biomeExtraplanar,
+      biomes.biomeCelestial,
+      biomes.biomeDesert,
+    ],
   },
   {
     name: 'Shadowleaf',
@@ -198,7 +206,7 @@ export const ingredients = [
     description: 'Ground pollen of nocturnal star-shaped flowers.',
     boon: 'Advantage on Arcana Checks.',
     bane: 'Disadvantage on Arcana Checks.',
-    biomes: [biomes.biomeForests],
+    biomes: [biomes.biomeForests, biomes.biomeLakes],
   },
   {
     name: 'Mirefruit',
@@ -231,7 +239,7 @@ export const ingredients = [
     description: 'Aromatic herb with fiery potency used to impart smokiness.',
     boon: '+1 to Dexterity and +1 on all Damage Rolls.',
     bane: '-1 to Dexterity and -1 on all Damage Rolls.',
-    biomes: [biomes.biomeVolcanic],
+    biomes: [biomes.biomeVolcanic, biomes.biomeDesert],
   },
   {
     name: 'Ashcap Fungus',
@@ -405,7 +413,7 @@ export const ingredients = [
       'Bright, crackling salt harvested from evaporated lightning pools.',
     boon: '+2 to Dexterity and resistance to lightning damage.',
     bane: '-2 to Dexterity and vulnerability to lightning damage.',
-    biomes: [biomes.biomeMountains, biomes.biomeHighlands],
+    biomes: [biomes.biomeMountains, biomes.biomeHighlands, biomes.biomeDesert],
   },
   {
     name: 'Kelpheart Vine',
@@ -437,7 +445,7 @@ export const ingredients = [
     description: 'Slow-melting sugar that crackles when heated.',
     boon: '+3 to Charisma and resistance to fire damage.',
     bane: '-3 to Charisma and vulnerability to fire damage.',
-    biomes: [biomes.biomeVolcanic],
+    biomes: [biomes.biomeVolcanic, biomes.biomeDesert],
   },
   {
     name: 'Abyssal Reed',
@@ -445,7 +453,7 @@ export const ingredients = [
     description: 'Shadowy reed that grows only in cursed, still waters.',
     boon: '+3 to Dexterity and advantage on Stealth checks.',
     bane: '-3 to Dexterity and disadvantage on Stealth checks.',
-    biomes: [biomes.biomeLakes, biomes.biomeWetlands],
+    biomes: [biomes.biomeLakes, biomes.biomeWetlands, biomes.biomesRiver],
   },
   {
     name: 'Glowlure Algae',
@@ -453,7 +461,7 @@ export const ingredients = [
     description:
       'Bioluminescent aquatic algae that glow faintly even when dried.',
     boon: 'Darkvision (60 ft), Water Breathing, and advantage on Perception checks.',
-    bane: 'Scared of the Dark (must make DC 10 WIS save to enter dark areas), Water Breathing Restriction, and disadvantage on Perception checks.',
+    bane: 'Scared of the Dark (must make DC 10 WIS save to enter dark areas). Weak Lungs. 1d4 chance of drowning each round when submerged in water for more than 1 minute, and disadvantage on Perception checks.',
     biomes: [biomes.biomeLakes, biomes.biomeWetlands],
   },
   {
@@ -461,8 +469,8 @@ export const ingredients = [
     rarity: Rarity.Epic,
     description: 'Deep violet fruit glowing faintly in moonlight.',
     boon: 'Extended Darkvision (120 ft), advantage on Insight checks, and advantage on Arcana checks.',
-    bane: 'Extended Light Blindness (120 ft), disadvantage on Insight checks, and disadvantage on Arcana checks.',
-    biomes: [biomes.biomeForests],
+    bane: 'Scared of the Dark. You must make a DC 18 WIS Saving Throw to enter a dark or dimly-lit area,", disadvantage on Insight checks, and disadvantage on Arcana checks.',
+    biomes: [biomes.biomeForests, biomes.biomesRiver],
   },
   {
     name: 'Faelight Bark',
@@ -477,7 +485,7 @@ export const ingredients = [
     rarity: Rarity.Epic,
     description: 'Dense, sweet fruit that turns velvety and bold when cooked.',
     boon: '+3 to Charisma and immunity to being frightened.',
-    bane: '-3 to Charisma and become frightened.',
+    bane: '-3 to Charisma and you are Spooked. You have a 1d4 chance of becoming Frightened at the start of each turn, until the start of your next turn.',
     biomes: [biomes.biomeForests],
   },
   {
@@ -511,7 +519,7 @@ export const ingredients = [
     description:
       'Extracted bone marrow from a dragon, crystallized under extreme pressure, then crushed into a powder.',
     boon: '+4 to Constitution, immunity to being frightened, and resistance to all damage types.',
-    bane: '-4 to Constitution, become frightened, and vulnerability to all damage types.',
+    bane: '-4 to Constitution, vulnerability to all damage types, and you are Spooked. You have a 1d4 chance of becoming Frightened at the start of each turn, until the start of your next turn.',
     biomes: [biomes.biomeAny],
   },
   {

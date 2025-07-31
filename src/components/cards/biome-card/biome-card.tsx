@@ -1,3 +1,4 @@
+import { IngredientChip } from '@/components/chips'
 import { Card } from '@/components/common'
 import type { Biome } from '@/types'
 
@@ -9,18 +10,24 @@ export function BiomeCard({
 }: Readonly<Biome>) {
   return (
     <Card>
-      <h2 className='text-2xl font-semibold text-text-primary flex gap-2 items-center'>
-        <p className='text-4xl'>{image}</p> {name}
-      </h2>
-      <p className='text-text-secondary mb-4'>{description}</p>
-
-      <p className='text-text-secondary mb-2'>
-        <span className='font-semibold'>Ingredients:</span>{' '}
-        {ingredients?.length || 0}
+      <span className='flex gap-3 items-center mb-4'>
+        <p className='text-4xl'>{image}</p>
+        <span className='flex flex-col'>
+          <p className='text-2xl'>{name}</p>
+          <span className='flex gap-1 text-text-secondary'>
+            <p className='font-bold'>Ingredients:</p>
+            <p>{ingredients?.length}</p>
+          </span>
+        </span>
+      </span>
+      <p className='text-text-secondary mb-4 border-b border-border pb-4'>
+        {description}
       </p>
-      <p className='text-text-secondary mb-2'>
-        {ingredients?.map(ingredient => ingredient.name).join(', ')}
-      </p>
+      <div className='flex gap-1 flex-wrap'>
+        {ingredients?.map(({ ingredient }) => (
+          <IngredientChip key={ingredient.id} {...ingredient} />
+        ))}
+      </div>
     </Card>
   )
 }

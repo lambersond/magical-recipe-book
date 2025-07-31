@@ -1,28 +1,26 @@
 import * as repository from './repository'
-import type { Biome } from '@/types'
 
 export async function getAllBiomes() {
-  const data = await repository.getBiomes({
-    include: {
+  return await repository.getBiomes({
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      image: true,
       ingredients: {
-        include: {
+        select: {
           ingredient: {
             select: {
+              id: true,
               name: true,
+              description: true,
               rarity: true,
+              bane: true,
+              boon: true,
             },
           },
         },
       },
     },
   })
-
-  return data.map((biome: Biome) => ({
-    ...biome,
-    ingredients: biome?.ingredients?.map(({ ingredient }: any) => ({
-      name: ingredient.name,
-      rarity: ingredient.rarity,
-    })),
-    ingredientCount: biome?.ingredients?.length,
-  }))
 }

@@ -5,4 +5,5 @@ export type TooltipProps = {
   title: React.ReactNode
   placement?: Placement
   asChild?: boolean
+  contentContainerClasses?: string
 }

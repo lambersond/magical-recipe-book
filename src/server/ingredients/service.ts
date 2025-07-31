@@ -1,5 +1,4 @@
 import * as repository from './repository'
-import type { Ingredient } from '@/types'
 
 export async function getAllIngredients() {
   const data = await repository.getIngredients({
@@ -17,7 +16,7 @@ export async function getAllIngredients() {
     },
   })
 
-  return data.map((ingredient: Ingredient) => ({
+  return data.map((ingredient: any) => ({
     ...ingredient,
     biomes: ingredient?.biomes?.map((biome: any) => biome.biome),
   }))

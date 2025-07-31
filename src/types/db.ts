@@ -10,12 +10,25 @@ export type { Prisma } from '@prisma/client'
 
 export type CookedDishStatus = 'success' | 'failure' | 'boon' | 'bane'
 
-export type Biome = PrismaBiome & {
-  ingredientCount?: number
-  ingredients?: Partial<PrismaIngredient>[]
+export type Biome = {
+  id: string
+  name: string
+  description: string
+  image: string
+  ingredients: {
+    ingredient: {
+      id: string
+      name: string
+      description: string
+      boon: string
+      bane: string
+      rarity: Rarity
+    }
+  }[]
 }
 
 export type Ingredient = PrismaIngredient & {
+  rarity: Rarity
   biomes?: Partial<PrismaBiome>[]
 }
 export type RecipeOld = PrismaRecipe & {
