@@ -36,7 +36,12 @@ export function AddCookbookRecipeModal({
   }
 
   return (
-    <Modal title='Learn a New Recipe' isOpen={!!open} onClose={onClose}>
+    <Modal
+      title='Learn a New Recipe'
+      headerClassName='bg-gradient-to-r from-blue-600/70 to-sky-600/60 h-20'
+      isOpen={!!open}
+      onClose={onClose}
+    >
       <AddCookbookRecipeForm onSubmit={handleOnSubmit} options={options} />
     </Modal>
   )

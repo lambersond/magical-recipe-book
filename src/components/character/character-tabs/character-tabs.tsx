@@ -1,13 +1,12 @@
 'use client'
 
-import { User, Book, LeafyGreen } from 'lucide-react'
+import { User, Book, Handbag, LeafyGreen } from 'lucide-react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import { CharacterCookbook } from '../tabs/character-cookbook'
 import { CharacterForagingLog } from '../tabs/character-foraging-log'
 import { CharacterIngredientsPouch } from '../tabs/character-ingredients-pouch'
 import { CharacterOverview } from '../tabs/character-overview'
 import { tabPanelStyles, tabStyles } from './utils'
-import { PouchIcon } from '@/components/common/icons'
 
 export function CharacterTabs() {
   return (
@@ -17,15 +16,11 @@ export function CharacterTabs() {
           <Tab className={`${tabStyles} sm:after:content-['Overview']`}>
             <User className='size-5 min-w-14 sm:min-w-5' />
           </Tab>
-          <Tab
-            className={`${tabStyles} sm:after:content-['Foraging'] md:after:content-['Foraging_Log']`}
-          >
+          <Tab className={`${tabStyles} sm:after:content-['Foraging']`}>
             <LeafyGreen className='size-5 min-w-14 sm:min-w-5' />
           </Tab>
-          <Tab
-            className={`${tabStyles} sm:after:content-['Ingredients'] md:after:content-['Ingredients_Pouch']`}
-          >
-            <PouchIcon className='size-5 min-w-14 sm:min-w-5' />
+          <Tab className={`${tabStyles} sm:after:content-['Ingredients']`}>
+            <Handbag className='size-5 min-w-14 sm:min-w-5' />
           </Tab>
           <Tab className={`${tabStyles} sm:after:content-['Cookbook']`}>
             <Book className='size-5 min-w-14 sm:min-w-5' />
