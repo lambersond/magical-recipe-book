@@ -2,7 +2,33 @@ import type { RoadmapItem } from './types/roadmap'
 
 export const ROADMAP: RoadmapItem[] = [
   {
-    id: 6,
+    id: 8,
+    phase: 'Campaign/Guilds/Parties',
+    quarter: 'Q2 2026',
+    status: 'planned',
+    progress: 0,
+    description:
+      'Introduce guilds/parties for players to join and collaborate.',
+    milestones: [
+      {
+        task: 'Enable shared resources and communication within Guilds/Parties',
+        completed: false,
+        date: 'TBD',
+      },
+      {
+        task: 'Notify users of Guild/Party events',
+        completed: false,
+        date: 'TBD',
+      },
+    ],
+    deliverables: [
+      'Guild/Party Creation',
+      'Shared Resources',
+      'User Notifications',
+    ],
+  },
+  {
+    id: 7,
     phase: 'Subscriber Features',
     quarter: 'Q1 2026',
     status: 'planned',
@@ -41,8 +67,41 @@ export const ROADMAP: RoadmapItem[] = [
     deliverables: ['Custom Core objects', 'Improved User Experience'],
   },
   {
+    id: 6,
+    phase: 'Backpack, Images, and Styling',
+    quarter: 'Q4 2025',
+    status: 'in-progress',
+    description:
+      'Add a backpack feature to the character page and improve styling.',
+    progress: 25,
+    milestones: [
+      {
+        task: 'Improve view of biome card',
+        completed: true,
+        date: 'Jul 30',
+      },
+      {
+        task: 'Improve view of ingredient card',
+        completed: false,
+        date: 'TBD',
+      },
+      { task: 'Support uploading of images', completed: false, date: 'TBD' },
+      {
+        task: 'Add images to ingredients and recipes',
+        completed: false,
+        date: 'TBD',
+      },
+    ],
+    deliverables: [
+      'Character Backpack to store cooked Dishes',
+      'Improved Styling for Ingredients and Biomes',
+      'Image uploads for Characters',
+      'All core objects have images',
+    ],
+  },
+  {
     id: 5,
-    phase: 'Basic site enhancements',
+    phase: 'Metrics/Performance',
     quarter: 'Q4 2025',
     status: 'upcoming',
     progress: 10,
@@ -50,22 +109,6 @@ export const ROADMAP: RoadmapItem[] = [
     milestones: [
       { task: 'Enhance Sidebar', completed: true, date: 'Jul 27' },
       { task: 'Add Vercel Metrics gathering', completed: false, date: 'TBD' },
-      { task: 'Support uploading of images', completed: false, date: 'TBD' },
-      {
-        task: 'Improve view of ingredient card',
-        completed: false,
-        date: 'TBD',
-      },
-      {
-        task: 'Improve view of biome card',
-        completed: false,
-        date: 'TBD',
-      },
-      {
-        task: 'Add images to ingredients and recipes',
-        completed: false,
-        date: 'TBD',
-      },
     ],
     deliverables: ['Site Enhancements', 'Improved User Experience'],
   },
