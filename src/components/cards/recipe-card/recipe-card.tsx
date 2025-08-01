@@ -40,7 +40,7 @@ export function RecipeCard({ ...recipe }: Readonly<RecipeOld>) {
         <div className='bg-success/10 border-l-4 border-green-500 text-success p-4 rounded-lg'>
           <h5 className='font-semibold mb-2 flex items-center'>
             <span className='mr-2 text-3xl'>✨</span>
-            Devine
+            Divine
           </h5>
           <p className='text-sm mb-2'>{recipe.boonText}</p>
           {!!recipe.magicalIngredients?.length && (

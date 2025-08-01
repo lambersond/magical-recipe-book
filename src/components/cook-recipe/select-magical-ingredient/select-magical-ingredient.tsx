@@ -47,14 +47,18 @@ export function SelectMagicalIngredient({
       <div className='flex justify-between items-center gap-2'>
         <div className='text-xs opacity-80'>{description}</div>
         <span className='min-w-6'>
-          {foundMagicalIngredients >= 0 ? (
+          {foundMagicalIngredients > 0 ? (
             <Check className='text-success size-6' />
           ) : (
             <X className='text-danger size-6' />
           )}
         </span>
       </div>
-      <button className={buttonClasses} onClick={onSelect}>
+      <button
+        className={buttonClasses}
+        onClick={onSelect}
+        disabled={!foundMagicalIngredients}
+      >
         {buttonText}
       </button>
     </span>

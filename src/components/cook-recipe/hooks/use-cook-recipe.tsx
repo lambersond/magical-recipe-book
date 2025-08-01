@@ -89,7 +89,12 @@ export function useRequiredIngredientsSelected() {
 
 export function useIsReady() {
   const ingredients = useRequiredIngredientsSelected()
-  return Object.values(ingredients).every(Boolean)
+  const recipe = useCookingRecipe()
+  const ingredientsPouch = useCookingIngredientsPouch()
+  const hasCommonIngredients =
+    ingredientsPouch?.commonIngredients >= recipe.mundaneIngredients.length
+
+  return hasCommonIngredients && Object.values(ingredients).every(Boolean)
 }
 
 export function useCookingResults(): CookingResult {

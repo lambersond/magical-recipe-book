@@ -8,7 +8,7 @@ describe('components/cards/recipe-card', () => {
       name: 'Healing Potion',
       description: 'A potion that heals wounds and restores health.',
       difficulty: 3,
-      boonText: 'This is devine',
+      boonText: 'This is divine',
       baneText: 'This is disastrous',
       mundaneIngredients: ['Water', 'Herbs'],
       magicalIngredients: [
@@ -31,7 +31,7 @@ describe('components/cards/recipe-card', () => {
     expect(getByText('Water, Herbs')).toBeInTheDocument()
     expect(getByText('• Magical:')).toBeInTheDocument()
     expect(getByText('Mana Crystal, Phoenix Feather')).toBeInTheDocument()
-    expect(getByText('This is devine')).toBeInTheDocument()
+    expect(getByText('This is divine')).toBeInTheDocument()
     expect(getByText('This is disastrous')).toBeInTheDocument()
     expect(getByText(/Restores 10 health/)).toBeInTheDocument()
     expect(getByText(/Revives once/)).toBeInTheDocument()

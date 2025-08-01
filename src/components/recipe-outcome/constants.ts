@@ -1,7 +1,7 @@
 export const outcomes = {
   success: {
     key: 'boon',
-    title: 'Devine Success',
+    title: 'Divine Success',
     containerClasses:
       'border-l-4 border-success px-4 py-2 bg-success/4 rounded-r-xl',
     titleClasses: 'text-lg font-semibold text-success',

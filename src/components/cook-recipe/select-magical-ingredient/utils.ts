@@ -28,7 +28,7 @@ export function getButtonStyles(isSelected: boolean) {
       'bg-primary/90': isSelected,
       'bg-gray-700 hover:bg-gray-600': !isSelected,
     },
-    'rounded-md text-text-primary w-full py-2 cursor-pointer',
+    'rounded-md text-text-primary w-full py-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
   )
 }
 
