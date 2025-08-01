@@ -1,3 +1,4 @@
+import { getMasonryBreakpoints } from './utils'
 import { CharacterCard, NewCharacterCard } from '@/components/cards'
 import { Masonry } from '@/components/common'
 import { characterService } from '@/server/characters'
@@ -7,7 +8,7 @@ export async function UserContainer({ userId }: { userId: string }) {
   const existingCharacterNames = characters.map(character => character.name)
 
   return (
-    <Masonry breakpointCols={{ default: 3, 1536: 2, 1024: 1 }}>
+    <Masonry breakpointCols={getMasonryBreakpoints(characters.length)}>
       {characters.map(character => (
         <CharacterCard
           key={character.id}

@@ -117,18 +117,13 @@ export const ROADMAP: RoadmapItem[] = [
     phase: 'Filtering, Sorting, & Searching',
     quarter: 'Q3 2025',
     status: 'in-progress',
-    progress: 15,
+    progress: 22,
     description:
       'Users can now search core features of the app, including biomes, ingredients, and recipes as well as on their characters.',
     milestones: [
-      { task: 'Biomes are searchable', completed: false, date: 'TBD' },
+      { task: 'Biomes are searchable', completed: true, date: 'Jul 31' },
       { task: 'Ingredients are searchable', completed: false, date: 'TBD' },
       { task: 'Recipes are searchable', completed: false, date: 'TBD' },
-      {
-        task: 'Character foraging log can be searched',
-        completed: false,
-        date: 'TBD',
-      },
       {
         task: 'Character ingredients pouch can be searched',
         completed: true,
@@ -141,8 +136,8 @@ export const ROADMAP: RoadmapItem[] = [
       },
       {
         task: 'Character cookbook can be searched',
-        completed: false,
-        date: 'TBD',
+        completed: true,
+        date: 'Jul 30',
       },
     ],
     deliverables: ['Market Report', 'User Personas', 'Technical Blueprint'],

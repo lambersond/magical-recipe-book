@@ -6,7 +6,6 @@ import { pageMain } from '@/utils/styles'
 export default function BiomesPage() {
   return (
     <main className={pageMain}>
-      <h1 className='text-3xl font-bold mb-4 mr-auto'>Biomes</h1>
       <Suspense
         fallback={<MagicalBookLoader loadingText='Loading biomes list...' />}
       >
