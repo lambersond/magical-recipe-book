@@ -558,4 +558,22 @@ export const ingredients = [
     bane: '-4 to Charisma and Star Struck. You have a 1d4 chance of becoming Stunned at the start of each turn, until the start of your next turn.',
     biomes: [biomes.biomeForests],
   },
+  {
+    name: 'Frostmark Petals',
+    rarity: Rarity.Rare,
+    description:
+      'A striking flower with brilliant blue petals marked by dark, tattoo-like splotches that seem to shift in the cold. Found only in the harshest winter environments.',
+    boon: '+1 to Strength and resistance to cold damage.',
+    bane: '-1 to Strength and vulnerability to cold damage.',
+    biomes: [biomes.biomeLakes, biomes.biomeWetlands, biomes.biomeMountains],
+  },
+  {
+    name: 'Flapjack Maple Sap',
+    rarity: Rarity.VeryRare,
+    description:
+      'A thick, golden syrup that oozes from ancient enchanted maple trees. Sweet and sticky with potent magical properties that enhance vitality and warmth.',
+    boon: '+2 to Constitution and resistance to cold damage.',
+    bane: '-2 to Constitution and vulnerability to cold damage.',
+    biomes: [biomes.biomeForests],
+  },
 ]

@@ -432,4 +432,168 @@ export const recipes = [
     mundaneIngredients: ['Lakeflower Oil', 'Shredded Root Batter'],
     magicalIngredients: ['Glowlure Algae'],
   },
+  {
+    name: 'Shadowleaf Mushroom Skewers',
+    difficulty: 14,
+    description:
+      'Wild mushrooms wrapped in dark shadowleaf and threaded on wooden skewers with mountain herbs, grilled over an open flame until the leaves crisp and the mushrooms release their earthy juices.',
+    boonText:
+      'The shadowleaf imparts a subtle, smoky bitterness that perfectly complements the earthy mushrooms. The mountain herbs add a bright, aromatic finish that lingers pleasantly on the palate.',
+    baneText:
+      'The shadowleaf is burnt and acrid, overwhelming the mushrooms with bitter char. The herbs taste dusty and stale.',
+    mundaneIngredients: ['Wild Mushrooms', 'Wooden Skewers'],
+    magicalIngredients: ['Shadowleaf', 'Mountain Herbs'],
+  },
+
+  {
+    name: 'Windgrass Flatbread',
+    difficulty: 13,
+    description:
+      'A remarkably light flatbread made with windgrass flour that seems to almost float when properly prepared. The dough is kneaded with prairie oil and cooked on hot stones until it puffs with air pockets.',
+    boonText:
+      'The bread is impossibly light and airy, each bite dissolving on the tongue like a cloud. A gentle warmth spreads through your limbs, making you feel lighter on your feet.',
+    baneText:
+      'Dense and heavy, the bread sits like a stone in your stomach. The windgrass tastes bitter and fibrous.',
+    mundaneIngredients: ['Prairie Oil', 'Sea Salt'],
+    magicalIngredients: ['Windgrass'],
+  },
+
+  {
+    name: 'Frost Lichen Soup',
+    difficulty: 15,
+    description:
+      'A crystalline-clear broth infused with frost lichen and chunks of ice-root vegetables, served chilled in carved bone bowls. The soup has a refreshing, almost minty quality that cools from within.',
+    boonText:
+      'The soup is refreshingly cool and clean, with a crisp, alpine freshness that seems to chill your very bones in the most pleasant way. Your mind feels sharp and focused.',
+    baneText:
+      'Watery and bland, the soup tastes of pond scum. The lichen is slimy and leaves an unpleasant film on your tongue.',
+    mundaneIngredients: ['Ice-Root Vegetables', 'Clear Broth'],
+    magicalIngredients: ['Frost Lichen'],
+  },
+
+  {
+    name: 'Starlight Petal Tea Cakes',
+    difficulty: 14,
+    description:
+      'Delicate, small cakes made with finely ground flour and studded with crushed starlight petals, baked until they shimmer faintly in low light. Often served with evening tea during celestial celebrations.',
+    boonText:
+      'The cakes are tender and subtly sweet, with a faint luminescence that dances across your fingertips. Each bite brings a sense of wonder and connection to the cosmos.',
+    baneText:
+      'Dry and crumbly, the cakes taste of chalk. The petals have lost their glow and add only a bitter, dusty flavor.',
+    mundaneIngredients: ['Fine Flour', 'Honey'],
+    magicalIngredients: ['Starlight Petals'],
+  },
+  {
+    name: 'Ironbark Smoked Ribs',
+    difficulty: 19,
+    description:
+      'Massive ribs from highland beasts, rubbed with coarse salt and slowly smoked over ironbark essence-infused coals for days until the meat falls off the bone. The essence penetrates deep, creating an almost metallic richness.',
+    boonText:
+      'The meat is impossibly tender, practically melting in your mouth. The ironbark essence adds a deep, complex smokiness with hints of metal and earth that strengthen your very bones.',
+    baneText:
+      'Tough and chewy, the meat tastes overpoweringly of ash and metal. The essence has made it bitter and nearly inedible.',
+    mundaneIngredients: ['Highland Beast Ribs', 'Coarse Salt'],
+    magicalIngredients: ['Ironbark Essence'],
+  },
+
+  {
+    name: 'Glacier Crystal Sorbet',
+    difficulty: 20,
+    description:
+      'A mystical frozen dessert made by slowly churning glacier heart crystal shavings into sweetened snow-cream until it forms ethereal, ice-blue crystals that never fully melt on the tongue.',
+    boonText:
+      'The sorbet is transcendent—each spoonful dissolves into pure, cold clarity that seems to freeze time itself. Your thoughts become crystal clear and your spirit feels renewed.',
+    baneText:
+      'The sorbet is jagged and painful to eat, the crystals cutting your tongue. Instead of refreshing, it leaves you feeling drained and hollow.',
+    mundaneIngredients: ['Snow-Cream', 'Crystallized Sugar'],
+    magicalIngredients: ['Glacier Heart Crystal'],
+  },
+
+  {
+    name: 'Stormcaller Crackling Bread',
+    difficulty: 18,
+    description:
+      'A dense, dark bread infused with stormcaller powder that literally sparks and pops when eaten. The loaf hums faintly with electrical energy and must be baked during thunderstorms for proper activation.',
+    boonText:
+      'Each bite releases tiny, harmless sparks that dance across your tongue. The bread energizes your entire body, making you feel as though lightning courses through your veins.',
+    baneText:
+      'The bread shocks your mouth painfully with each bite. Instead of energizing, it leaves you feeling jittery and uncomfortable.',
+    mundaneIngredients: ['Storm-Wheat Flour', 'Lightning Salt'],
+    magicalIngredients: ['Stormcaller Powder'],
+  },
+  {
+    name: 'Phoenix Ember Flambé',
+    difficulty: 27,
+    description:
+      'An otherworldly dessert where delicate pastry is filled with molten fruit compote and dusted with phoenix feather dust. When served, the dish literally ignites with harmless, golden flames that dance for minutes before settling into a warm glow.',
+    boonText:
+      'The pastry is impossibly light, the compote flows like liquid fire, and the phoenix flames warm you from within. You feel reborn, as if touched by immortal flame.',
+    baneText:
+      'The pastry burns your mouth, the compote is scalding, and the flames sputter out immediately. You feel drained and weakened by the failed magic.',
+    mundaneIngredients: ['Delicate Pastry', 'Molten Fruit Compote'],
+    magicalIngredients: ['Phoenix Feather Dust'],
+  },
+
+  {
+    name: 'Void Crystal Caviar',
+    difficulty: 28,
+    description:
+      'Tiny spheres of concentrated void crystal fragments suspended in an ethereal gel, each one bursting with flavors that seem to exist beyond normal taste. The caviar appears to absorb light, creating small pools of darkness on the spoon.',
+    boonText:
+      'Each sphere pops with indescribable flavors that transcend mortal comprehension. Reality seems to bend around you as cosmic wisdom floods your consciousness.',
+    baneText:
+      'The spheres taste of emptiness and despair. Instead of enlightenment, you feel lost and disconnected from reality.',
+    mundaneIngredients: ['Ethereal Gel Base', 'Planar Stabilizer'],
+    magicalIngredients: ['Void Crystal Fragments'],
+  },
+
+  {
+    name: 'Kraken Ink Risotto',
+    difficulty: 26,
+    description:
+      'A luxurious black risotto made with kraken ink concentrate slowly stirred into pearl-grain rice. The dish writhes slightly as if alive, and eating it grants glimpses of the deepest ocean trenches.',
+    boonText:
+      'The risotto is impossibly rich and complex, each grain infused with the essence of the deep sea. Ancient oceanic wisdom floods your mind with each bite.',
+    baneText:
+      'The risotto is slimy and tastes overwhelmingly of brine and decay. Instead of wisdom, you feel only confusion and nausea.',
+    mundaneIngredients: ['Pearl-Grain Rice', 'Deep Sea Salt'],
+    magicalIngredients: ['Kraken Ink Concentrate'],
+  },
+
+  {
+    name: 'Ancient Heartwood Honey Cakes',
+    difficulty: 29,
+    description:
+      'Sacred cakes made with ancient treant heartwood shavings and wild forest honey, baked in hollowed-out acorn shells over a fire of fallen branches. Each cake pulses gently with the slow heartbeat of ancient forests.',
+    boonText:
+      'The cakes taste of centuries of forest wisdom, honey aged beyond memory, and the deep patience of trees. You feel connected to all living things.',
+    baneText:
+      'The cakes are woody and bitter, like chewing bark. Instead of wisdom, you feel only the crushing weight of endless time.',
+    mundaneIngredients: ['Wild Forest Honey', 'Acorn Shell Molds'],
+    magicalIngredients: ['Ancient Treant Heartwood'],
+  },
+  {
+    name: "Winter's Fury Stew",
+    difficulty: 16,
+    description:
+      'A hearty, warming stew made with chunks of mountain game, root vegetables, and the striking blue frostmark petals that release their essence when simmered. Favored by those in the north, this dish is said to grant the strength to endure the harshest blizzards.',
+    boonText:
+      'The stew burns with warming spice and the frostmark petals add an unexpected cooling contrast that strengthens your core. You feel ready to face any winter storm.',
+    baneText:
+      'The petals have turned bitter and overpowering, making the stew taste like frozen mud. The conflicting temperatures leave you feeling queasy and weak.',
+    mundaneIngredients: ['Mountain Game', 'Hardy Root Vegetables'],
+    magicalIngredients: ['Frostmark Petals'],
+  },
+  {
+    name: 'The Golden Stacks',
+    difficulty: 19,
+    description:
+      'Towering stacks of fluffy pancakes drizzled generously with flapjack maple sap, creating golden rivulets that seem to glow with inner warmth. Favored by the intrepid wizard Wafflefoot, this indulgent breakfast is said to fuel both body and magical reserves.',
+    boonText:
+      'The pancakes are impossibly light and fluffy, while the maple sap adds a rich, magical sweetness that seems to fortify your very essence. You feel energized and ready for adventure.',
+    baneText:
+      'The pancakes are dense and soggy, the sap has crystallized into an unpleasantly sticky mess that coats your teeth. Instead of energy, you feel sluggish and overfull.',
+    mundaneIngredients: ['Cloudwheat Flour', 'Fresh Cream'],
+    magicalIngredients: ['Flapjack Maple Sap'],
+  },
 ]
