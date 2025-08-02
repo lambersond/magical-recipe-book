@@ -30,7 +30,37 @@ const cookbookInclude = {
       },
     },
   },
-}
+} as const
+
+const backpackInclude = {
+  include: {
+    cookedDishes: {
+      orderBy: { cookedOnDay: 'desc' },
+      include: {
+        recipe: {
+          // where: { isDeleted: false },
+          select: {
+            name: true,
+            description: true,
+            boonText: true,
+            baneText: true,
+            magicalIngredients: {
+              include: {
+                ingredient: {
+                  select: {
+                    name: true,
+                    boon: true,
+                    bane: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+} as const
 
 const returnFields = {
   foragingLog: {
@@ -61,7 +91,7 @@ const returnFields = {
     },
   },
   cookbook: cookbookInclude,
-  backpack: true,
+  backpack: backpackInclude,
 } as const
 
 export async function findFullCharacterById(id: string) {

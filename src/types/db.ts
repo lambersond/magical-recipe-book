@@ -8,7 +8,35 @@ import type {
 export type { DefaultArgs } from '@prisma/client/runtime/client'
 export type { Prisma } from '@prisma/client'
 
-export type CookedDishStatus = 'success' | 'failure' | 'boon' | 'bane'
+export type CookedDishStatus =
+  | 'prepared'
+  | 'success'
+  | 'boon'
+  | 'failure'
+  | 'bane'
+
+export type CookedDishMagicalIngredient = {
+  ingredient: {
+    name: string
+    boon: string
+    bane: string
+  }
+}
+
+export type CookedDishRecipe = {
+  name: string
+  description: string
+  boonText: string
+  baneText: string
+  magicalIngredients: CookedDishMagicalIngredient[]
+}
+export type CookedDish = {
+  id: string
+  status: CookedDishStatus
+  cookedOnDay: number
+  consumedOnDay: number | null
+  recipe: CookedDishRecipe
+}
 
 export type Biome = {
   id: string

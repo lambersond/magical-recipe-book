@@ -203,7 +203,7 @@ model Backpack {
 
 model CookedDish {
   id            String      @id @default(cuid())
-  status        String      // success | fail | boon | bane
+  status        String      // success | fail | boon | bane | prepared
   consumedOnDay Int?        // null if not consumed yet
   cookedOnDay   Int
 
