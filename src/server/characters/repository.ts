@@ -35,10 +35,9 @@ const cookbookInclude = {
 const backpackInclude = {
   include: {
     cookedDishes: {
-      orderBy: { cookedOnDay: 'desc' },
+      orderBy: { createdAt: 'desc' },
       include: {
         recipe: {
-          // where: { isDeleted: false },
           select: {
             name: true,
             description: true,
@@ -64,7 +63,7 @@ const backpackInclude = {
 
 const returnFields = {
   foragingLog: {
-    orderBy: { foundOnDay: 'desc' },
+    orderBy: { createdAt: 'desc' },
     select: {
       foundOnDay: true,
       isExpired: true,
@@ -83,7 +82,11 @@ const returnFields = {
   ingredientsPouch: {
     include: {
       magicalIngredients: {
-        where: { isUsed: false, isExpired: false },
+        where: {
+          isUsed: false,
+          isExpired: false,
+          magicalIngredientId: { not: null },
+        },
         include: {
           magicalIngredient: true,
         },
@@ -523,18 +526,7 @@ export async function createCookedDishForCharacter(
     // Fetch updated ingredients pouch
     const updatedIngredientsPouch = await tx.ingredientsPouch.findUnique({
       where: { id: character.ingredientsPouch.id },
-      include: {
-        magicalIngredients: {
-          where: {
-            isUsed: false,
-            isExpired: false,
-            magicalIngredientId: { not: null },
-          },
-          include: {
-            magicalIngredient: true,
-          },
-        },
-      },
+      ...returnFields.ingredientsPouch,
     })
 
     // Fetch updated foraging log (recent entries)
@@ -547,20 +539,7 @@ export async function createCookedDishForCharacter(
     // Fetch updated backpack
     const updatedBackpack = await tx.backpack.findUnique({
       where: { id: character.backpack.id },
-      include: {
-        cookedDishes: {
-          orderBy: { cookedOnDay: 'desc' },
-          include: {
-            recipe: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-        },
-        infusedItems: true,
-      },
+      ...backpackInclude,
     })
 
     return {

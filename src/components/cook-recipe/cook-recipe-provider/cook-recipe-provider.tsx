@@ -10,9 +10,10 @@ export function CookRecipeProvider({
   children,
   recipe,
   ingredientsPouch,
+  startingState = 'selection',
   onCook,
 }: Readonly<CookRecipeProviderProps>) {
-  const [cookingState, setCookingState] = useState<CookingState>('selection')
+  const [cookingState, setCookingState] = useState<CookingState>(startingState)
   const [rollResults, setRollResults] = useState<number>(0)
   const [requiredIngredientsSelected, setRequiredIngredientsSelected] =
     useState<Record<string, boolean>>(() => {

@@ -6,10 +6,10 @@ import type {
   Recipe,
 } from '@/types'
 
-export interface CookRecipeModalProps extends Omit<ModalProps, 'onClose'> {
+export interface PrepareRecipeModalProps extends Omit<ModalProps, 'onClose'> {
   ingredientsPouch: IngredientsPouch
   recipe: Recipe
-  onCook: (data: {
+  onPrepare: (data: {
     ingredientsPouch: IngredientsPouch
     foragingLog: ForagedIngredient[]
     backpack: Backpack

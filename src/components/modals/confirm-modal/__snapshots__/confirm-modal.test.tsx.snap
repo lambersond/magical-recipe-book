@@ -41,7 +41,7 @@ exports[`compoenents/modals/confirm-modal should render defaults 1`] = `
         </button>
       </div>
       <div
-        class="overflow-y-auto p-3"
+        class="overflow-y-auto p-3 h-full md:h-unset"
         style="max-height: calc(100vh - 0px);"
       >
         <span
@@ -110,7 +110,7 @@ exports[`compoenents/modals/confirm-modal should render with passed props 1`] = 
         </button>
       </div>
       <div
-        class="overflow-y-auto p-3"
+        class="overflow-y-auto p-3 h-full md:h-unset"
         style="max-height: calc(100vh - 0px);"
       >
         <span

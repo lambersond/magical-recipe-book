@@ -5,16 +5,15 @@ import {
 } from '../cook-recipe-provider'
 import type { CookingResult } from '../types'
 
-export function useFinishCooking() {
+export function useDishActions() {
   const { setCookingState, onCook } = useContext(CookRecipeDispatchContext)
   const { recipeId, characterId } = useContext(CookRecipeDataContext)
   const cookingResults = useCookingResults()
 
-  async function finishCooking() {
+  async function cook() {
     const data = {
       recipeId,
       status: cookingResults.cookedDishStatus,
-      isConsumed: true, // TODO: remove once backpack is implemented
     }
 
     const response = await fetch(`/api/characters/${characterId}/cook`, {
@@ -35,7 +34,28 @@ export function useFinishCooking() {
     onCook(json)
   }
 
-  return finishCooking
+  async function prepare() {
+    const data = {
+      recipeId,
+    }
+
+    const response = await fetch(`/api/characters/${characterId}/prepare`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to finish cooking')
+    }
+    const json = await response.json()
+    onCook(json)
+  }
+
+  return { cook, prepare }
 }
 
 export function useCookingApi() {
@@ -46,6 +66,10 @@ export function useCookingApi() {
     setCookingState('cooking')
   }
 
+  const startPreparing = () => {
+    setCookingState('prepare')
+  }
+
   const resetCooking = () => {
     setCookingState('selection')
     setRollResults(0)
@@ -54,6 +78,7 @@ export function useCookingApi() {
 
   return {
     startCooking,
+    startPreparing,
     resetCooking,
   }
 }
@@ -81,6 +106,10 @@ export function useCookingIngredientsPouch() {
 
 export function useCookingState() {
   return useContext(CookRecipeDataContext).cookingState
+}
+
+export function useIsCooking() {
+  return useContext(CookRecipeDataContext).cookingState === 'selection'
 }
 
 export function useRequiredIngredientsSelected() {

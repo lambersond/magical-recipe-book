@@ -65,7 +65,7 @@ export function deriveStatusChipDetails(
   }
 
   const containerClasses = clsx(
-    'px-3 py-1 rounded-full text-sm flex items-center before:mr-1',
+    'px-3 py-1 rounded-full text-sm flex items-center before:mr-1 min-w-fit',
     chipClasses,
   )
 
@@ -78,7 +78,7 @@ export function deriveStatusChipDetails(
 
 export function actionButtonClasses(type: 'consume' | 'discard') {
   return clsx(
-    'px-3 py-1 text-lg font-semibold rounded items-center transition-colors flex items-center gap-1 cursor-pointer',
+    'px-3 py-1 text-lg font-semibold rounded-lg items-center transition-colors flex items-center gap-1 cursor-pointer',
     {
       'bg-success/80 hover:bg-success text-text-primary md:after:content-["Consume"]':
         type === 'consume',

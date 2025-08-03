@@ -66,7 +66,7 @@ export function Modal({
           style={{
             maxHeight: `calc(100vh - ${headerHeight}px)`,
           }}
-          className='overflow-y-auto p-3'
+          className='overflow-y-auto p-3 h-full md:h-unset'
         >
           {children}
         </div>

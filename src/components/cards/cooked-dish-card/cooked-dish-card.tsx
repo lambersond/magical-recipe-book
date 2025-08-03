@@ -63,9 +63,11 @@ export function CookedDishCard({
           </span>
         </div>
         <div className='flex gap-2 items-center h-fit transition-opacity duration-200 lg:hidden lg:group-hover:flex'>
-          {isPrepared && (
-            <ActionButton type='consume' onClick={handleOnConsume} />
-          )}
+          <div className='hidden'>
+            {isPrepared && (
+              <ActionButton type='consume' onClick={handleOnConsume} />
+            )}
+          </div>
           <ActionButton type='discard' onClick={handleOnDiscard} />
         </div>
       </div>
@@ -82,7 +84,7 @@ export function CookedDishCard({
           Dish has spoiled and can no longer be consumed
         </p>
       ) : (
-        <span className='flex flex-col mb-4'>
+        <span className='flex flex-col mb-4 gap-2'>
           <BonusesList
             bonuses={boons}
             show={status === 'boon' || isPrepared}

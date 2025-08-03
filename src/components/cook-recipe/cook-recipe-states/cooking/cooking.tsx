@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SeeResultsButton } from '../../buttons'
 import {
-  useFinishCooking,
+  useDishActions,
   useSetCookingResults,
 } from '../../hooks/use-cook-recipe'
 
@@ -9,12 +9,12 @@ export function Cooking() {
   const [rollResult, setRollResult] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
 
-  const finishCooking = useFinishCooking()
+  const { cook } = useDishActions()
   const setCookingResults = useSetCookingResults()
 
   const onNext = () => {
     setCookingResults(rollResult)
-    finishCooking()
+    cook()
   }
 
   const isReady = rollResult > 0 && rollResult <= 50

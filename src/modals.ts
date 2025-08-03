@@ -31,4 +31,9 @@ export const MODALS = {
       default: module.GoForagingModal,
     })),
   ),
+  PrepareRecipeModal: lazy(() =>
+    import('./components/modals').then(module => ({
+      default: module.PrepareRecipeModal,
+    })),
+  ),
 }

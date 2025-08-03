@@ -6,16 +6,30 @@ import type {
   CookedDishStatus,
 } from '@/types'
 
-export type CookingState = 'selection' | 'cooking' | 'results'
+export type CookingState =
+  | 'prepareSelection'
+  | 'prepare'
+  | 'prepared' // TBD. How do we go straiting to the cooking state?
+  | 'selection'
+  | 'cooking'
+  | 'results'
+
+type RecipeAction = (data: {
+  ingredientsPouch: IngredientsPouch
+  foragingLog: ForagedIngredient[]
+  backpack: Backpack
+}) => void
 
 export type CookRecipeProps = {
   recipe: Recipe
   ingredientsPouch: IngredientsPouch
-  onCook: (data: {
-    ingredientsPouch: IngredientsPouch
-    foragingLog: ForagedIngredient[]
-    backpack: Backpack
-  }) => void
+  onCook: RecipeAction
+}
+
+export type PrepareRecipeProps = {
+  recipe: Recipe
+  ingredientsPouch: IngredientsPouch
+  onPrepare: RecipeAction
 }
 
 export interface CookingResult {

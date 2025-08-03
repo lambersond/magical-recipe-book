@@ -34,6 +34,7 @@ export type CookRecipeProviderProps = {
   recipe: Recipe
   ingredientsPouch: IngredientsPouch
   children: React.ReactNode
+  startingState?: CookingState
   onCook: (data: {
     ingredientsPouch: IngredientsPouch
     foragingLog: ForagedIngredient[]

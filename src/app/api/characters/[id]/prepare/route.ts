@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { withUser } from '@/lib/auth-handlers'
 import { characterService } from '@/server/characters'
-import type { CookedDishStatus } from '@/types'
 
 export const POST = withUser(
   async (
@@ -11,21 +10,20 @@ export const POST = withUser(
     }: {
       params: Promise<{
         id: string
-        status: CookedDishStatus
-        recipeId: string
+        recipeId?: string
       }>
     },
     userId: string,
   ) => {
     const { id } = await params
-    const { recipeId, status } = await req.json()
+    const { recipeId } = await req.json()
 
     const character = await characterService.cookRecipe(
       id,
       userId,
       recipeId,
-      status,
-      false,
+      'prepared',
+      true,
     )
     return NextResponse.json(character)
   },

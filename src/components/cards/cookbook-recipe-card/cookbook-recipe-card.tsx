@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronDown, CookingPot } from 'lucide-react'
+import { ChevronDown, CookingPot, Package } from 'lucide-react'
 import {
   useCharacter,
   useCharacterApi,
@@ -34,6 +34,21 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
     })
   }
 
+  const onPrepareRecipe = () => {
+    openModal('PrepareRecipeModal', {
+      recipe,
+      ingredientsPouch,
+      onPrepare: async ({ ingredientsPouch, foragingLog, backpack }) => {
+        updateCharacter((prev: FullCharacter) => ({
+          ...prev,
+          ingredientsPouch,
+          foragingLog,
+          backpack,
+        }))
+      },
+    })
+  }
+
   return (
     <Card
       className='border-y sm:border border-border rounded-none sm:rounded-lg bg-card'
@@ -41,18 +56,26 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
     >
       <div className='p-6 border-b border-border'>
         <div className='flex justify-between items-center mb-3'>
-          <div className='flex gap-1 sm:gap-2 items-center'>
+          <div className='flex flex-col sm:flex-row gap-1 sm:gap-2 items-start sm:items-center'>
             <h3 className='text-xl font-bold text-text-primary'>
               {recipe.name}
             </h3>
             <DifficultyChallengeChip difficulty={recipe.difficulty} />
           </div>
-          <button
-            onClick={onCookRecipe}
-            className='sm:after:content-["Cook"] py-1.75 px-6 bg-gradient-to-r from-purple-600/70 to-fuchsia-600/60 rounded-xl text-text-primary font-semibold text-lg hover:bg-primary/80 transition-colors duration-200 cursor-pointer shadow-lg hover:shadow-xl flex items-center justify-center gap-2'
-          >
-            <CookingPot />
-          </button>
+          <div className='flex items-center gap-2'>
+            <button
+              onClick={onPrepareRecipe}
+              className='sm:after:content-["Prepare"] p-1.75 md:px-6 bg-gradient-to-r from-indigo-600/70 to-violet-600/60 rounded-xl text-text-primary font-semibold text-lg hover:bg-primary/80 transition-colors duration-200 cursor-pointer shadow-lg hover:shadow-xl flex items-center justify-center gap-2'
+            >
+              <Package />
+            </button>
+            <button
+              onClick={onCookRecipe}
+              className='sm:after:content-["Cook"] p-1.75 md:px-6 bg-gradient-to-r from-purple-600/70 to-fuchsia-600/60 rounded-xl text-text-primary font-semibold text-lg hover:bg-primary/80 transition-colors duration-200 cursor-pointer shadow-lg hover:shadow-xl flex items-center justify-center gap-2'
+            >
+              <CookingPot />
+            </button>
+          </div>
         </div>
         <p className='text-text-secondary text-sm leading-relaxed'>
           {recipe.description}
