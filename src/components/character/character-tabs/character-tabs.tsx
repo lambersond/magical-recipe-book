@@ -13,21 +13,21 @@ export function CharacterTabs() {
   return (
     <Tabs>
       <div className='bg-card border-b border-border w-full'>
-        <TabList className='cursor-pointer max-w-7xl mx-auto sm:px-6 lg:px-8 flex items-center min-w-1/4 space-x-2 sm:space-x-8'>
+        <TabList className='cursor-pointer max-w-7xl mx-auto sm:px-6 lg:px-8 flex items-center min-w-1/4 space-x-6'>
           <Tab className={`${tabStyles} sm:after:content-['Overview']`}>
-            <User className='size-5 min-w-14' />
+            <User className='size-5 min-w-5' />
           </Tab>
           <Tab className={`${tabStyles} sm:after:content-['Foraging']`}>
-            <LeafyGreen className='size-5 min-w-14' />
+            <LeafyGreen className='size-5 min-w-5' />
           </Tab>
           <Tab className={`${tabStyles} sm:after:content-['Ingredients']`}>
-            <Handbag className='size-5 min-w-14' />
+            <Handbag className='size-5 min-w-5' />
           </Tab>
           <Tab className={`${tabStyles} sm:after:content-['Cookbook']`}>
-            <Book className='size-5 min-w-14' />
+            <Book className='size-5 min-w-5' />
           </Tab>
           <Tab className={`${tabStyles} sm:after:content-['Backpack']`}>
-            <Backpack className='size-5 min-w-14' />
+            <Backpack className='size-5 min-w-5' />
           </Tab>
         </TabList>
       </div>

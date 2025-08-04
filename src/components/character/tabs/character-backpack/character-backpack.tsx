@@ -42,7 +42,7 @@ export function CharacterBackpack() {
 
   return (
     <div className='py-4'>
-      <span className='mb-4 flex items-center gap-2'>
+      <span className='mb-4 flex items-center gap-2 justify-center sm:justify-start'>
         <h2 className='text-2xl font-semibold'>Backpack</h2>
       </span>
       {cookedDishes.length === 0 && (
