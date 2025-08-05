@@ -9,6 +9,7 @@ import type {
 export interface CookRecipeModalProps extends Omit<ModalProps, 'onClose'> {
   ingredientsPouch: IngredientsPouch
   recipe: Recipe
+  cookedDishId?: string
   onCook: (data: {
     ingredientsPouch: IngredientsPouch
     foragingLog: ForagedIngredient[]

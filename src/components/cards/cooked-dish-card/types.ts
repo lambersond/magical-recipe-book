@@ -1,4 +1,4 @@
-import type { CookedDish, Nullish } from '@/types'
+import type { CookedDish, CookedDishRecipe, Nullish } from '@/types'
 
 export type StatusChipProps = {
   cookedOnDay: number
@@ -22,6 +22,6 @@ export type BonusesListClasses = {
 
 export type CoookedDishCardProps = CookedDish & {
   currentDay: number
-  onConsume: (id: string) => void
+  onConsume: ({ id, recipe }: { id: string; recipe: CookedDishRecipe }) => void
   onDiscard: (id: string) => void
 }

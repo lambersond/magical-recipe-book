@@ -73,12 +73,32 @@ export const ROADMAP: RoadmapItem[] = [
     status: 'in-progress',
     description:
       'Add a backpack feature to the character page and improve styling.',
-    progress: 25,
+    progress: 40,
     milestones: [
       {
         task: 'Improve view of biome card',
         completed: true,
         date: 'Jul 30',
+      },
+      {
+        task: 'Users can view all cooked dishes in backpack',
+        completed: true,
+        date: 'Aug 2',
+      },
+      {
+        task: 'Users can delete a cooked dishes from backpack',
+        completed: true,
+        date: 'Aug 3',
+      },
+      {
+        task: 'Users can prepare dish to finish cooking in 7 days',
+        completed: true,
+        date: 'Aug 3',
+      },
+      {
+        task: 'Users can finish cooking a prepared dish',
+        completed: true,
+        date: 'Aug 5',
       },
       {
         task: 'Improve view of ingredient card',

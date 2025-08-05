@@ -26,6 +26,7 @@ export type CookedDishMagicalIngredient = {
 export type CookedDishRecipe = {
   name: string
   description: string
+  difficulty: number
   boonText: string
   baneText: string
   magicalIngredients: CookedDishMagicalIngredient[]

@@ -11,6 +11,8 @@ export function CookRecipeProvider({
   recipe,
   ingredientsPouch,
   startingState = 'selection',
+  cookedDishId,
+  characterId,
   onCook,
 }: Readonly<CookRecipeProviderProps>) {
   const [cookingState, setCookingState] = useState<CookingState>(startingState)
@@ -18,6 +20,7 @@ export function CookRecipeProvider({
   const [requiredIngredientsSelected, setRequiredIngredientsSelected] =
     useState<Record<string, boolean>>(() => {
       const initialSelection: Record<string, boolean> = {}
+      if (startingState === 'cooking') return initialSelection
       for (const { ingredient } of recipe.magicalIngredients) {
         initialSelection[ingredient.id] = false
       }
@@ -29,8 +32,9 @@ export function CookRecipeProvider({
     cookingState,
     requiredIngredientsSelected,
     rollResults,
-    characterId: ingredientsPouch.characterId,
+    characterId,
     recipeId: recipe.id,
+    cookedDishId,
   }
   const dispatchValue = {
     setCookingState,

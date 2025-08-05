@@ -18,3 +18,23 @@ export const DELETE = withUser(
     return NextResponse.json(cookedDishDeleted)
   },
 )
+
+export const POST = withUser(
+  async (
+    req: NextRequest,
+    { params }: { params: Promise<{ id: string; cookedDishId: string }> },
+    userId: string,
+  ) => {
+    const { id, cookedDishId } = await params
+    const data = await req.json()
+
+    const cookedDishUpdated =
+      await cookedDishService.updateCookedDishByIdCharacterIdAndUserId({
+        cookedDishId,
+        characterId: id,
+        userId,
+        data,
+      })
+    return NextResponse.json(cookedDishUpdated)
+  },
+)

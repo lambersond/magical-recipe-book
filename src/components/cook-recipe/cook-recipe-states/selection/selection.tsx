@@ -32,7 +32,7 @@ export function Selection() {
             You have: {ingredientsPouch?.commonIngredients} common ingredients
           </span>
           <span className='min-w-6'>
-            {ingredientsPouch?.commonIngredients >=
+            {(ingredientsPouch?.commonIngredients ?? 0) >=
             recipe.mundaneIngredients.length ? (
               <Check className='text-success size-6' />
             ) : (

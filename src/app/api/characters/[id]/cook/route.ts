@@ -18,14 +18,14 @@ export const POST = withUser(
     userId: string,
   ) => {
     const { id } = await params
-    const { recipeId, status } = await req.json()
+    const { recipeId, status, isConsumed } = await req.json()
 
     const character = await characterService.cookRecipe(
       id,
       userId,
       recipeId,
       status,
-      false,
+      isConsumed,
     )
     return NextResponse.json(character)
   },

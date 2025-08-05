@@ -7,13 +7,23 @@ import type { CookingResult } from '../types'
 
 export function useDishActions() {
   const { setCookingState, onCook } = useContext(CookRecipeDispatchContext)
-  const { recipeId, characterId } = useContext(CookRecipeDataContext)
+  const { recipeId, characterId, cookedDishId } = useContext(
+    CookRecipeDataContext,
+  )
   const cookingResults = useCookingResults()
 
   async function cook() {
+    const hasCookedDishId = Boolean(cookedDishId)
+
+    if (hasCookedDishId) {
+      await finishCooking()
+      return
+    }
+
     const data = {
       recipeId,
       status: cookingResults.cookedDishStatus,
+      isConsumed: cookingResults.cookedDishStatus !== 'prepared',
     }
 
     const response = await fetch(`/api/characters/${characterId}/cook`, {
@@ -53,6 +63,32 @@ export function useDishActions() {
     }
     const json = await response.json()
     onCook(json)
+  }
+
+  async function finishCooking() {
+    const data = {
+      status: cookingResults.cookedDishStatus,
+    }
+
+    const response = await fetch(
+      `/api/characters/${characterId}/cooked-dish/${cookedDishId}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
+    if (!response.ok) {
+      throw new Error('Failed to finish cooking')
+    }
+    const json = await response.json()
+
+    onCook(json)
+    setCookingState('results')
   }
 
   return { cook, prepare }
@@ -121,7 +157,7 @@ export function useIsReady() {
   const recipe = useCookingRecipe()
   const ingredientsPouch = useCookingIngredientsPouch()
   const hasCommonIngredients =
-    ingredientsPouch?.commonIngredients >= recipe.mundaneIngredients.length
+    ingredientsPouch!.commonIngredients >= recipe.mundaneIngredients.length
 
   return hasCommonIngredients && Object.values(ingredients).every(Boolean)
 }

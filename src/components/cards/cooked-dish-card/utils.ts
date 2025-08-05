@@ -58,10 +58,6 @@ export function deriveStatusChipDetails(
       'bg-warning/10 text-warning': daysRemaining > 1 && daysRemaining <= 3,
       'bg-success/10 text-success': daysRemaining > 3,
     })
-  } else if (consumedOnDay) {
-    text = 'Consumed on Day'
-    value = consumedOnDay.toString()
-    chipClasses = 'before:content-["🍴"] bg-info/10 text-info'
   }
 
   const containerClasses = clsx(
@@ -78,9 +74,9 @@ export function deriveStatusChipDetails(
 
 export function actionButtonClasses(type: 'consume' | 'discard') {
   return clsx(
-    'px-3 py-1 text-lg font-semibold rounded-lg items-center transition-colors flex items-center gap-1 cursor-pointer',
+    'px-3 py-1 text-lg font-semibold items-center transition-colors flex items-center gap-1 cursor-pointer first:rounded-l-lg last:rounded-r-lg',
     {
-      'bg-success/80 hover:bg-success text-text-primary md:after:content-["Consume"]':
+      'bg-success/80 hover:bg-success text-text-primary md:after:content-["Finish"]':
         type === 'consume',
       'bg-danger/80 hover:bg-danger text-text-primary md:after:content-["Discard"]':
         type === 'discard',
@@ -122,6 +118,6 @@ export function getCookedStatusClasses(status: CookedDishStatus) {
       'before:content-["🤢"]': status === 'failure',
       'before:content-["💀"]': status === 'bane',
     },
-    'flex gap-1 bg-gray-700 text-text-secondary text-sm rounded-full py-1 px-3 capitalize',
+    'flex gap-1 bg-gray-700/80 text-text-secondary text-sm rounded-full py-1 px-3 capitalize',
   )
 }

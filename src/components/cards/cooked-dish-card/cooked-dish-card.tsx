@@ -35,7 +35,7 @@ export function CookedDishCard({
   )
 
   const handleOnConsume = () => {
-    onConsume(id)
+    onConsume({ id, recipe })
   }
   const handleOnDiscard = () => {
     onDiscard(id)
@@ -50,8 +50,7 @@ export function CookedDishCard({
           </p>
           <span className='text-sm text-text-secondary flex gap-2 items-center'>
             <span className={cookedDishStatusClasses}>
-              {consumedOnDay ? '' : 'consumed - '}
-              {status}
+              {consumedOnDay ? `consumed on day ${consumedOnDay}` : ''}
             </span>
             <StatusChip
               cookedOnDay={cookedOnDay}
@@ -62,12 +61,10 @@ export function CookedDishCard({
             />
           </span>
         </div>
-        <div className='flex gap-2 items-center h-fit transition-opacity duration-200 lg:hidden lg:group-hover:flex'>
-          <div className='hidden'>
-            {isPrepared && (
-              <ActionButton type='consume' onClick={handleOnConsume} />
-            )}
-          </div>
+        <div className='flex gap-1 items-center h-fit transition-opacity duration-200 lg:hidden lg:group-hover:flex'>
+          {isPrepared && (
+            <ActionButton type='consume' onClick={handleOnConsume} />
+          )}
           <ActionButton type='discard' onClick={handleOnDiscard} />
         </div>
       </div>

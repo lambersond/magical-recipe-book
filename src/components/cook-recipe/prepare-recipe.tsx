@@ -13,6 +13,7 @@ export function PrepareRecipe({
     <CookRecipeProvider
       recipe={recipe}
       ingredientsPouch={ingredientsPouch}
+      characterId={ingredientsPouch.characterId}
       onCook={onPrepare}
       startingState='prepareSelection'
     >

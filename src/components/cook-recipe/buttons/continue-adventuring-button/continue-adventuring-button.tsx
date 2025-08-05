@@ -4,6 +4,7 @@ export function ContinueAdventuringButton() {
   const { closeModal } = useModals()
 
   const onClick = () => {
+    closeModal('FinishCookedDishModal')
     closeModal('CookRecipeModal')
   }
 

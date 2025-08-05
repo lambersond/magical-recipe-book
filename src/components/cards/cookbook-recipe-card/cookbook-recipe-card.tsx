@@ -12,7 +12,12 @@ import { RecipeOutcome } from '@/components/recipe-outcome'
 import { useModals } from '@/hooks/use-modals'
 import { expandablePaneClasses, updateStateAttribute } from '@/utils/expandable'
 import type { CookbookRecipeCardProps } from './types'
-import type { FullCharacter } from '@/types'
+import type {
+  Backpack,
+  ForagedIngredient,
+  FullCharacter,
+  IngredientsPouch,
+} from '@/types'
 
 export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
   const { openModal } = useModals()
@@ -23,7 +28,15 @@ export function CookbookRecipeCard(recipe: Readonly<CookbookRecipeCardProps>) {
     openModal('CookRecipeModal', {
       recipe,
       ingredientsPouch,
-      onCook: async ({ ingredientsPouch, foragingLog, backpack }) => {
+      onCook: async ({
+        ingredientsPouch,
+        foragingLog,
+        backpack,
+      }: {
+        ingredientsPouch: IngredientsPouch
+        foragingLog: ForagedIngredient[]
+        backpack: Backpack
+      }) => {
         updateCharacter((prev: FullCharacter) => ({
           ...prev,
           ingredientsPouch,

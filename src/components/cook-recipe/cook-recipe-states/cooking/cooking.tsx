@@ -13,7 +13,6 @@ export function Cooking() {
   const setCookingResults = useSetCookingResults()
 
   const onNext = () => {
-    setCookingResults(rollResult)
     cook()
   }
 
@@ -29,6 +28,7 @@ export function Cooking() {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setRollResult(value === '' ? 0 : Number(value))
+    setCookingResults(value === '' ? 0 : Number(value))
   }
 
   return (

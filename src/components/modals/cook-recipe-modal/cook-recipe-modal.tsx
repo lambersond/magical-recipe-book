@@ -7,10 +7,10 @@ import { useModals } from '@/hooks/use-modals'
 import type { CookRecipeModalProps } from './types'
 
 export function CookRecipeModal({
-  open,
-  recipe,
   ingredientsPouch,
   onCook,
+  open,
+  recipe,
 }: Readonly<CookRecipeModalProps>) {
   const { closeModal } = useModals()
 

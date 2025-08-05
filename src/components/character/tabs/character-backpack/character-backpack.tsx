@@ -2,14 +2,12 @@
 
 import { useCharacter, useCharacterApi } from '../../hooks/use-character'
 import { CookedDishCard } from '@/components/cards'
-import type { FullCharacter } from '@/types'
-
-const handleConsumeCookedDish = (id: string) => {
-  console.warn('TODO', id)
-}
+import { useModals } from '@/hooks/use-modals'
+import type { CookedDish, FullCharacter } from '@/types'
 
 export function CharacterBackpack() {
   const character = useCharacter()
+  const { openModal } = useModals()
   const updateCharacter = useCharacterApi()
 
   const handleDiscardCookedDish = async (id: string) => {
@@ -38,6 +36,28 @@ export function CharacterBackpack() {
       },
     }))
   }
+
+  const handleConsumeCookedDish = async (cookedDish: CookedDish) => {
+    openModal('FinishCookedDishModal', {
+      characterId: character.id,
+      cookedDish,
+      onCook: (updatedCookedDish: CookedDish) => {
+        updateCharacter((prev: FullCharacter) => {
+          const updatedCookedDishes = prev.backpack?.cookedDishes.map(dish =>
+            dish.id === cookedDish.id ? updatedCookedDish : dish,
+          )
+          return {
+            ...prev,
+            backpack: {
+              ...prev.backpack,
+              cookedDishes: updatedCookedDishes || [],
+            },
+          }
+        })
+      },
+    })
+  }
+
   const cookedDishes = character.backpack?.cookedDishes || []
 
   return (

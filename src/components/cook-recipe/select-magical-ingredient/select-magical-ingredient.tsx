@@ -13,6 +13,7 @@ import {
   getFoundMagicalIngredientsCount,
 } from './utils'
 import type { SelectMagicalIngredientProps } from './types'
+import type { IngredientsPouch } from '@/types'
 
 export function SelectMagicalIngredient({
   name,
@@ -31,7 +32,7 @@ export function SelectMagicalIngredient({
   const buttonText = getButtonText(requiredIngredientsSelected[ingredientId])
   const foundMagicalIngredients = getFoundMagicalIngredientsCount(
     ingredientId,
-    ingredientsPouch,
+    ingredientsPouch as IngredientsPouch,
   )
 
   const onSelect = () => {

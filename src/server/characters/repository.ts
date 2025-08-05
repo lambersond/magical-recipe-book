@@ -41,12 +41,14 @@ const backpackInclude = {
           select: {
             name: true,
             description: true,
+            difficulty: true,
             boonText: true,
             baneText: true,
             magicalIngredients: {
               include: {
                 ingredient: {
                   select: {
+                    id: true,
                     name: true,
                     boon: true,
                     bane: true,

@@ -16,14 +16,19 @@ export const MODALS = {
       default: module.CookRecipeModal,
     })),
   ),
+  ConfirmModal: lazy(() =>
+    import('./components/modals').then(module => ({
+      default: module.ConfirmModal,
+    })),
+  ),
   EditCharacterModal: lazy(() =>
     import('./components/modals').then(module => ({
       default: module.EditCharacterModal,
     })),
   ),
-  ConfirmModal: lazy(() =>
+  FinishCookedDishModal: lazy(() =>
     import('./components/modals').then(module => ({
-      default: module.ConfirmModal,
+      default: module.FinishCookedDishModal,
     })),
   ),
   GoForagingModal: lazy(() =>

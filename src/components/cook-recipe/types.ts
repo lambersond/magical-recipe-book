@@ -4,6 +4,7 @@ import type {
   IngredientsPouch,
   Recipe,
   CookedDishStatus,
+  CookedDish,
 } from '@/types'
 
 export type CookingState =
@@ -14,13 +15,14 @@ export type CookingState =
   | 'cooking'
   | 'results'
 
-type RecipeAction = (data: {
+export type RecipeAction = (data: {
   ingredientsPouch: IngredientsPouch
   foragingLog: ForagedIngredient[]
   backpack: Backpack
 }) => void
 
 export type CookRecipeProps = {
+  cookedDishId?: string
   recipe: Recipe
   ingredientsPouch: IngredientsPouch
   onCook: RecipeAction
@@ -30,6 +32,12 @@ export type PrepareRecipeProps = {
   recipe: Recipe
   ingredientsPouch: IngredientsPouch
   onPrepare: RecipeAction
+}
+
+export type FinishCookedDishProps = {
+  characterId: string
+  cookedDish: CookedDish
+  onCook: (data: CookedDish) => void
 }
 
 export interface CookingResult {
