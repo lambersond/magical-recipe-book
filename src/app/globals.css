@@ -4,6 +4,7 @@
 @import "./react-tabs.css";
 @import "./loader.css";
 @import "./home-page.css";
+@import "./3d-dice.css";
 
 @theme {
   --font-sans: var(--font-geist-sans);
