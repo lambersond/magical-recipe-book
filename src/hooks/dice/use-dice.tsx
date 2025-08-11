@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef } from 'react'
 import { useDiceBox } from './use-dice-box'
 
 /** NOTE
@@ -28,25 +29,33 @@ type UseDiceBox = {
  */
 export function useDice(): UseDiceBox {
   const dicebox = useDiceBox()
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const isInitialized = !!dicebox
+
   async function roll(notation: DiceNotation, timeout = 2000) {
     assert(
       isInitialized,
       'DiceBox is not initialized. Please ensure the dice box is set up correctly.',
     )
 
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+
     // @ts-ignore
     dicebox.show()
     // @ts-ignore
     await dicebox.roll(notation)
+
     // @ts-ignore
     const results = dicebox.getRollResults()
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       // @ts-ignore
       dicebox.hide(HIDE_CLASS_NAME)
       // @ts-ignore
       dicebox.clear()
     }, timeout)
+
     // @ts-ignore
     return results.map((result: { value: number }) => result?.value ?? 0)
   }
