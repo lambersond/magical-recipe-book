@@ -2,15 +2,20 @@
 
 import { useState } from 'react'
 import { useDice } from '@/hooks/dice'
+import { processDiceExpression } from '@/utils/dice'
 
 export default function DicePage() {
   const { roll } = useDice()
   const [value, setValue] = useState(0)
-  const [notation, setNotation] = useState('1d20')
+  const [notation, setNotation] = useState('1d20 + 5d8 - 3')
+  const [expression, setExpression] = useState('')
 
   async function onClick() {
-    const results = await roll(notation.split(' '))
-    setValue(results)
+    const processor = processDiceExpression(notation)
+    const results = await roll(processor.dicePatterns)
+
+    setValue(processor.calculate(results)[0])
+    setExpression(processor.calculate(results)[1])
   }
   return (
     <div className='flex flex-col items-center justify-center p-20 gap-8'>
@@ -34,6 +39,7 @@ export default function DicePage() {
         <div className='min-w-32 h-32 border-primary border bg-black/20 rounded-lg shadow-lg flex items-center justify-center'>
           <p className='text-7xl'>{value}</p>
         </div>
+        <p className='text-text-secondary p-2'>{expression}</p>
       </div>
     </div>
   )

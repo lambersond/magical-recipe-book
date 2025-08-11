@@ -14,7 +14,7 @@ type VoidPromiseFunction = () => Promise<void>
 type UseDiceBox = {
   isInitialized: boolean
   show: VoidPromiseFunction
-  roll: (notation: DiceNotation) => Promise<number>
+  roll: (notation: DiceNotation) => Promise<number[]>
   hide: VoidPromiseFunction
 }
 
@@ -48,9 +48,7 @@ export function useDice(): UseDiceBox {
       dicebox.clear()
     }, timeout)
     // @ts-ignore
-    return results
-      .map((result: { value: number }) => result?.value ?? 0)
-      .reduce((sum: number, value: number) => sum + value, 0)
+    return results.map((result: { value: number }) => result?.value ?? 0)
   }
 
   return {
