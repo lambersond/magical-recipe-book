@@ -8,12 +8,6 @@ interface ParsedExpression {
   staticModifier: number
 }
 
-// Extract just the dice patterns as strings for your existing dice function
-function extractDicePatterns(expression: string): string[] {
-  const dicePattern = /\d+d\d+/g
-  return expression.match(dicePattern) || []
-}
-
 // Parse the full expression with signs and static modifiers
 function parseDiceExpression(expression: string): ParsedExpression {
   // Remove all whitespace
