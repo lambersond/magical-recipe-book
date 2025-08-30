@@ -22,6 +22,7 @@ export function useCharacterCookbook() {
   return {
     filter,
     sort: 'TBD',
+    viewMode: data.viewMode,
   }
 }
 

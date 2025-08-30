@@ -11,7 +11,7 @@ export function Card({
   const classes = classNames(
     {
       [card]: !overrideViews,
-      'hover:border-hover cursor-pointer': !!onClick,
+      'hover:border-hover cursor-pointer': !!onClick && !overrideViews,
     },
     className,
   )

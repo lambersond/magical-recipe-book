@@ -13,3 +13,11 @@ export type CardWithActionsProps = Omit<CardProps, 'children'> & {
   children?: React.ReactNode
   options: MenuProps['options']
 }
+
+export type CollapsibleCardProps = {
+  id?: string
+  title: React.ReactNode
+  subtitle?: React.ReactNode
+  children: React.ReactNode
+  classNames?: string
+}
