@@ -9,6 +9,14 @@ jest.mock('next/navigation', () => ({
   }),
 }))
 
+jest.mock('@/hooks/dice', () => {
+  return {
+    useDice: () => ({
+      roll: () => jest.fn(),
+    }),
+  }
+})
+
 describe('hooks/use-modals', () => {
   it('should throw error if not wrapped in provider', () => {
     expect(() => renderHook(() => useModals())).toThrow(

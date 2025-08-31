@@ -61,6 +61,19 @@
   --color-stat-common-ingredients: oklch(45.7% 0.24 277.023);
   --color-stat-magic-ingredients: oklch(51.8% 0.253 323.949);
   --color-stat-recipes: oklch(50.8% 0.118 165.612);
+
+  --animate-dice-spin: dice-spin 1s ease-in-out;
+  @keyframes dice-spin {
+    0% {
+      transform: rotate(540deg);
+    },
+    50% {
+      transform: rotate(360deg);
+    },
+    100% {
+      transform: rotate(720deg);
+    }
+  }
 }
 
 :root {

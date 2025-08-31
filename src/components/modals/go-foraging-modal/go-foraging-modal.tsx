@@ -3,14 +3,18 @@
 import { useEffect, useState } from 'react'
 import { Dropdown, Modal, Switch } from '@/components/common'
 import { DropdownOption } from '@/components/common/dropdown'
+import { D6Icon } from '@/components/common/icons'
+import { useDice } from '@/hooks/dice'
 import { useModals } from '@/hooks/use-modals'
 import { Ingredient } from '@/types'
+import { processDiceExpression } from '@/utils/dice'
 import type { GoForagingModalProps } from './types'
 
 export function GoForagingModal({
   onSubmit,
   open,
 }: Readonly<GoForagingModalProps>) {
+  const { roll } = useDice()
   const { closeModal } = useModals()
   const [quantity, setQuantity] = useState(0)
   const [magicalIngredient, setMagicalIngredient] = useState('')
@@ -40,6 +44,11 @@ export function GoForagingModal({
   const handleOnSelect = (option: DropdownOption) => {
     setMagicalIngredient(option.id)
     setQuantity(1)
+  }
+  const onClick = async () => {
+    const processor = processDiceExpression('1d6')
+    const [results] = await roll(processor.dicePatterns)
+    setQuantity(results + 1)
   }
 
   useEffect(() => {
@@ -96,20 +105,29 @@ export function GoForagingModal({
                 searchable
               />
             ) : (
-              [2, 3, 4, 5, 6, 7].map(num => (
+              <>
+                {[2, 3, 4, 5, 6, 7].map(num => (
+                  <button
+                    key={num}
+                    type='button'
+                    onClick={() => setQuantity(num)}
+                    className={`p-3 rounded-lg border-2 transition-all cursor-pointer ${
+                      quantity === num
+                        ? 'border-green-400 bg-green-900/30 text-green-300 shadow-md'
+                        : 'border-gray-600 hover:border-green-500 hover:bg-green-900/20 text-gray-300 hover:text-green-300'
+                    }`}
+                  >
+                    <span className='font-semibold text-lg'>{num}</span>
+                  </button>
+                ))}
                 <button
-                  key={num}
-                  type='button'
-                  onClick={() => setQuantity(num)}
-                  className={`p-3 rounded-lg border-2 transition-all cursor-pointer ${
-                    quantity === num
-                      ? 'border-green-400 bg-green-900/30 text-green-300 shadow-md'
-                      : 'border-gray-600 hover:border-green-500 hover:bg-green-900/20 text-gray-300 hover:text-green-300'
-                  }`}
+                  className='group p-4 rounded-full cursor-pointer bg-white/10 hover:bg-white/30 col-span-full place-self-center uppercase flex text-2xl font-bold items-center gap-2'
+                  onClick={onClick}
                 >
-                  <span className='font-semibold text-lg'>{num}</span>
+                  <D6Icon className='text-primary size-10 group-hover:animate-dice-spin duration-700 ease-in-out' />
+                  Roll
                 </button>
-              ))
+              </>
             )}
           </div>
         </div>
