@@ -2,6 +2,37 @@ import type { RoadmapItem } from './types/roadmap'
 
 export const ROADMAP: RoadmapItem[] = [
   {
+    id: 9,
+    phase: 'Rollies',
+    quarter: 'Q3 2026',
+    status: 'in-progress',
+    progress: 10,
+    description: 'Roll for all checks',
+    milestones: [
+      {
+        task: 'Character Abilities can be rolled',
+        completed: true,
+        date: 'Aug 31, 2026',
+      },
+      {
+        task: 'All Foraging can be rolled',
+        completed: false,
+        date: 'TBD',
+      },
+      {
+        task: 'All Preparing can be rolled',
+        completed: false,
+        date: 'TBD',
+      },
+      {
+        task: 'All Cooking can be rolled',
+        completed: false,
+        date: 'TBD',
+      },
+    ],
+    deliverables: ['3D Dice Roller'],
+  },
+  {
     id: 8,
     phase: 'Campaign/Guilds/Parties',
     quarter: 'Q2 2026',
@@ -73,37 +104,37 @@ export const ROADMAP: RoadmapItem[] = [
     status: 'in-progress',
     description:
       'Add a backpack feature to the character page and improve styling.',
-    progress: 40,
+    progress: 75,
     milestones: [
       {
         task: 'Improve view of biome card',
         completed: true,
-        date: 'Jul 30',
+        date: 'Jul 30, 2025',
       },
       {
         task: 'Users can view all cooked dishes in backpack',
         completed: true,
-        date: 'Aug 2',
+        date: 'Aug 2, 2025',
       },
       {
         task: 'Users can delete a cooked dishes from backpack',
         completed: true,
-        date: 'Aug 3',
+        date: 'Aug 3, 2025',
       },
       {
         task: 'Users can prepare dish to finish cooking in 7 days',
         completed: true,
-        date: 'Aug 3',
+        date: 'Aug 3, 2025',
       },
       {
         task: 'Users can finish cooking a prepared dish',
         completed: true,
-        date: 'Aug 5',
+        date: 'Aug 5, 2025',
       },
       {
         task: 'Improve view of ingredient card',
-        completed: false,
-        date: 'TBD',
+        completed: true,
+        date: 'Sep 1, 2025',
       },
       { task: 'Support uploading of images', completed: false, date: 'TBD' },
       {
@@ -127,7 +158,7 @@ export const ROADMAP: RoadmapItem[] = [
     progress: 10,
     description: 'Enhancements to the site to improve user experience.',
     milestones: [
-      { task: 'Enhance Sidebar', completed: true, date: 'Jul 27' },
+      { task: 'Enhance Sidebar', completed: true, date: 'Jul 27, 2025' },
       { task: 'Add Vercel Metrics gathering', completed: false, date: 'TBD' },
     ],
     deliverables: ['Site Enhancements', 'Improved User Experience'],
@@ -141,13 +172,17 @@ export const ROADMAP: RoadmapItem[] = [
     description:
       'Users can now search core features of the app, including biomes, ingredients, and recipes as well as on their characters.',
     milestones: [
-      { task: 'Biomes are searchable', completed: true, date: 'Jul 31' },
-      { task: 'Ingredients are searchable', completed: false, date: 'TBD' },
+      { task: 'Biomes are searchable', completed: true, date: 'Jul 31, 2025' },
+      {
+        task: 'Ingredients are searchable',
+        completed: false,
+        date: 'Sep 1, 2025',
+      },
       { task: 'Recipes are searchable', completed: false, date: 'TBD' },
       {
         task: 'Character ingredients pouch can be searched',
         completed: true,
-        date: 'Jul 24',
+        date: 'Jul 24, 2025',
       },
       {
         task: 'Character ingredients pouch can be filtered by fields',
@@ -157,10 +192,10 @@ export const ROADMAP: RoadmapItem[] = [
       {
         task: 'Character cookbook can be searched',
         completed: true,
-        date: 'Jul 30',
+        date: 'Jul 30, 2025',
       },
     ],
-    deliverables: ['Market Report', 'User Personas', 'Technical Blueprint'],
+    deliverables: ['Search functionality for core objects'],
   },
   {
     id: 3,
@@ -170,27 +205,43 @@ export const ROADMAP: RoadmapItem[] = [
     progress: 100,
     description: 'Core feature for the character system',
     milestones: [
-      { task: 'Create Character', completed: true, date: 'Jul 23' },
-      { task: 'View Character Page', completed: true, date: 'Jul 23' },
-      { task: 'Characters can advance time', completed: true, date: 'Jul 23' },
+      { task: 'Create Character', completed: true, date: 'Jul 23, 2025' },
+      { task: 'View Character Page', completed: true, date: 'Jul 23, 2025' },
+      {
+        task: 'Characters can advance time',
+        completed: true,
+        date: 'Jul 23, 2025',
+      },
       {
         task: 'Characters can forage for ingredients',
         completed: true,
-        date: 'Jul 24',
+        date: 'Jul 24, 2025',
       },
       {
         task: 'Characters can view their foraging log',
         completed: true,
-        date: 'Jul 24',
+        date: 'Jul 24, 2025',
       },
       {
         task: 'Characters can view their ingredients pouch',
         completed: true,
-        date: 'Jul 24',
+        date: 'Jul 24, 2025',
       },
-      { task: 'Characters can add recipes', completed: true, date: 'Jul 28' },
-      { task: 'Characters can view recipes', completed: true, date: 'Jul 28' },
-      { task: 'Characters can cook a recipe', completed: true, date: 'Jul 30' },
+      {
+        task: 'Characters can add recipes',
+        completed: true,
+        date: 'Jul 28, 2025',
+      },
+      {
+        task: 'Characters can view recipes',
+        completed: true,
+        date: 'Jul 28, 2025',
+      },
+      {
+        task: 'Characters can cook a recipe',
+        completed: true,
+        date: 'Jul 30, 2025',
+      },
     ],
     deliverables: ['Character Page', 'Character Creation', 'Character Actions'],
   },
@@ -202,8 +253,12 @@ export const ROADMAP: RoadmapItem[] = [
     progress: 100,
     description: 'Integrate Google Authentication and user management',
     milestones: [
-      { task: 'Auth Tables added to db', completed: true, date: 'Jul 22' },
-      { task: 'Enable in Production', completed: true, date: 'Jul 25' },
+      {
+        task: 'Auth Tables added to db',
+        completed: true,
+        date: 'Jul 22, 2025',
+      },
+      { task: 'Enable in Production', completed: true, date: 'Jul 25, 2025' },
     ],
     deliverables: ['User Authentication'],
   },
@@ -216,10 +271,10 @@ export const ROADMAP: RoadmapItem[] = [
     description:
       'Inital rollout of the product with seeded data and viewable content',
     milestones: [
-      { task: 'Biomes', completed: true, date: 'Jul 21' },
-      { task: 'Ingredients', completed: true, date: 'Jul 21' },
-      { task: 'Recipes', completed: true, date: 'Jul 22' },
-      { task: 'Database', completed: true, date: 'Jul 22' },
+      { task: 'Biomes', completed: true, date: 'Jul 21, 2025' },
+      { task: 'Ingredients', completed: true, date: 'Jul 21, 2025' },
+      { task: 'Recipes', completed: true, date: 'Jul 22, 2025' },
+      { task: 'Database', completed: true, date: 'Jul 22, 2025' },
     ],
     deliverables: ['Production App'],
   },

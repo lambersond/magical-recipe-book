@@ -1,15 +1,10 @@
-import { IngredientCard } from '@/components/cards'
-import { Masonry } from '@/components/common'
+import { Ingredients } from '@/components/ingredients'
 import { ingredientsService } from '@/server/ingredients'
+import type { Ingredient } from '@/types'
 
 export async function IngredientsContainer() {
-  const ingredients = await ingredientsService.getAllIngredients()
+  const ingredients =
+    (await ingredientsService.getAllIngredients()) as any as Ingredient[]
 
-  return (
-    <Masonry>
-      {ingredients.map(ingredient => (
-        <IngredientCard {...ingredient} key={ingredient.id} />
-      ))}
-    </Masonry>
-  )
+  return <Ingredients ingredients={ingredients} />
 }

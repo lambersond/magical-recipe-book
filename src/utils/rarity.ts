@@ -76,3 +76,28 @@ export function getRarityContainerClassesFaint(
     defaultClasses,
   )
 }
+
+export function getRarityTextColor(rarity: Rarity, defaultClasses = '') {
+  return clsx(
+    {
+      'text-text-rarity-common': isCommon(rarity),
+      'text-text-rarity-uncommon': isUncommon(rarity),
+      'text-text-rarity-rare': isRare(rarity),
+      'text-text-rarity-very-rare': isVeryRare(rarity),
+      'text-text-rarity-epic': isEpic(rarity),
+      'text-text-rarity-legendary': isLegendary(rarity),
+    },
+    defaultClasses,
+  )
+}
+
+export function getBorderColorByRarity(rarity: Rarity) {
+  return clsx({
+    'border-rarity-common': isCommon(rarity),
+    'border-rarity-uncommon': isUncommon(rarity),
+    'border-rarity-rare': isRare(rarity),
+    'border-rarity-very-rare': isVeryRare(rarity),
+    'border-rarity-epic ': isEpic(rarity),
+    'border-rarity-legendary': isLegendary(rarity),
+  })
+}

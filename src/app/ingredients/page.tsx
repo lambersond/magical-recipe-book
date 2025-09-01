@@ -6,7 +6,6 @@ import { pageMain } from '@/utils/styles'
 export default function IngredientsPage() {
   return (
     <main className={pageMain}>
-      <h1 className='text-3xl font-bold mb-4 mr-auto'>Ingredients</h1>
       <Suspense
         fallback={
           <MagicalBookLoader loadingText='Loading ingredients list...' />

@@ -1,3 +1,4 @@
+export { BiomeChip } from './biome-chip'
 export { CommonChip } from './common-chip'
 export { DifficultyChallengeChip } from './difficulty-challenge-chip'
 export { IngredientChip } from './ingredient-chip'

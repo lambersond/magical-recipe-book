@@ -58,7 +58,7 @@ export type Biome = {
 
 export type Ingredient = PrismaIngredient & {
   rarity: Rarity
-  biomes?: Partial<PrismaBiome>[]
+  biomes?: { biome: PrismaBiome }[]
 }
 export type RecipeOld = PrismaRecipe & {
   magicalIngredients?: Partial<PrismaIngredient>[]

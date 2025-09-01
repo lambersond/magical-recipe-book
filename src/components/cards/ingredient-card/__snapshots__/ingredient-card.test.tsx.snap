@@ -3,57 +3,83 @@
 exports[`components/cards/ingredient-card should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="p-4 border-border bg-card w-full rounded-none sm:rounded-lg"
+    class="p-4 border-border bg-card w-full rounded-none sm:rounded-lg border-t-2 flex flex-col border-rarity-common"
     data-testid="Card"
   >
-    <h2
-      class="text-2xl font-semibold text-text-primary"
+    <div
+      class="flex items-center items-center justify-between mb-2"
     >
-      Name
-    </h2>
-    <p
-      class="text-text-secondary mb-4"
+      <p
+        class="text-xl font-semibold text-text-primary"
+      >
+        Name
+      </p>
+      <button
+        class="w-fit"
+        data-state="closed"
+      >
+        <svg
+          class="inline size-4 text-text-rarity-common"
+          data-testid="D4Icon"
+          height="24"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 5120 5120"
+          width="24"
+        >
+          <path
+            d="M2349 5024 c-25 -38 -113 -157 -196 -264 -154 -202 -518 -680 -1064 -1400 -174 -228 -450 -593 -615 -810 -389 -512 -474 -626 -474 -639 0 -22 466 -396 1216 -976 50 -38 246 -190 435 -337 189 -146 434 -336 544 -421 l200 -154 6 496 c8 647 8 4026 0 4335 l-6 239 -46 -69z M2710 5080 c-5 -40 -16 -4669 -12 -4833 l7 -227 265 203 c146 112 421 325 611 473 587 457 1227 955 1387 1078 83 65 152 120 152 123 0 9 -566 759 -1465 1943 -157 206 -428 564 -603 794 -367 486 -341 452 -342 446z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="text-text-tertiary mb-4 font-thin italic text-sm"
     />
-    <p
-      class="text-text-secondary mb-2"
+    <div
+      class="flex flex-col space-y-1 text-sm"
     >
       <span
-        class="font-semibold"
+        class="font-semibold text-text-tertiary"
       >
-        Rarity:
+        Boon: 
+        <span
+          class="text-text-primary font-normal text-text-secondary"
+        >
+          Boon
+        </span>
       </span>
-       Common
-    </p>
-    <p
-      class="text-text-secondary mb-2"
-    >
       <span
-        class="font-semibold"
+        class="font-semibold text-text-tertiary"
       >
-        Boon:
+        Bane: 
+        <span
+          class="text-text-primary font-normal text-text-secondary"
+        >
+          Bane
+        </span>
       </span>
-       Boon
-    </p>
-    <p
-      class="text-text-secondary mb-2"
+    </div>
+    <div
+      class="mt-4 text-sm text-text-tertiary flex gap-1 flex-wrap"
     >
-      <span
-        class="font-semibold"
+      <div
+        class="text-xs rounded-sm px-2 py-1 border flex min-w-fit items-center"
+        data-state="closed"
       >
-        Bane:
-      </span>
-       Bane
-    </p>
-    <p
-      class="text-text-secondary mb-2"
-    >
-      <span
-        class="font-semibold"
+        <p>
+          Biome 1
+        </p>
+      </div>
+      <div
+        class="text-xs rounded-sm px-2 py-1 border flex min-w-fit items-center"
+        data-state="closed"
       >
-        Biomes:
-      </span>
-       Biome 1, Biome 2
-    </p>
+        <p>
+          Biome 2
+        </p>
+      </div>
+    </div>
   </div>
 </DocumentFragment>
 `;

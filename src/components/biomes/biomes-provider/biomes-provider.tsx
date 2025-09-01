@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useMemo,
   useState,
   type Dispatch,
   type SetStateAction,
@@ -22,16 +23,19 @@ export const BiomesApiContext =
 export function BiomesProvider({
   children,
   defaultBiomes,
-}: {
+}: Readonly<{
   children: React.ReactNode
   defaultBiomes: Biome[]
-}) {
+}>) {
   const [biomes, setBiomes] = useState<Biome[]>(defaultBiomes)
 
-  const value = {
-    defaultBiomes,
-    biomes,
-  }
+  const value = useMemo(
+    () => ({
+      defaultBiomes,
+      biomes,
+    }),
+    [defaultBiomes, biomes],
+  )
 
   return (
     <BiomesApiContext.Provider value={setBiomes}>
