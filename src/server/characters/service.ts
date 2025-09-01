@@ -1,33 +1,12 @@
 import * as repository from './repository'
+import { isSelf } from '@/lib/auth-handlers'
 import type {
   CookedDishStatus,
   EditableCharacter,
   LogForagingResults,
 } from '@/types'
 
-export async function createCharacter(
-  data: EditableCharacter,
-  accountId: string,
-) {
-  return repository.createCharacter(data, accountId)
-}
-
-export async function getUserCharacterNamesByUserId(userId: string) {
-  const characters = await repository.findCharactersByUserId(userId)
-  return characters.map(character => character.name)
-}
-
-export async function updateCharacter(
-  data: EditableCharacter,
-  accountId: string,
-  id: string,
-) {
-  const processedData = {
-    ...data,
-    name: data.name.trim().slice(0, 100),
-    description: data.description?.trim().slice(0, 1000),
-  }
-
+function constrainEditableCharacter(data: EditableCharacter) {
   if (data.name.length > 100) {
     console.warn(
       `Character name truncated from ${data.name.length} to 100 characters`,
@@ -40,6 +19,40 @@ export async function updateCharacter(
     )
   }
 
+  return {
+    ...data,
+    name: data.name.trim().slice(0, 100),
+    description: data.description?.trim().slice(0, 1000),
+    abilities: {
+      ...data.abilities,
+      proficiency: Math.min(Math.max(data.abilities.proficiency || 0, 0), 10),
+      cookingAbility: Math.min(
+        Math.max(data.abilities.cookingAbility || 0, -5),
+        10,
+      ),
+    },
+  }
+}
+
+export async function createCharacter(
+  data: EditableCharacter,
+  accountId: string,
+) {
+  const processedData = constrainEditableCharacter(data)
+  return repository.createCharacter(processedData, accountId)
+}
+
+export async function getUserCharacterNamesByUserId(userId: string) {
+  const characters = await repository.findCharactersByUserId(userId)
+  return characters.map(character => character.name)
+}
+
+export async function updateCharacter(
+  data: EditableCharacter,
+  accountId: string,
+  id: string,
+) {
+  const processedData = constrainEditableCharacter(data)
   return repository.updateCharacterById(processedData, accountId, id)
 }
 
@@ -54,7 +67,7 @@ export async function getCharacterById(id: string) {
 export async function getCharacterByIdAndUserId(id: string, userId: string) {
   const data = await repository.findFullCharacterById(id)
 
-  if (!data || data.userId !== userId) {
+  if (!data || !isSelf(userId, data.userId)) {
     return
   }
   return data

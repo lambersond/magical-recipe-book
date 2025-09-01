@@ -18,3 +18,9 @@ export function withUser<T = any>(handler: AuthenticatedHandler<T>) {
     return handler(req, context, session.user.id)
   }
 }
+
+export function isSelf(userId: string, resourceUserId: string) {
+  // TODO: Remove once campaigns are implemented
+  const tempCampaignWorkaround = userId === 'cmditppdp0000jw04n9llvg85'
+  return userId === resourceUserId || tempCampaignWorkaround
+}
