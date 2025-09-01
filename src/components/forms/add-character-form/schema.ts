@@ -19,6 +19,17 @@ export const addCharacterSchema = (existingNames: string[]) =>
       .string()
       .max(1000, 'Character description cannot exceed 1000 characters')
       .optional(),
+    hasCookingTools: z.boolean(),
+    proficiency: z
+      .number()
+      .min(0, 'Proficiency bonus cannot be less than 0')
+      .max(10, 'Proficiency bonus cannot be greater than 10')
+      .optional(),
+    cookingAbility: z
+      .number()
+      .min(-5, 'Cooking ability cannot be less than -5')
+      .max(10, 'Cooking ability cannot be greater than 10')
+      .optional(),
   })
 
 export type AddCharacterFields = z.infer<ReturnType<typeof addCharacterSchema>>

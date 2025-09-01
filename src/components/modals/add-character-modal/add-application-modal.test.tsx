@@ -13,7 +13,11 @@ describe('components/modals/add-character-modal', () => {
   it('should call onSubmit with the new character', async () => {
     const onSubmit = jest.fn()
     const { getByText, getByTestId, user } = useUser(
-      <AddCharacterModal open onSubmit={onSubmit} />,
+      <AddCharacterModal
+        open
+        existingCharacterNames={[]}
+        onSubmit={onSubmit}
+      />,
     )
 
     expect(getByText('Add Character')).toBeInTheDocument()
@@ -28,6 +32,11 @@ describe('components/modals/add-character-modal', () => {
     expect(onSubmit).toHaveBeenCalledWith({
       name: 'Name',
       description: 'Description',
+      abilities: {
+        proficiency: 0,
+        cookingAbility: 0,
+        hasCookingTools: false,
+      },
     })
     expect(mockCloseModal).toHaveBeenCalledWith('AddCharacterModal')
   })

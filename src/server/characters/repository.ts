@@ -130,9 +130,10 @@ export async function findCharactersByUserId(userId: string) {
 }
 
 export async function createCharacter(data: EditableCharacter, userId: string) {
+  const { abilities, ...rest } = data
   return prisma.character.create({
     data: {
-      ...data,
+      ...rest,
       userId,
       ingredientsPouch: {
         create: {
@@ -149,7 +150,9 @@ export async function createCharacter(data: EditableCharacter, userId: string) {
         create: {},
       },
       abilities: {
-        create: {},
+        create: {
+          ...abilities,
+        },
       },
     },
     include: returnFields,
