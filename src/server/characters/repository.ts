@@ -97,6 +97,8 @@ const returnFields = {
   },
   cookbook: cookbookInclude,
   backpack: backpackInclude,
+  settings: true,
+  abilities: true,
 } as const
 
 export async function findFullCharacterById(id: string) {
@@ -143,6 +145,12 @@ export async function createCharacter(data: EditableCharacter, userId: string) {
       backpack: {
         create: {},
       },
+      settings: {
+        create: {},
+      },
+      abilities: {
+        create: {},
+      },
     },
     include: returnFields,
   })
@@ -158,6 +166,14 @@ export async function updateCharacterById(
     data: {
       ...data,
       userId,
+      abilities: {
+        update: {
+          ...data.abilities,
+        },
+      },
+    },
+    include: {
+      abilities: true,
     },
   })
 }
@@ -274,7 +290,7 @@ export async function updateCharacterForagingLogById(
     })
 
     return {
-      foragingLog: [foragedIngredient, ...character!.foragingLog],
+      foragingLog: [foragedIngredient, ...character.foragingLog],
       ingredientsPouch: updatedPouch,
     }
   })

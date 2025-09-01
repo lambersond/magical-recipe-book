@@ -20,7 +20,15 @@ describe('components/modals/edit-character-modal', () => {
       <EditCharacterModal
         open
         onSubmit={onSubmit}
-        character={{ name: 'name', description: 'description' }}
+        character={{
+          name: 'name',
+          description: 'description',
+          abilities: {
+            proficiency: 2,
+            cookingAbility: 3,
+            hasCookingTools: false,
+          },
+        }}
       />,
     )
 
@@ -37,6 +45,11 @@ describe('components/modals/edit-character-modal', () => {
     expect(onSubmit).toHaveBeenCalledWith({
       name: 'New Name',
       description: 'New Description',
+      abilities: {
+        proficiency: 2,
+        cookingAbility: 3,
+        hasCookingTools: false,
+      },
     })
     expect(mockCloseModal).toHaveBeenCalledWith('EditCharacterModal')
   })

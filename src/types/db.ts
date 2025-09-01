@@ -136,12 +136,25 @@ export type FullCharacter = {
   foragingLog: ForagedIngredient[]
   ingredientsPouch: IngredientsPouch
   backpack: Backpack
+  abilities: CharacterAbilities
+}
+
+export type CharacterAbilities = {
+  characterId: string
+  cookingAbility: number
+  hasCookingTools: boolean
+  proficiency: number
 }
 
 export type EditableCharacter = {
   id?: string
   name: string
   description?: string
+  abilities: {
+    hasCookingTools: boolean
+    cookingAbility?: number
+    proficiency?: number
+  }
 }
 
 export type LogForagingResults = {

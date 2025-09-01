@@ -4,12 +4,22 @@ import { mockDeep } from 'jest-mock-extended'
 
 // create one shared deep‐mock for all tests
 export const prismaMock = mockDeep<PrismaClient>()
+export const diceRollMock = jest.fn()
 
 // jest will replace any import of { PrismaClient } with this mock
 jest.mock('@prisma/client', () => {
   return {
     __esModule: true,
     PrismaClient: jest.fn(() => prismaMock),
+  }
+})
+
+// Mock 3D Dice Box
+jest.mock('@/hooks/dice', () => {
+  return {
+    useDice: () => ({
+      roll: diceRollMock,
+    }),
   }
 })
 

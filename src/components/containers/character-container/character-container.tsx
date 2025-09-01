@@ -7,10 +7,10 @@ import { characterService } from '@/server/characters'
 export async function CharacterContainer({
   id,
   userId,
-}: {
+}: Readonly<{
   id: string
   userId: string
-}) {
+}>) {
   const character = await characterService.getCharacterByIdAndUserId(id, userId)
 
   if (!character) {

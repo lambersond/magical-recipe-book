@@ -6,6 +6,12 @@ jest.mock('@/components/character/hooks/use-character', () => ({
     description: 'Test description',
     createdAt: new Date('2023-01-01T00:00:00Z'),
     updatedAt: new Date('2023-01-02T00:00:00Z'),
+    abilities: {
+      proficiency: 3,
+      cookingAbility: 5,
+      hasCookingTools: true,
+      characterId: 'char-123',
+    },
   }),
 }))
 

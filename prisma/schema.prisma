@@ -130,6 +130,8 @@ model Character {
   ingredientsPouch  IngredientsPouch?
   cookbook          Cookbook?
   backpack          Backpack?
+  settings          CharacterSettings?
+  abilities         CharacterAbilities?
 
   @@unique([userId, name])
 }
@@ -231,6 +233,35 @@ model InfusedItem {
   backpackId   String?
 
   @@index([backpackId])
+}
+
+model CharacterSettings {
+  id          String    @id @default(cuid())
+  characterId String    @unique
+  campaignId  String    @default("")
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  
+  @@index([characterId])
+}
+
+model CharacterAbilities {
+  id              String    @id @default(cuid())
+  characterId     String    @unique
+  
+  cookingAbility  Int       @default(0)
+  proficiency     Int       @default(2)
+  hasCookingTools Boolean   @default(false)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  character       Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  
+  @@index([characterId])
 }
 
 // -------------------------
