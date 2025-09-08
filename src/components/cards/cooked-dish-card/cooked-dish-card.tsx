@@ -50,7 +50,9 @@ export function CookedDishCard({
           </p>
           <span className='text-sm text-text-secondary flex gap-2 items-center'>
             <span className={cookedDishStatusClasses}>
-              {consumedOnDay ? `consumed on day ${consumedOnDay}` : ''}
+              {isPrepared
+                ? `prepared on day ${cookedOnDay}`
+                : `consumed on day ${consumedOnDay}`}
             </span>
             <StatusChip
               cookedOnDay={cookedOnDay}
@@ -72,7 +74,7 @@ export function CookedDishCard({
         <p className='text-text-primary/90'>{descriptionText}</p>
         {isPrepared && !isExpired && (
           <p className='text-sm text-text-tertiary italic'>
-            Read to consume - effects unknown until eaten
+            Ready to consume - effects unknown until eaten
           </p>
         )}
       </span>
@@ -96,9 +98,6 @@ export function CookedDishCard({
           />
         </span>
       )}
-      <p className='text-xs text-text-tertiary font-thin italic'>
-        Cooked on Day {cookedOnDay}
-      </p>
     </Card>
   )
 }
