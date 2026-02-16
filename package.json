@@ -26,7 +26,7 @@
     "@prisma/client": "6.9.0",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "lucide-react": "^0.532.0",
     "next": "15.3.8",
     "next-auth": "^5.0.0-beta.29",
