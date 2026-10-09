@@ -47,7 +47,7 @@ export function AddCharacterForm({
         maxLength={1001}
         error={formState.errors.description?.message}
       />
-      <div className='grid grid-cols-1 space-x-3 sm:grid-cols-2 -mt-3 mb-6'>
+      <div className='grid grid-cols-1 gap-x-3 sm:grid-cols-2 mb-6'>
         <Input
           onClick={noop}
           label='Proficiency Bonus'

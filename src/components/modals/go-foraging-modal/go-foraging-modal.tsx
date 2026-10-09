@@ -92,19 +92,21 @@ export function GoForagingModal({
           rightText='Magical'
           onChange={handleSwitchChange}
         />
-        <div className='min-h-40'>
+        <div className='min-h-40 mt-4'>
           <p className='text-md font-bold text-text-secondary mb-2'>
             {foragingOptionText}
           </p>
           <div className='grid grid-cols-3 gap-2'>
             {isMagical ? (
-              <Dropdown
-                options={magicalOptions}
-                placeholder='Select Magical Ingredient'
-                onSelect={handleOnSelect}
-                width='w-96'
-                searchable
-              />
+              <div className='col-span-full'>
+                <Dropdown
+                  options={magicalOptions}
+                  placeholder='Select Magical Ingredient'
+                  onSelect={handleOnSelect}
+                  width='w-96'
+                  searchable
+                />
+              </div>
             ) : (
               <>
                 {[2, 3, 4, 5, 6, 7].map(num => (

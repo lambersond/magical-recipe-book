@@ -69,9 +69,8 @@ export function Dropdown<S, T>({
       }
     }
 
-    return (
-      options?.[0] || { id: 'default-empty', label: 'No Options Available' }
-    )
+    // Options can arrive after mount; show the placeholder until then
+    return options?.[0] || { id: 'default-empty', label: placeholder }
   })
   const [selectedItems, setSelectedItems] = useState<DropdownOption<S, T>[]>([])
   const [searchTerm, setSearchTerm] = useState('')
