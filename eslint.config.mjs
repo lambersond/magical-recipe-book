@@ -1,6 +1,7 @@
 import pluginJs from '@eslint/js'
 import pluginNext from '@next/eslint-plugin-next'
 import stylistic from '@stylistic/eslint-plugin'
+import { globalIgnores } from 'eslint/config'
 import importX from 'eslint-plugin-import-x'
 import nounsanitized from 'eslint-plugin-no-unsanitized'
 import prettier from 'eslint-plugin-prettier'
@@ -11,6 +12,13 @@ import tseslint from 'typescript-eslint'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'coverage/**',
+    'next-env.d.ts',
+  ]),
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   { settings: { react: { version: 'detect' } } },
@@ -64,7 +72,11 @@ export default [
       'react/prop-types': 0,
       'react/react-in-jsx-scope': 'off',
       'unicorn/no-lonely-if': 'error',
-      'unicorn/filename-case': ['error', { case: 'kebabCase' }],
+      'unicorn/filename-case': [
+        'error',
+        // Next.js dynamic route segments mirror their param names, e.g. [cookedDishId]
+        { case: 'kebabCase', ignore: [/^\[.+]$/] },
+      ],
       'unicorn/prevent-abbreviations': 'off',
       'import/no-unresolved': 'off',
       'import/no-duplicates': ['error', { considerQueryString: true }],
