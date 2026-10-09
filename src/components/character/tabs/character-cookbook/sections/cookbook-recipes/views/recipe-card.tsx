@@ -1,11 +1,14 @@
 'use client'
 
 import { RecipeActions, RecipeIngredients, RecipeOutcomes } from '../components'
+import { useEditCommonIngredients } from '../hooks/use-edit-common-ingredients'
 import { DifficultyChallengeChip } from '@/components/chips'
 import { Card } from '@/components/common'
 import type { RecipeCardProps } from './types'
 
 export function RecipeCard({ recipe }: Readonly<RecipeCardProps>) {
+  const { onEditCommonIngredients } = useEditCommonIngredients(recipe)
+
   return (
     <Card
       className='border-y sm:border border-border rounded-none sm:rounded-lg bg-card'
@@ -28,6 +31,7 @@ export function RecipeCard({ recipe }: Readonly<RecipeCardProps>) {
       <div className='p-4 pb-0'>
         <RecipeIngredients
           mundaneIngredients={recipe.mundaneIngredients}
+          onEditCommonIngredients={onEditCommonIngredients}
           magicalIngredients={recipe.magicalIngredients}
         />
       </div>

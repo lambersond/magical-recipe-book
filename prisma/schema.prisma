@@ -111,6 +111,7 @@ model Recipe {
   magicalIngredients  RecipeIngredient[]
   knownRecipes        Cookbook[]
   cookedDishes        CookedDish[]
+  cookbookOverrides   CookbookRecipeOverride[]
 }
 
 model Character {
@@ -147,8 +148,24 @@ model Cookbook {
   characterId  String      @unique
   
   knownRecipes Recipe[]
+  recipeOverrides CookbookRecipeOverride[]
 
   @@index([characterId])
+}
+
+// A character's own names for a known recipe's common ingredients. Kept
+// apart from Recipe, which is shared by every cookbook and reseeded on deploy.
+model CookbookRecipeOverride {
+  cookbook           Cookbook    @relation(fields: [cookbookId], references: [id], onDelete: Cascade)
+  cookbookId         String
+  recipe             Recipe      @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId           String
+  mundaneIngredients String[]
+
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  @@id([cookbookId, recipeId], name: "cookbookRecipe")
 }
 
 model IngredientsPouch {

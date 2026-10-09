@@ -85,13 +85,18 @@ export type Recipe = {
   }[]
 }
 
+export type CookbookRecipe = Recipe & {
+  /** The recipe's own common ingredient names, before any renaming */
+  defaultMundaneIngredients: string[]
+}
+
 export type Cookbook = {
   id: string
   image: string
   createdAt: Date
   updatedAt: Date
   characterId: string
-  knownRecipes: Recipe[]
+  knownRecipes: CookbookRecipe[]
 }
 
 export type ForagedIngredient = {

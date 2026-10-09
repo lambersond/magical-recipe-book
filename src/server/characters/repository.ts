@@ -29,6 +29,9 @@ const cookbookInclude = {
         },
       },
     },
+    recipeOverrides: {
+      select: { recipeId: true, mundaneIngredients: true },
+    },
   },
 } as const
 
@@ -395,6 +398,47 @@ export async function addRecipeToCharacterCookbook(
         cookbook: cookbookInclude,
       },
     })
+  })
+}
+
+export async function findCookbookWithKnownRecipe(
+  characterId: string,
+  userId: string,
+  recipeId: string,
+) {
+  return prisma.cookbook.findFirst({
+    where: {
+      character: { id: characterId, userId },
+      knownRecipes: { some: { id: recipeId } },
+    },
+    select: {
+      id: true,
+      knownRecipes: {
+        where: { id: recipeId },
+        select: { mundaneIngredients: true },
+      },
+    },
+  })
+}
+
+export async function upsertCookbookRecipeOverride(
+  cookbookId: string,
+  recipeId: string,
+  mundaneIngredients: string[],
+) {
+  return prisma.cookbookRecipeOverride.upsert({
+    where: { cookbookRecipe: { cookbookId, recipeId } },
+    create: { cookbookId, recipeId, mundaneIngredients },
+    update: { mundaneIngredients },
+  })
+}
+
+export async function deleteCookbookRecipeOverride(
+  cookbookId: string,
+  recipeId: string,
+) {
+  return prisma.cookbookRecipeOverride.deleteMany({
+    where: { cookbookId, recipeId },
   })
 }
 

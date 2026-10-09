@@ -26,6 +26,11 @@ export const MODALS = {
       default: module.EditCharacterModal,
     })),
   ),
+  EditCommonIngredientsModal: lazy(() =>
+    import('./components/modals').then(module => ({
+      default: module.EditCommonIngredientsModal,
+    })),
+  ),
   FinishCookedDishModal: lazy(() =>
     import('./components/modals').then(module => ({
       default: module.FinishCookedDishModal,
