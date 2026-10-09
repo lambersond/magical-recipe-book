@@ -9,11 +9,7 @@ export type { DefaultArgs } from '@prisma/client/runtime/client'
 export type { Prisma } from '@prisma/client'
 
 export type CookedDishStatus =
-  | 'prepared'
-  | 'success'
-  | 'boon'
-  | 'failure'
-  | 'bane'
+  'prepared' | 'success' | 'boon' | 'failure' | 'bane'
 
 export type CookedDishMagicalIngredient = {
   ingredient: {
