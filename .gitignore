@@ -34,6 +34,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# @3d-dice/dice-box postinstall copies; the app uses public/assets/dice-box
+/public/assets/ammo/
+/public/assets/themes/
+
 # vercel
 .vercel
 
