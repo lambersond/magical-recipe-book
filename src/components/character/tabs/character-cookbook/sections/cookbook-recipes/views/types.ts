@@ -1,5 +1,5 @@
-import type { Recipe } from '@/types'
+import type { CookbookRecipe } from '@/types'
 
 export type RecipeCardProps = {
-  recipe: Recipe
+  recipe: CookbookRecipe
 }

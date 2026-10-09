@@ -6,14 +6,14 @@ import { useCharacterCookbook } from '@/components/character/hooks/use-character
 
 export function CookbookRecipes() {
   const character = useCharacter()
-  const { filter, viewMode } = useCharacterCookbook()
+  const { filter, sort, viewMode } = useCharacterCookbook()
   const { cookbook } = character
 
   const ViewComponent = viewMode === 'card' ? RecipeCard : RecipeListItem
 
-  const filteredRecipeList = cookbook.knownRecipes.filter(recipe =>
-    filter(recipe),
-  )
+  const filteredRecipeList = cookbook.knownRecipes
+    .filter(recipe => filter(recipe))
+    .toSorted(sort)
 
   if (filteredRecipeList.length === 0) {
     return (

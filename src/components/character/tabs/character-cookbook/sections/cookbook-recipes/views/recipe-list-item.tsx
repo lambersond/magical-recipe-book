@@ -1,11 +1,14 @@
 'use client'
 
 import { RecipeActions, RecipeIngredients, RecipeOutcomes } from '../components'
+import { useEditCommonIngredients } from '../hooks/use-edit-common-ingredients'
 import { DifficultyChallengeChip } from '@/components/chips'
 import { CollapsibleCard } from '@/components/common'
 import type { RecipeCardProps } from './types'
 
 export function RecipeListItem({ recipe }: Readonly<RecipeCardProps>) {
+  const { onEditCommonIngredients } = useEditCommonIngredients(recipe)
+
   return (
     <CollapsibleCard
       id={recipe.id}
@@ -44,6 +47,7 @@ export function RecipeListItem({ recipe }: Readonly<RecipeCardProps>) {
       </p>
       <RecipeIngredients
         mundaneIngredients={recipe.mundaneIngredients}
+        onEditCommonIngredients={onEditCommonIngredients}
         magicalIngredients={recipe.magicalIngredients}
       />
       <RecipeOutcomes

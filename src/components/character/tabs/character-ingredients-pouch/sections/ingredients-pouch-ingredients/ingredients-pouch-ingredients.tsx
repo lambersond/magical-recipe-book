@@ -5,7 +5,7 @@ import { Card } from '@/components/common'
 
 export function IngredientsPouchIngredients() {
   const character = useCharacter()
-  const { filter } = useCharacterIngredientsPouch()
+  const { filter, sort } = useCharacterIngredientsPouch()
   const { ingredientsPouch } = character
 
   const counts = [
@@ -49,6 +49,7 @@ export function IngredientsPouchIngredients() {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {ingredientsPouch.magicalIngredients
           .filter(ingredient => filter(ingredient))
+          .toSorted(sort)
           .map(ingredient => (
             <MagicalForagingEntryCard
               key={ingredient.id}
