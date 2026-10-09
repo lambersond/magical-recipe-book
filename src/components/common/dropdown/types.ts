@@ -7,6 +7,7 @@ export type DropdownOption<S = string, T = string> = {
 
 export type DropdownProps<S = string, T = string | number> = {
   options: DropdownOption<S, T>[]
+  defaultSelectedId?: S
   selected?: DropdownOption<S, T>
   onSelect: (option: DropdownOption<S, T>) => void
   label?: string
@@ -17,4 +18,8 @@ export type DropdownProps<S = string, T = string | number> = {
   width?: string
   searchable?: boolean
   searchPlaceholder?: string
+  size?: 'sm' | 'md' | 'lg'
+  multiselection?: boolean
+  clearable?: boolean
+  clearAfterSelect?: boolean
 }

@@ -23,6 +23,9 @@
   
   --color-hover: #0000003F;
   --color-border: oklch(37.3% 0.034 259.733);
+  /* Border names used by the common components shared with gr8-retros */
+  --color-border-light: var(--color-border);
+  --color-border-dark: oklch(46% 0.034 259.733);
   
   /* Status colors - adjusted for dark theme */
   --color-info: oklch(58.8% 0.158 241.966);

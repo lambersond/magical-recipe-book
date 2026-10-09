@@ -1,9 +1,11 @@
-import { IconButton } from '../buttons'
+import { IconButton } from '../button'
 import { SIZE } from '../constants'
 import { CloseIcon, NewIcon } from '../icons'
 import { Tooltip } from '../tooltip'
 import type { ChipProps } from './types'
 import type { MouseEvent } from 'react'
+
+const ICON_BUTTON_SIZE = { xs: 'sm', sm: 'sm', md: 'md', lg: 'lg' } as const
 
 export function Chip({
   isNew,
@@ -25,14 +27,13 @@ export function Chip({
       )}
       <p className={`text-${size} px-2`}>{label}</p>
       {typeof onRemove === 'function' && (
-        <Tooltip title='Remove' asChild>
-          <IconButton
-            onClick={handleOnRemove}
-            size={size}
-            color='transparent'
-            Icon={CloseIcon}
-          />
-        </Tooltip>
+        <IconButton
+          icon={CloseIcon}
+          tooltip='Remove'
+          size={ICON_BUTTON_SIZE[size]}
+          intent='text-primary'
+          onClick={handleOnRemove}
+        />
       )}
     </div>
   )

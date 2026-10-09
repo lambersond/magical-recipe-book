@@ -1,31 +1,45 @@
-import clsx from 'classnames'
+import { forwardRef } from 'react'
+import clsx from 'clsx'
 import type { InputProps } from './types'
 
-export function Input({
-  label,
-  error,
-  register,
-  className = '',
-  name = 'input',
-  disabled = false,
-  registerOptions,
-  ...props
-}: Readonly<InputProps>) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+  {
+    label,
+    error,
+    register,
+    className = '',
+    name = 'input',
+    width = 'full',
+    disabled = false,
+    registerOptions,
+    containerClassName = '',
+    hint,
+    hideError = false,
+    ...props
+  },
+  ref,
+) {
   const classes = clsx(
-    'mt-1 block w-full appearance-none rounded-md bg-transparent border border-border focus:border-secondary px-3 py-2 outline-none placeholder:text-text-secondary',
+    'mt-1 block w-full appearance-none rounded-md bg-transparent border border-border-light focus:border-primary px-3 py-2 outline-none placeholder:text-text-secondary bg-paper',
     {
       'border-error focus:border-error focus:ring-error': !!error,
-      'border-border focus:border-primary focus:ring-primary': !error,
+      'border-border-light focus:border-primary focus:ring-primary': !error,
       'cursor-not-allowed text-platinum': disabled,
     },
     className,
   )
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div
+      className={clsx(
+        { 'w-full': width === 'full', 'w-auto': width === 'auto' },
+        'flex flex-col',
+        containerClassName,
+      )}
+    >
       {!!label && (
         <label
-          className='text-sm text-text-secondary font-bold uppercase'
+          className='text-[10px] font-semibold text-text-secondary uppercase tracking-widest'
           htmlFor={name}
         >
           {label}
@@ -37,10 +51,18 @@ export function Input({
         name={name}
         className={classes}
         disabled={disabled}
+        ref={ref}
         {...register?.(name, registerOptions)}
         {...props}
       />
-      <p className='text-primary text-xs italic h-4 mb-2'>{error}</p>
+      {!!hint && (
+        <span className='text-text-secondary text-xs italic h-4 mb-2'>
+          {hint}
+        </span>
+      )}
+      {!hideError && (
+        <p className='text-danger text-xs italic h-4 mb-2'>{error}</p>
+      )}
     </div>
   )
-}
+})

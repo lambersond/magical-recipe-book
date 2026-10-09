@@ -27,6 +27,7 @@
     "@lambersond/3d-dice-engine": "^0.4.0",
     "@prisma/client": "6.19.3",
     "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
     "lodash": "^4.18.1",
     "lucide-react": "^1.54.0",

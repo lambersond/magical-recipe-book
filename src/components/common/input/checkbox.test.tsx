@@ -3,12 +3,11 @@ import { Checkbox } from './checkbox'
 
 describe('components/common/input/checkbox', () => {
   it('should render checkbox with correct label and default checked', () => {
-    const { getByText, getByTestId } = render(
+    const { getByRole } = render(
       <Checkbox label='Test Checkbox' checked onChange={jest.fn} />,
     )
 
-    expect(getByText('Test Checkbox')).toBeInTheDocument()
-    expect(getByTestId('CheckboxIcon')).toBeInTheDocument()
+    expect(getByRole('checkbox', { name: 'Test Checkbox' })).toBeChecked()
   })
 
   it('should call onChange when checkbox is toggled', async () => {
