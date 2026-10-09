@@ -1,4 +1,5 @@
-type RollResult = [number, string]
+import type { RollResult } from '@lambersond/3d-dice-core'
+
 type ColorOption = 'primary' | 'secondary' | 'tertiary'
 
 export type RollableFieldProps = {
@@ -8,5 +9,5 @@ export type RollableFieldProps = {
   bottomLabelColor?: ColorOption
   number: number
   notation?: string
-  onClick: (results: RollResult) => void
+  onClick: (result: RollResult) => void
 }

@@ -7,6 +7,8 @@ const nextConfig = {
   compiler: {
     removeConsole: false,
   },
+  // ESM-only packages; listing them also lets next/jest transform them
+  transpilePackages: ['@lambersond/3d-dice-core', '@lambersond/3d-dice-engine'],
   images: {
     remotePatterns: [
       {

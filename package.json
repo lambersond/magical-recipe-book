@@ -9,6 +9,7 @@
     "dev": "TZ=UTC next dev --turbopack",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
+    "postinstall": "3d-dice-engine copy-assets",
     "start": "next start",
     "test:coverage:watch": "jest --coverage --watch",
     "test:coverage": "jest --coverage",
@@ -19,10 +20,11 @@
     "vercel-build:blank": "prisma generate --no-engine && prisma migrate deploy && next build"
   },
   "dependencies": {
-    "@3d-dice/dice-box": "^1.1.4",
     "@auth/prisma-adapter": "^2.11.3",
     "@floating-ui/react": "^0.27.20",
     "@hookform/resolvers": "^5.9.1",
+    "@lambersond/3d-dice-core": "^0.4.0",
+    "@lambersond/3d-dice-engine": "^0.4.0",
     "@prisma/client": "6.19.3",
     "classnames": "^2.5.1",
     "date-fns": "^4.4.0",

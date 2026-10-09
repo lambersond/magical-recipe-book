@@ -39,6 +39,10 @@ const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   modulePaths: ['<rootDir>/src'],
   moduleNameMapper: {
+    // Its package exports only an `import` condition, which Jest's CommonJS
+    // resolver skips; transpilePackages in next.config handles the ESM.
+    '^@lambersond/3d-dice-core$':
+      '<rootDir>/node_modules/@lambersond/3d-dice-core/dist/index.js',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
 }

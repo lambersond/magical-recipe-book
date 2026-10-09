@@ -103,6 +103,6 @@ export const renderWithModalProvider = (
   })
 }
 
-export { mockFetch, mockManyFetch } from '../../jest.setup'
+export { diceRollMock, mockFetch, mockManyFetch } from '../../jest.setup'
 export * from '@testing-library/react'
 export * from '@testing-library/user-event'
