@@ -7,7 +7,6 @@ import { D6Icon } from '@/components/common/icons'
 import { useDice } from '@/hooks/dice'
 import { useModals } from '@/hooks/use-modals'
 import { Ingredient } from '@/types'
-import { processDiceExpression } from '@/utils/dice'
 import type { GoForagingModalProps } from './types'
 
 export function GoForagingModal({
@@ -46,9 +45,11 @@ export function GoForagingModal({
     setQuantity(1)
   }
   const onClick = async () => {
-    const processor = processDiceExpression('1d6')
-    const [results] = await roll(processor.dicePatterns)
-    setQuantity(results + 1)
+    const { total } = await roll({
+      pools: [{ sides: 6, count: 1 }],
+      modifier: 1,
+    })
+    setQuantity(total)
   }
 
   useEffect(() => {

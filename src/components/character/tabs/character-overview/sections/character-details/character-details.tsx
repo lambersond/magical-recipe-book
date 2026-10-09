@@ -36,14 +36,18 @@ export function CharacterDetails() {
             topLabelColor='secondary'
             bottomLabel='bonus'
             number={abilities.proficiency}
-            onClick={results => alertUser(`Your total roll is a ${results[0]}`)}
+            onClick={result =>
+              alertUser(`Your total roll is a ${result.total}`)
+            }
           />
           <RollableField
             topLabel='Cooking'
             topLabelColor='secondary'
             bottomLabel='Skill'
             number={abilities.cookingAbility}
-            onClick={results => alertUser(`Your total roll is a ${results[0]}`)}
+            onClick={result =>
+              alertUser(`Your total roll is a ${result.total}`)
+            }
           />
           <Detail label='Tools' detail={tools.join(', ')} />
         </div>
