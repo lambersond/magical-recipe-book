@@ -12,7 +12,16 @@ describe('components/cards/biome-card', () => {
           name='biomeName'
           description=''
           ingredients={[
-            { ingredient: { id: '1', name: 'ingredient1', rarity: 'common' } },
+            {
+              ingredient: {
+                id: '1',
+                name: 'ingredient1',
+                description: 'ingredientDescription',
+                boon: 'ingredientBoon',
+                bane: 'ingredientBane',
+                rarity: 'common',
+              },
+            },
           ]}
         />,
       ).asFragment(),

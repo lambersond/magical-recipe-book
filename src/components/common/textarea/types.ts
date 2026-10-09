@@ -5,8 +5,7 @@ import type {
   UseFormRegister,
 } from 'react-hook-form'
 
-export interface TextAreaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string
   error?: string
   name?: string

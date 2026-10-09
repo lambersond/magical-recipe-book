@@ -6,6 +6,7 @@ describe('components/cards/recipe-card', () => {
     const recipe = {
       id: '1',
       name: 'Healing Potion',
+      image: '',
       description: 'A potion that heals wounds and restores health.',
       difficulty: 3,
       boonText: 'This is divine',
