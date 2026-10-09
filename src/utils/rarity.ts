@@ -1,6 +1,6 @@
 import clsx from 'classnames'
-import { RARITY_DC } from '@/constants/rarity'
-import { Rarity } from '@/types'
+import { RARITY_DC, RARITY_WEIGHTS } from '@/constants/rarity'
+import { Rarity, RaritySort } from '@/types'
 
 export function getDCColor(dc: number) {
   if (dc <= RARITY_DC.common)
@@ -100,4 +100,40 @@ export function getBorderColorByRarity(rarity: Rarity) {
     'border-rarity-epic ': isEpic(rarity),
     'border-rarity-legendary': isLegendary(rarity),
   })
+}
+
+export function getRarityWeight(rarity?: string | null) {
+  return RARITY_WEIGHTS[rarity as Rarity] ?? 0
+}
+
+/** A recipe is as rare as its rarest magical ingredient. */
+export function getRecipeRarity(
+  magicalIngredients: ReadonlyArray<{ ingredient: { rarity: string } }>,
+): Rarity | undefined {
+  let rarest: Rarity | undefined
+  for (const { ingredient } of magicalIngredients) {
+    if (getRarityWeight(ingredient.rarity) > getRarityWeight(rarest)) {
+      rarest = ingredient.rarity as Rarity
+    }
+  }
+  return rarest
+}
+
+/**
+ * Builds a comparator for `toSorted` that orders items by rarity, breaking
+ * ties by name. `default` keeps the existing order.
+ */
+export function compareByRarity<T>(
+  sort: RaritySort,
+  getRarity: (item: T) => string | null | undefined,
+  getName: (item: T) => string = () => '',
+) {
+  return (a: T, b: T) => {
+    if (sort === 'default') return 0
+    const direction = sort === 'rarest' ? -1 : 1
+    const byRarity =
+      (getRarityWeight(getRarity(a)) - getRarityWeight(getRarity(b))) *
+      direction
+    return byRarity || getName(a).localeCompare(getName(b))
+  }
 }

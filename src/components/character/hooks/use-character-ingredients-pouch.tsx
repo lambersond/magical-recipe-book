@@ -3,6 +3,7 @@ import {
   CharacterIngredientsPouchApiContext,
   CharacterIngredientsPouchContext,
 } from '../providers/character-ingredients-pouch-provider'
+import { compareByRarity } from '@/utils/rarity'
 import type { ForagedIngredient } from '@/types'
 
 export function useCharacterIngredientsPouch() {
@@ -32,9 +33,16 @@ export function useCharacterIngredientsPouch() {
     return true
   }
 
+  const sort = compareByRarity<ForagedIngredient>(
+    data.sortBy,
+    item => item.magicalIngredient?.rarity,
+    item => item.magicalIngredient?.name ?? '',
+  )
+
   return {
     filter,
-    sort: 'TBD',
+    sort,
+    sortBy: data.sortBy,
   }
 }
 

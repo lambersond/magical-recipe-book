@@ -5,7 +5,7 @@ import {
   useState,
 } from 'react'
 import { noop } from 'lodash'
-import { Rarity } from '@/types'
+import { Rarity, RaritySort } from '@/types'
 
 export type CookbookRecipesViewMode = 'card' | 'list'
 type filterStatus = 'all' | 'available' | 'expired' | 'used'
@@ -13,11 +13,13 @@ type filterStatus = 'all' | 'available' | 'expired' | 'used'
 export const CharacterCookbookContext = createContext<{
   searchString: string
   filterRarity: Rarity | 'all'
+  sortBy: RaritySort
   filterStatus: filterStatus
   viewMode: CookbookRecipesViewMode
 }>({
   searchString: '',
   filterRarity: 'all',
+  sortBy: 'default',
   filterStatus: 'all',
   viewMode: 'card',
 })
@@ -26,10 +28,12 @@ export const CharacterCookbookApiContext = createContext<{
   setSearchString: Dispatch<SetStateAction<string>>
   setViewMode: Dispatch<SetStateAction<CookbookRecipesViewMode>>
   setFilterRarity: Dispatch<SetStateAction<Rarity | 'all'>>
+  setSortBy: Dispatch<SetStateAction<RaritySort>>
   setFilterStatus: Dispatch<SetStateAction<filterStatus>>
 }>({
   setSearchString: noop,
   setFilterRarity: noop,
+  setSortBy: noop,
   setFilterStatus: noop,
   setViewMode: noop,
 })
@@ -42,11 +46,13 @@ export function CharacterCookbookProvider({
   const [viewMode, setViewMode] = useState<CookbookRecipesViewMode>('card')
   const [searchString, setSearchString] = useState<string>('')
   const [filterRarity, setFilterRarity] = useState<Rarity | 'all'>('all')
+  const [sortBy, setSortBy] = useState<RaritySort>('default')
   const [filterStatus, setFilterStatus] = useState<filterStatus>('all')
 
   const state = {
     searchString,
     filterRarity,
+    sortBy,
     filterStatus,
     viewMode,
   }
@@ -54,6 +60,7 @@ export function CharacterCookbookProvider({
   const api = {
     setSearchString,
     setFilterRarity,
+    setSortBy,
     setFilterStatus,
     setViewMode,
   }
