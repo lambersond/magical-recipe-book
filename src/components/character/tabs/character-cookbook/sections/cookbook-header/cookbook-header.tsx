@@ -5,7 +5,7 @@ import {
   useCharacterCookbookApi,
 } from '@/components/character/hooks/use-character-cookbook'
 import { Search } from '@/components/common'
-import { RaritySortSelect } from '@/components/rarity-sort-select'
+import { RaritySortMenu } from '@/components/rarity-sort-menu'
 
 export function CookbookHeader() {
   const { setSearchString, setSortBy } = useCharacterCookbookApi()
@@ -19,7 +19,7 @@ export function CookbookHeader() {
           onChange={value => setSearchString(value)}
           placeholder='Search recipes...'
         />
-        <RaritySortSelect value={sortBy} onChange={setSortBy} />
+        <RaritySortMenu value={sortBy} onChange={setSortBy} />
       </div>
     </div>
   )

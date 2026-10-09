@@ -29,6 +29,14 @@ const recipe = (name: string, rarities: string[]) => ({
 const recipeNames = () =>
   screen.getAllByRole('heading', { level: 3 }).map(h => h.textContent)
 
+async function chooseSort(
+  user: ReturnType<typeof useUser>['user'],
+  label: string,
+) {
+  await user.click(screen.getByRole('button', { name: 'Sort by rarity' }))
+  await user.click(screen.getByRole('button', { name: label }))
+}
+
 describe('components/character/tabs/character-cookbook', () => {
   beforeEach(() => {
     useCharacterMock.mockReturnValue({
@@ -50,14 +58,13 @@ describe('components/character/tabs/character-cookbook', () => {
 
   it('should sort known recipes by their rarest magical ingredient', async () => {
     const { user } = useUser(<CharacterCookbook />, { wrapper: ModalProvider })
-    const sort = screen.getByLabelText('Sort by rarity')
 
     expect(recipeNames()).toEqual(['Stew', 'Elixir', 'Bread'])
 
-    await user.selectOptions(sort, 'Rarest first')
+    await chooseSort(user, 'Rarest first')
     expect(recipeNames()).toEqual(['Elixir', 'Stew', 'Bread'])
 
-    await user.selectOptions(sort, 'Most common first')
+    await chooseSort(user, 'Most common first')
     expect(recipeNames()).toEqual(['Bread', 'Stew', 'Elixir'])
   })
 
