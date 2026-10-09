@@ -1,6 +1,10 @@
 import nextJest from 'next/jest.js'
 import type { Config } from 'jest'
 
+// Match the `dev` script so date rendering doesn't depend on the machine's
+// timezone. Set before Jest spawns its workers so they inherit it.
+process.env.TZ = 'UTC'
+
 const createJestConfig = nextJest({
   dir: './',
 })

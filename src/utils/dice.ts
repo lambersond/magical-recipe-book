@@ -67,7 +67,7 @@ function calculateWithExpression(
 
     // Find and replace the first occurrence of this exact pattern
     resultExpression = resultExpression.replace(
-      new RegExp(`\\b${pattern}\\b`),
+      new RegExp(String.raw`\b${pattern}\b`),
       replacement,
     )
   }
