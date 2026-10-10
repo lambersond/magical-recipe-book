@@ -164,6 +164,24 @@ export type LogForagingResults = {
   magicalIngredientId?: string
 }
 
+export type BiomeOption = {
+  id: string
+  name: string
+  image: string | null
+  ingredientCount: number
+}
+
+/** The outcome of a Survival check made to forage a biome. */
+export type BiomeForagingResult = {
+  ingredient: Pick<MagicalIngredient, 'id' | 'name' | 'rarity' | 'description'>
+  dc: number
+  roll: number
+  success: boolean
+  /** The character's updated pouch and log, when the ingredient was found */
+  ingredientsPouch?: IngredientsPouch
+  foragingLog?: ForagedIngredient[]
+}
+
 export type LearnRecipe = {
   recipeId: string
 }
