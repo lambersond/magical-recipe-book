@@ -50,7 +50,7 @@ export function EditCharacterForm({
         placeholder='A brave adventurer from the land of Illagria'
         register={register}
       />
-      <div className='grid grid-cols-1 space-x-3 sm:grid-cols-2 -mt-3 mb-6'>
+      <div className='grid grid-cols-1 gap-x-3 sm:grid-cols-2 mb-6'>
         <Input
           onClick={noop}
           label='Proficiency Bonus'

@@ -11,4 +11,5 @@ export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   name?: string
   register?: UseFormRegister<FieldValue<any>>
   registerOptions?: RegisterOptions
+  hideError?: boolean
 }

@@ -6,7 +6,14 @@ export function Options({ options, indent = false }: Readonly<OptionsProps>) {
   return (
     <>
       {options.map(
-        ({ label, onClick, icon, divider, color = 'primary', className }) => (
+        ({
+          label,
+          onClick,
+          icon,
+          divider,
+          color = 'primary',
+          className = '',
+        }) => (
           <Fragment key={label}>
             {divider && <div className='border-t border-white/10' />}
             <button
@@ -24,6 +31,6 @@ export function Options({ options, indent = false }: Readonly<OptionsProps>) {
 }
 
 const colorMap = {
-  primary: 'text-text-secondary hover:text-text-primary',
-  danger: 'text-danger/60 hover:text-danger',
+  primary: 'text-text-primary/80 hover:text-text-primary',
+  danger: 'text-danger hover:bg-danger/10',
 }

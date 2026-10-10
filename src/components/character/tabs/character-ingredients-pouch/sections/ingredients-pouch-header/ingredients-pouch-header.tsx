@@ -4,7 +4,7 @@ import {
   useCharacterIngredientsPouchApi,
 } from '@/components/character/hooks/use-character-ingredients-pouch'
 import { Search } from '@/components/common'
-import { RaritySortSelect } from '@/components/rarity-sort-select'
+import { RaritySortMenu } from '@/components/rarity-sort-menu'
 
 export function IngredientsPouchHeader() {
   const { setSearchString, setSortBy } = useCharacterIngredientsPouchApi()
@@ -18,7 +18,7 @@ export function IngredientsPouchHeader() {
           onChange={value => setSearchString(value)}
           placeholder='Search ingredients...'
         />
-        <RaritySortSelect value={sortBy} onChange={setSortBy} />
+        <RaritySortMenu value={sortBy} onChange={setSortBy} />
       </div>
     </div>
   )

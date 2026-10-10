@@ -26,7 +26,11 @@ import {
 import { MoreVertIcon } from '../icons'
 import type { PopoverOptions, PopoverProps, PopoverTriggerProps } from './types'
 
-function usePopover({ placement = 'bottom', modal }: PopoverOptions = {}) {
+function usePopoverState({
+  placement = 'bottom',
+  modal,
+  trigger = 'click',
+}: PopoverOptions = {}) {
   const [open, setOpen] = useState(false)
   const [labelId, setLabelId] = useState<string | undefined>()
   const [descriptionId, setDescriptionId] = useState<string | undefined>()
@@ -50,7 +54,7 @@ function usePopover({ placement = 'bottom', modal }: PopoverOptions = {}) {
   const context = data.context
 
   const click = useClick(context, {
-    enabled: true,
+    enabled: trigger === 'click',
   })
   const dismiss = useDismiss(context)
   const role = useRole(context)
@@ -64,17 +68,18 @@ function usePopover({ placement = 'bottom', modal }: PopoverOptions = {}) {
       ...interactions,
       ...data,
       modal,
+      trigger,
       labelId,
       descriptionId,
       setLabelId,
       setDescriptionId,
     }),
-    [open, setOpen, interactions, data, modal, labelId, descriptionId],
+    [open, setOpen, interactions, data, modal, trigger, labelId, descriptionId],
   )
 }
 
 type ContextType =
-  | (ReturnType<typeof usePopover> & {
+  | (ReturnType<typeof usePopoverState> & {
       setLabelId: React.Dispatch<React.SetStateAction<string | undefined>>
       setDescriptionId: React.Dispatch<React.SetStateAction<string | undefined>>
     })
@@ -82,10 +87,10 @@ type ContextType =
 
 const PopoverContext = createContext<ContextType>(undefined)
 
-const usePopoverContext = () => {
+export const usePopover = () => {
   const context = useContext(PopoverContext)
 
-  return context as ReturnType<typeof usePopover>
+  return context as ReturnType<typeof usePopoverState>
 }
 
 function PopoverContainer({
@@ -95,7 +100,7 @@ function PopoverContainer({
 }: {
   children: React.ReactNode
 } & PopoverOptions) {
-  const popover = usePopover({ modal, ...restOptions })
+  const popover = usePopoverState({ modal, ...restOptions })
   return (
     <PopoverContext.Provider value={popover}>
       {children}
@@ -107,18 +112,30 @@ const PopoverTrigger = forwardRef<
   HTMLElement,
   React.HTMLProps<HTMLElement> & PopoverTriggerProps
 >(function PopoverTrigger({ children, asChild = false, ...props }, propRef) {
-  const context = usePopoverContext()
-  const childrenRef = (children as any).ref
+  const context = usePopover()
+  // React 19 removed element.ref; refs are now regular props on the element.
+  const childrenRef = isValidElement(children)
+    ? (children.props as { ref?: React.Ref<HTMLElement> }).ref
+    : undefined
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
+
+  const isContextMenu = context.trigger === 'contextmenu'
+  const onContextMenuHandler = isContextMenu
+    ? (e: React.MouseEvent) => {
+        e.preventDefault()
+        context.setOpen(true)
+      }
+    : undefined
 
   if (asChild && isValidElement(children)) {
     return cloneElement(
       children,
       context.getReferenceProps({
-        ref,
         ...props,
         ...(children.props as Record<string, any>),
+        ref,
         onClick: (e: React.MouseEvent) => e.stopPropagation(),
+        onContextMenu: onContextMenuHandler,
         'data-state': context.open ? 'open' : 'closed',
       } as any),
     )
@@ -128,6 +145,7 @@ const PopoverTrigger = forwardRef<
     <div
       ref={ref}
       data-state={context.open ? 'open' : 'closed'}
+      onContextMenu={onContextMenuHandler}
       {...context.getReferenceProps(props)}
     >
       {children}
@@ -139,7 +157,7 @@ const PopoverContent = forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement>
 >(function PopoverContent({ style, ...props }, propRef) {
-  const { context: floatingContext, ...context } = usePopoverContext()
+  const { context: floatingContext, ...context } = usePopover()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
   if (!floatingContext.open) return
@@ -149,6 +167,7 @@ const PopoverContent = forwardRef<
       <FloatingFocusManager context={floatingContext} modal={context.modal}>
         <div
           ref={ref}
+          className='z-1000'
           style={{ ...context.floatingStyles, ...style }}
           aria-labelledby={context.labelId}
           aria-describedby={context.descriptionId}
@@ -168,9 +187,15 @@ export function Popover({
   placement,
   asKabab,
   children,
+  hidePopover,
+  trigger,
 }: Readonly<PopoverProps>) {
+  if (hidePopover) {
+    return <>{children}</>
+  }
+
   return (
-    <PopoverContainer placement={placement} modal={modal}>
+    <PopoverContainer placement={placement} modal={modal} trigger={trigger}>
       <PopoverTrigger asChild={asChild}>
         {asKabab ? <Kebab /> : children}
       </PopoverTrigger>
@@ -179,10 +204,11 @@ export function Popover({
   )
 }
 
-function Kebab(props: any) {
+// Forwards the trigger props (ref, click handler) that `asChild` clones on
+function Kebab(props: React.SVGAttributes<SVGElement>) {
   return (
     <MoreVertIcon
-      className='-mr-2 -mt-2 cursor-pointer rounded-full min-w-10 size-10 p-2 flex items-center justify-center bg-transparent text-tertiary hover:text-text-primary hover:bg-text-secondary/30'
+      className='-mr-2 -mt-2 cursor-pointer rounded-full min-w-10 size-10 p-2 flex items-center justify-center text-text-secondary hover:bg-secondary/10'
       {...props}
     />
   )

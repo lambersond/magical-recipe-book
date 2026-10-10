@@ -57,4 +57,15 @@ describe('components/forms/edit-common-ingredients-form', () => {
     expect(input(0)).toHaveValue('Salt')
     expect(input(1)).toHaveValue('Water')
   })
+
+  it('should put the primary button bottom-right, after the secondary', () => {
+    setup()
+
+    const buttons = screen.getAllByRole('button')
+    expect(buttons.map(button => button.textContent)).toEqual([
+      'Reset to original',
+      'Save',
+    ])
+    expect(buttons[1].parentElement).toHaveClass('justify-end')
+  })
 })

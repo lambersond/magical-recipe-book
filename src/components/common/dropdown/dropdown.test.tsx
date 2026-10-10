@@ -16,6 +16,20 @@ describe('components/common/dropdown', () => {
     ).toMatchSnapshot()
   })
 
+  it('should show the placeholder until options arrive', () => {
+    render(
+      <Dropdown
+        options={[]}
+        placeholder='Select Magical Ingredient'
+        onSelect={jest.fn()}
+      />,
+    )
+
+    expect(screen.getByTestId('Dropdown__button')).toHaveTextContent(
+      'Select Magical Ingredient',
+    )
+  })
+
   it('should render correctly with defaultEmpty', () => {
     expect(
       render(

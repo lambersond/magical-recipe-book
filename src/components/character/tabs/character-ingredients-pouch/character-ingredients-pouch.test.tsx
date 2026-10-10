@@ -27,6 +27,14 @@ const ingredientNames = () =>
     .getAllByText(new RegExp(`^(${NAMES.join('|')})$`))
     .map(el => el.textContent)
 
+async function chooseSort(
+  user: ReturnType<typeof useUser>['user'],
+  label: string,
+) {
+  await user.click(screen.getByRole('button', { name: 'Sort by rarity' }))
+  await user.click(screen.getByRole('button', { name: label }))
+}
+
 describe('components/character/tabs/character-ingredients-pouch', () => {
   beforeEach(() => {
     useCharacterMock.mockReturnValue({
@@ -46,7 +54,6 @@ describe('components/character/tabs/character-ingredients-pouch', () => {
     const { user } = useUser(<CharacterIngredientsPouch />, {
       wrapper: ModalProvider,
     })
-    const sort = screen.getByLabelText('Sort by rarity')
 
     expect(ingredientNames()).toEqual([
       'Glowcap',
@@ -54,14 +61,14 @@ describe('components/character/tabs/character-ingredients-pouch', () => {
       'Moonleaf',
     ])
 
-    await user.selectOptions(sort, 'Rarest first')
+    await chooseSort(user, 'Rarest first')
     expect(ingredientNames()).toEqual([
       'Phoenix Feather',
       'Glowcap',
       'Moonleaf',
     ])
 
-    await user.selectOptions(sort, 'Most common first')
+    await chooseSort(user, 'Most common first')
     expect(ingredientNames()).toEqual([
       'Moonleaf',
       'Glowcap',

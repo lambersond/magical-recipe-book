@@ -37,7 +37,7 @@ export function EditCommonIngredientsForm({
           register={register}
         />
       ))}
-      <div className='flex gap-4 mt-2'>
+      <div className='flex justify-end gap-2 mt-2'>
         <button
           type='button'
           className={secondaryButton}
