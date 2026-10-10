@@ -24,6 +24,14 @@ export function useCharacterActions() {
     className: 'sm:hidden',
     onClick: () => {
       openModal('GoForagingModal', {
+        characterId: id,
+        onForaged: ({ ingredientsPouch, foragingLog }) => {
+          updateCharacter((prev: FullCharacter) => ({
+            ...prev,
+            ingredientsPouch: ingredientsPouch ?? prev.ingredientsPouch,
+            foragingLog: foragingLog ?? prev.foragingLog,
+          }))
+        },
         onSubmit: async ({
           quantity,
           isMagical,
