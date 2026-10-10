@@ -3,6 +3,7 @@
  */
 
 import {
+  forageBiome,
   getCharacterByIdAndUserId,
   personalizeCookbook,
   updateCookbookRecipeCommonIngredients,
@@ -17,6 +18,43 @@ const bread = { id: 'bread', name: 'Bread', mundaneIngredients: ['Flour'] }
 
 const update = (names: string[]) =>
   updateCookbookRecipeCommonIngredients('character-1', 'user-1', 'stew', names)
+
+const BIOME_INGREDIENTS = [
+  { id: 'moss', name: 'Cave Moss', rarity: 'common', description: '' },
+  { id: 'sugar', name: 'Ash Sugar', rarity: 'rare', description: '' },
+  {
+    id: 'heart',
+    name: 'Treant Heartwood',
+    rarity: 'legendary',
+    description: '',
+  },
+]
+
+// Picks the ingredient at `index` from BIOME_INGREDIENTS
+const pick = (index: number) => () => (index + 0.5) / BIOME_INGREDIENTS.length
+
+function mockForaging({
+  owner = 'user-1',
+  ingredients = BIOME_INGREDIENTS,
+} = {}) {
+  prismaMock.character.findFirst.mockResolvedValue({ userId: owner } as any)
+  prismaMock.biome.findMany.mockResolvedValue([
+    { ingredients: ingredients.map(ingredient => ({ ingredient })) },
+  ] as any)
+  // Run the repository's transaction against the same mock
+  prismaMock.$transaction.mockImplementation((fn: any) => fn(prismaMock))
+  prismaMock.character.findUnique.mockResolvedValue({
+    id: 'character-1',
+    userId: 'user-1',
+    currentDay: 3,
+    foragingLog: [],
+    ingredientsPouch: { id: 'pouch-1' },
+  } as any)
+  prismaMock.foragedIngredient.create.mockResolvedValue({
+    id: 'found-1',
+  } as any)
+  prismaMock.ingredientsPouch.update.mockResolvedValue({ id: 'pouch-1' } as any)
+}
 
 describe('server/characters/service', () => {
   describe('personalizeCookbook', () => {
@@ -154,6 +192,98 @@ describe('server/characters/service', () => {
         },
       )
       expect(prismaMock.cookbookRecipeOverride.upsert).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('forageBiome', () => {
+    it("should 404 for someone else's character", async () => {
+      mockForaging({ owner: 'user-2' })
+
+      await expect(
+        forageBiome('character-1', 'user-1', 'biome-1', 20),
+      ).resolves.toMatchObject({ ok: false, status: 404 })
+      expect(prismaMock.biome.findMany).not.toHaveBeenCalled()
+    })
+
+    it('should 404 for a biome with no ingredients', async () => {
+      mockForaging({ ingredients: [] })
+
+      await expect(
+        forageBiome('character-1', 'user-1', 'biome-1', 20),
+      ).resolves.toMatchObject({ ok: false, status: 404 })
+    })
+
+    it('should add the drawn ingredient when the roll meets its DC', async () => {
+      mockForaging()
+
+      const outcome = await forageBiome(
+        'character-1',
+        'user-1',
+        'biome-1',
+        15,
+        pick(1),
+      )
+
+      expect(outcome).toMatchObject({
+        ok: true,
+        result: {
+          ingredient: { id: 'sugar', name: 'Ash Sugar', rarity: 'rare' },
+          dc: 15,
+          roll: 15,
+          success: true,
+          ingredientsPouch: { id: 'pouch-1' },
+        },
+      })
+      expect(prismaMock.foragedIngredient.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            magicalIngredientId: 'sugar',
+            foundOnDay: 3,
+            pouchId: 'pouch-1',
+          }),
+        }),
+      )
+    })
+
+    it('should add nothing when the roll misses the DC', async () => {
+      mockForaging()
+
+      const outcome = await forageBiome(
+        'character-1',
+        'user-1',
+        'biome-1',
+        25,
+        pick(2),
+      )
+
+      expect(outcome).toEqual({
+        ok: true,
+        result: {
+          ingredient: BIOME_INGREDIENTS[2],
+          dc: 26,
+          roll: 25,
+          success: false,
+        },
+      })
+      expect(prismaMock.foragedIngredient.create).not.toHaveBeenCalled()
+    })
+
+    it('should draw from every ingredient in the biome', async () => {
+      mockForaging()
+      const drawn = new Set<string>()
+
+      for (const index of [0, 1, 2]) {
+        const outcome = await forageBiome(
+          'character-1',
+          'user-1',
+          'biome-1',
+          0,
+          pick(index),
+        )
+        if (outcome.ok) drawn.add(outcome.result.ingredient.id)
+      }
+
+      expect(drawn).toEqual(new Set(['moss', 'sugar', 'heart']))
     })
   })
 })

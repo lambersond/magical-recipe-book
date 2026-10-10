@@ -1,10 +1,13 @@
 import { isEqual } from 'lodash'
 import * as repository from './repository'
+import { RARITY_DC } from '@/constants/rarity'
 import { isSelf } from '@/lib/auth-handlers'
+import { biomeService } from '@/server/biomes'
 import type {
   CookedDishStatus,
   EditableCharacter,
   LogForagingResults,
+  Rarity,
 } from '@/types'
 
 type RecipeOverride = { recipeId: string; mundaneIngredients: string[] }
@@ -257,4 +260,51 @@ export function cookRecipe(
     status,
     isConsumed,
   )
+}
+
+/**
+ * Forages a biome with a Survival check: draws one of the biome's magical
+ * ingredients at random, and adds it to the character's pouch when the roll
+ * meets the ingredient's rarity DC.
+ */
+export async function forageBiome(
+  characterId: string,
+  userId: string,
+  biomeId: string,
+  roll: number,
+  random: () => number = Math.random,
+) {
+  const character = await repository.findCharacterById(characterId, {
+    select: { userId: true },
+  })
+  if (character?.userId !== userId) {
+    return { ok: false, status: 404, error: 'Character not found' } as const
+  }
+
+  const ingredients = await biomeService.getBiomeIngredients(biomeId)
+  if (ingredients.length === 0) {
+    return {
+      ok: false,
+      status: 404,
+      error: 'No ingredients grow in that biome',
+    } as const
+  }
+
+  const found = ingredients[Math.floor(random() * ingredients.length)]
+  const ingredient = { ...found, rarity: found.rarity as Rarity }
+  const dc = RARITY_DC[ingredient.rarity] ?? RARITY_DC.common
+  const success = roll >= dc
+
+  const updated = success
+    ? await repository.updateCharacterForagingLogById(
+        characterId,
+        { commonIngredients: 0, magicalIngredientId: ingredient.id },
+        userId,
+      )
+    : undefined
+
+  return {
+    ok: true,
+    result: { ingredient, dc, roll, success, ...updated },
+  } as const
 }

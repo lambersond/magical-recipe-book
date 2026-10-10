@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Dropdown, Modal, Switch } from '@/components/common'
+import { ListChecks, Trees } from 'lucide-react'
+import { ForageBiome } from './forage-biome'
+import { ButtonGroup, Dropdown, Modal, Switch } from '@/components/common'
 import { DropdownOption } from '@/components/common/dropdown'
 import { D6Icon } from '@/components/common/icons'
 import { useDice } from '@/hooks/dice'
@@ -9,8 +11,17 @@ import { useModals } from '@/hooks/use-modals'
 import { Ingredient } from '@/types'
 import type { GoForagingModalProps } from './types'
 
+type MagicalMode = 'biome' | 'pick'
+
+const MAGICAL_MODES: { id: MagicalMode; text: string; icon: typeof Trees }[] = [
+  { id: 'biome', text: 'Forage a biome', icon: Trees },
+  { id: 'pick', text: 'Pick ingredient', icon: ListChecks },
+]
+
 export function GoForagingModal({
+  characterId,
   onSubmit,
+  onForaged,
   open,
 }: Readonly<GoForagingModalProps>) {
   const { roll } = useDice()
@@ -18,6 +29,8 @@ export function GoForagingModal({
   const [quantity, setQuantity] = useState(0)
   const [magicalIngredient, setMagicalIngredient] = useState('')
   const [isMagical, setIsMagical] = useState(true)
+  const [magicalMode, setMagicalMode] = useState<MagicalMode>('biome')
+  const isForagingBiome = isMagical && magicalMode === 'biome'
   const [magicalOptions, setMagicalOptions] = useState<DropdownOption[]>([])
   const foragingOptionText = isMagical
     ? 'Ingredient Foraged'
@@ -72,6 +85,7 @@ export function GoForagingModal({
       setQuantity(0)
       setMagicalIngredient('')
       setIsMagical(true)
+      setMagicalMode('biome')
     }
   }, [open])
 
@@ -92,66 +106,85 @@ export function GoForagingModal({
           rightText='Magical'
           onChange={handleSwitchChange}
         />
-        <div className='min-h-40 mt-4'>
-          <p className='text-md font-bold text-text-secondary mb-2'>
-            {foragingOptionText}
-          </p>
-          <div className='grid grid-cols-3 gap-2'>
-            {isMagical ? (
-              <div className='col-span-full'>
-                <Dropdown
-                  options={magicalOptions}
-                  placeholder='Select Magical Ingredient'
-                  onSelect={handleOnSelect}
-                  width='w-96'
-                  searchable
-                />
-              </div>
-            ) : (
-              <>
-                {[2, 3, 4, 5, 6, 7].map(num => (
-                  <button
-                    key={num}
-                    type='button'
-                    onClick={() => setQuantity(num)}
-                    className={`p-3 rounded-lg border-2 transition-all cursor-pointer ${
-                      quantity === num
-                        ? 'border-green-400 bg-green-900/30 text-green-300 shadow-md'
-                        : 'border-gray-600 hover:border-green-500 hover:bg-green-900/20 text-gray-300 hover:text-green-300'
-                    }`}
-                  >
-                    <span className='font-semibold text-lg'>{num}</span>
-                  </button>
-                ))}
-                <button
-                  className='group p-4 rounded-full cursor-pointer bg-white/10 hover:bg-white/30 col-span-full place-self-center uppercase flex text-2xl font-bold items-center gap-2'
-                  onClick={onClick}
-                >
-                  <D6Icon className='text-primary size-10 group-hover:animate-dice-spin duration-700 ease-in-out' />
-                  Roll
-                </button>
-              </>
-            )}
+        {isMagical && (
+          <div className='mt-4'>
+            <ButtonGroup<MagicalMode>
+              options={MAGICAL_MODES}
+              selected={magicalMode}
+              onChange={setMagicalMode}
+            />
           </div>
+        )}
+        {isForagingBiome ? (
+          <ForageBiome
+            characterId={characterId}
+            onForaged={onForaged}
+            onClose={onClose}
+          />
+        ) : (
+          <div className='min-h-40 mt-4'>
+            <p className='text-md font-bold text-text-secondary mb-2'>
+              {foragingOptionText}
+            </p>
+            <div className='grid grid-cols-3 gap-2'>
+              {isMagical ? (
+                <div className='col-span-full'>
+                  <Dropdown
+                    options={magicalOptions}
+                    placeholder='Select Magical Ingredient'
+                    onSelect={handleOnSelect}
+                    width='w-96'
+                    searchable
+                  />
+                </div>
+              ) : (
+                <>
+                  {[2, 3, 4, 5, 6, 7].map(num => (
+                    <button
+                      key={num}
+                      type='button'
+                      onClick={() => setQuantity(num)}
+                      className={`p-3 rounded-lg border-2 transition-all cursor-pointer ${
+                        quantity === num
+                          ? 'border-green-400 bg-green-900/30 text-green-300 shadow-md'
+                          : 'border-gray-600 hover:border-green-500 hover:bg-green-900/20 text-gray-300 hover:text-green-300'
+                      }`}
+                    >
+                      <span className='font-semibold text-lg'>{num}</span>
+                    </button>
+                  ))}
+                  <button
+                    className='group p-4 rounded-full cursor-pointer bg-white/10 hover:bg-white/30 col-span-full place-self-center uppercase flex text-2xl font-bold items-center gap-2'
+                    onClick={onClick}
+                  >
+                    <D6Icon className='text-primary size-10 group-hover:animate-dice-spin duration-700 ease-in-out' />
+                    Roll
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+      {!isForagingBiome && (
+        <div className='flex gap-4 mt-4'>
+          <button
+            className='bg-gray-600/40 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 flex-1'
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button
+            className='bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 flex-1'
+            onClick={() => {
+              handleOnSubmit()
+              onClose()
+            }}
+          >
+            Log Results
+          </button>
         </div>
-      </div>
-      <div className='flex gap-4 mt-4'>
-        <button
-          className='bg-gray-600/40 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 flex-1'
-          onClick={onClose}
-        >
-          Cancel
-        </button>
-        <button
-          className='bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 flex-1'
-          onClick={() => {
-            handleOnSubmit()
-            onClose()
-          }}
-        >
-          Log Results
-        </button>
-      </div>
+      )}
     </Modal>
   )
 }
