@@ -1,13 +1,10 @@
 import { noop } from 'lodash'
 import { useFeatureFlags } from './use-feature-flags'
-import { authClient } from '@/clients/auth-client'
+import { authClient, signInWithGoogle } from '@/clients/auth-client'
 
 /** Signs in with Google, coming back to the page the player is on. */
 const signIn = () =>
-  authClient.signIn.social({
-    provider: 'google',
-    callbackURL: globalThis.location.pathname + globalThis.location.search,
-  })
+  signInWithGoogle(globalThis.location.pathname + globalThis.location.search)
 
 const signOut = () => authClient.signOut()
 

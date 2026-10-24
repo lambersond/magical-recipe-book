@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { authClient } from '@/clients/auth-client'
+import { signInWithGoogle } from '@/clients/auth-client'
 
 interface FeatureCardProps {
   icon: string
@@ -121,8 +121,7 @@ const FloatingParticles: React.FC = () => {
   )
 }
 
-const signin = () =>
-  authClient.signIn.social({ provider: 'google', callbackURL: '/user' })
+const signin = () => signInWithGoogle('/user')
 
 export default function HomePage() {
   return (

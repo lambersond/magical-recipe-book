@@ -2,7 +2,7 @@ import { render } from '@test-utils'
 import HomePage from './page'
 
 jest.mock('@/clients/auth-client', () => ({
-  authClient: { signIn: { social: jest.fn() } },
+  signInWithGoogle: jest.fn(),
 }))
 
 describe('app/page', () => {

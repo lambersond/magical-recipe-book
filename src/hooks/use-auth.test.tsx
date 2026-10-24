@@ -1,6 +1,6 @@
 import { renderHook } from '@test-utils'
 import { useAuth } from './use-auth'
-import { authClient } from '@/clients/auth-client'
+import { authClient, signInWithGoogle } from '@/clients/auth-client'
 
 const mockUseSession = jest.fn()
 const mockUseFeatureFlags = jest.fn()
@@ -12,9 +12,9 @@ jest.mock('./use-feature-flags', () => ({
 jest.mock('@/clients/auth-client', () => ({
   authClient: {
     useSession: () => mockUseSession(),
-    signIn: { social: jest.fn() },
     signOut: jest.fn(),
   },
+  signInWithGoogle: jest.fn(),
 }))
 
 const mockUser = {
@@ -76,10 +76,7 @@ describe('hooks/use-auth', () => {
 
     result.current.signIn()
 
-    expect(authClient.signIn.social).toHaveBeenCalledWith({
-      provider: 'google',
-      callbackURL: '/characters/c1?tab=cookbook',
-    })
+    expect(signInWithGoogle).toHaveBeenCalledWith('/characters/c1?tab=cookbook')
   })
 
   it('should sign out', () => {
@@ -104,6 +101,6 @@ describe('hooks/use-auth', () => {
       isAuthenticated: false,
       isEnabled: false,
     })
-    expect(authClient.signIn.social).not.toHaveBeenCalled()
+    expect(signInWithGoogle).not.toHaveBeenCalled()
   })
 })

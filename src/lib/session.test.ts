@@ -18,7 +18,10 @@ describe('lib/session', () => {
     getSession.mockResolvedValue({ session: {}, user })
 
     await expect(getCurrentUser()).resolves.toEqual(user)
-    expect(getSession).toHaveBeenCalledWith({ headers: expect.any(Headers) })
+    expect(getSession).toHaveBeenCalledWith({
+      headers: expect.any(Headers),
+      query: { disableRefresh: true },
+    })
     expect(getSession.mock.calls[0][0].headers.get('cookie')).toBe(
       'session=abc',
     )
