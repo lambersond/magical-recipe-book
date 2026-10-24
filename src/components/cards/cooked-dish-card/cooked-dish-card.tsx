@@ -16,8 +16,11 @@ export function CookedDishCard({
   status,
   cookedOnDay,
   consumedOnDay,
+  sentAt,
   onConsume,
   onDiscard,
+  onSend,
+  isSending = false,
 }: Readonly<CoookedDishCardProps>) {
   const descriptionText = getDescriptionText(recipe, status)
   const cookedDishStatusClasses = getCookedStatusClasses(status)
@@ -40,6 +43,10 @@ export function CookedDishCard({
   const handleOnDiscard = () => {
     onDiscard(id)
   }
+  const handleOnSend = () => {
+    onSend?.(id)
+  }
+  const canSend = !!onSend && !isPrepared && !isExpired && !sentAt
 
   return (
     <Card className='group'>
@@ -61,11 +68,23 @@ export function CookedDishCard({
               isExpired={isExpired}
               isPrepared={isPrepared}
             />
+            {!!sentAt && (
+              <span className='flex gap-1 bg-primary/10 text-primary text-sm rounded-full py-1 px-3 before:content-["📨"]'>
+                sent to Foundry
+              </span>
+            )}
           </span>
         </div>
         <div className='flex gap-1 items-center h-fit transition-opacity duration-200 lg:hidden lg:group-hover:flex'>
           {isPrepared && (
             <ActionButton type='consume' onClick={handleOnConsume} />
+          )}
+          {canSend && (
+            <ActionButton
+              type='send'
+              onClick={handleOnSend}
+              disabled={isSending}
+            />
           )}
           <ActionButton type='discard' onClick={handleOnDiscard} />
         </div>

@@ -100,7 +100,8 @@ const returnFields = {
   },
   cookbook: cookbookInclude,
   backpack: backpackInclude,
-  settings: true,
+  // Sending Stone's link code stays on the server, where dishes are sent
+  settings: { omit: { sendingStoneToken: true } },
   abilities: true,
 } as const
 

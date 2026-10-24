@@ -1,7 +1,11 @@
 'use client'
 
+import { useState } from 'react'
+import { noop } from 'lodash'
 import { useCharacter, useCharacterApi } from '../../hooks/use-character'
+import { useSendingStoneLink } from '../../hooks/use-sending-stone-link'
 import { CookedDishCard } from '@/components/cards'
+import { useFeatureFlags } from '@/hooks/use-feature-flags'
 import { useModals } from '@/hooks/use-modals'
 import type { CookedDish, FullCharacter } from '@/types'
 
@@ -9,6 +13,9 @@ export function CharacterBackpack() {
   const character = useCharacter()
   const { openModal } = useModals()
   const updateCharacter = useCharacterApi()
+  const { isSendingStoneEnabled } = useFeatureFlags()
+  const openSendingStoneLink = useSendingStoneLink()
+  const [sendingId, setSendingId] = useState<string>()
 
   const handleDiscardCookedDish = async (id: string) => {
     const response = await fetch(
@@ -58,6 +65,46 @@ export function CharacterBackpack() {
     })
   }
 
+  const handleSendCookedDish = async (id: string) => {
+    if (!character.settings?.sendingStoneLinkedAt) {
+      openSendingStoneLink()
+      return
+    }
+
+    setSendingId(id)
+    try {
+      const response = await fetch(
+        `/api/characters/${character.id}/cooked-dish/${id}/send`,
+        { method: 'POST', credentials: 'include' },
+      )
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(data.error ?? 'Could not send the dish')
+      }
+
+      updateCharacter((prev: FullCharacter) => ({
+        ...prev,
+        backpack: {
+          ...prev.backpack,
+          cookedDishes: prev.backpack?.cookedDishes.map(dish =>
+            dish.id === id ? { ...dish, sentAt: data.sentAt } : dish,
+          ),
+        },
+      }))
+    } catch (error) {
+      openModal('ConfirmModal', {
+        title: 'Not Sent',
+        message:
+          error instanceof Error ? error.message : 'Could not send the dish',
+        confirmButtonText: 'Okay',
+        onConfirm: noop,
+        hideCancelButton: true,
+      })
+    } finally {
+      setSendingId(undefined)
+    }
+  }
+
   const cookedDishes = character.backpack?.cookedDishes || []
 
   return (
@@ -76,6 +123,8 @@ export function CharacterBackpack() {
             currentDay={character.currentDay}
             onConsume={handleConsumeCookedDish}
             onDiscard={handleDiscardCookedDish}
+            onSend={isSendingStoneEnabled ? handleSendCookedDish : undefined}
+            isSending={sendingId === cookedDish.id}
           />
         ))}
       </div>

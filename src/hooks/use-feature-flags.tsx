@@ -11,7 +11,7 @@ export function useFeatureFlags() {
           throw new Error('Failed to fetch feature flags')
         }
         const data = await response.json()
-        setFeatureFlags(data.featureFlags)
+        setFeatureFlags(data.featureFlags ?? {})
       } catch (error) {
         console.error('Error fetching feature flags:', error)
       }
