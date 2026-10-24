@@ -1,26 +1,27 @@
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import NextAuth from 'next-auth'
-import { providers } from './auth-providers'
+import { betterAuth } from 'better-auth'
+import { prismaAdapter } from 'better-auth/adapters/prisma'
+import { nextCookies } from 'better-auth/next-js'
+import { socialProviders } from './auth-providers'
 import prisma from './clients/prisma'
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
-  providers: providers(),
-  adapter: PrismaAdapter(prisma),
-  secret: process.env.AUTH_SECRET,
-  trustHost: true,
+// The app's address is BETTER_AUTH_URL, or the request's host when unset.
+export const auth = betterAuth({
+  database: prismaAdapter(prisma, { provider: 'postgresql' }),
+  // Also the secret names next-auth read, so an existing deployment keeps working
+  secret:
+    process.env.BETTER_AUTH_SECRET ||
+    process.env.AUTH_SECRET ||
+    process.env.NEXTAUTH_SECRET,
+  socialProviders: socialProviders(),
   session: {
-    strategy: 'jwt',
-    maxAge: +(process.env.AUTH_MAX_AGE as unknown as number) || 30 * 86_400,
+    expiresIn: Number(process.env.AUTH_MAX_AGE) || 30 * 86_400, // 30 days
     updateAge: 86_400,
   },
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) token.id = user.id
-      return token
-    },
-    session({ session, token }) {
-      session.user.id = token.id as string
-      return session
-    },
+  rateLimit: {
+    // Starting a Google sign-in only hands back Google's URL, so let a table
+    // of players on one network sign in together (the default allows 3)
+    customRules: { '/sign-in/social': { window: 10, max: 10 } },
   },
+  // nextCookies must stay the last plugin
+  plugins: [nextCookies()],
 })

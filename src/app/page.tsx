@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { signIn } from 'next-auth/react'
+import { signInWithGoogle } from '@/clients/auth-client'
 
 interface FeatureCardProps {
   icon: string
@@ -121,11 +121,7 @@ const FloatingParticles: React.FC = () => {
   )
 }
 
-const signin = () => {
-  signIn('google', {
-    callbackUrl: '/user',
-  })
-}
+const signin = () => signInWithGoogle('/user')
 
 export default function HomePage() {
   return (

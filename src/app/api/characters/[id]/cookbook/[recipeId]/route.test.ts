@@ -7,12 +7,12 @@ import { auth } from '@/auth'
 import { characterService } from '@/server/characters'
 import { mockPostRequest } from '@/utils/test-utils-node'
 
-jest.mock('@/auth', () => ({ auth: jest.fn() }))
+jest.mock('@/auth', () => ({ auth: { api: { getSession: jest.fn() } } }))
 jest.mock('@/server/characters', () => ({
   characterService: { updateCookbookRecipeCommonIngredients: jest.fn() },
 }))
 
-const authMock = auth as unknown as jest.Mock
+const authMock = auth.api.getSession as unknown as jest.Mock
 const updateMock = jest.mocked(
   characterService.updateCookbookRecipeCommonIngredients,
 )

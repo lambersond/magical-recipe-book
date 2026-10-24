@@ -1,13 +1,15 @@
 'use client'
 
 import { LogOutIcon, SidebarCloseIcon } from 'lucide-react'
-import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useAccountData } from './use-account-data'
+import { authClient } from '@/clients/auth-client'
 import { CharacterCard, NewCharacterCard } from '@/components/cards'
 import { SidebarItem } from '@/components/common'
 
 export function AccountSidebarContent({ email }: { email: string }) {
   const { characters } = useAccountData()
+  const router = useRouter()
   const existingCharacterNames = characters.map(character => character.name)
   return (
     <div className='flex flex-col gap-4 p-2 pt-0'>
@@ -60,7 +62,11 @@ export function AccountSidebarContent({ email }: { email: string }) {
       <section className='p-2'>
         <SidebarItem>
           <button
-            onClick={() => signOut({ redirectTo: '/' })}
+            onClick={async () => {
+              await authClient.signOut()
+              router.push('/')
+              router.refresh()
+            }}
             className='w-full flex gap-2 cursor-pointer'
           >
             <LogOutIcon className='text-error size-6 mb-2' />

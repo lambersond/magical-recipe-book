@@ -9,7 +9,7 @@ type AuthenticatedHandler<T = any> = (
 
 export function withUser<T = any>(handler: AuthenticatedHandler<T>) {
   return async (req: NextRequest, context: T) => {
-    const session = await auth()
+    const session = await auth.api.getSession({ headers: req.headers })
 
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

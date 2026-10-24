@@ -13,8 +13,8 @@ import {
 import { prismaMock } from '@/utils/test-utils-node'
 import type { Rarity } from '@/types'
 
-// The service only needs isSelf; skip loading next-auth's ESM adapter
-jest.mock('@/auth', () => ({ auth: jest.fn() }))
+// The service only needs isSelf; skip loading Better Auth and its database
+jest.mock('@/auth', () => ({ auth: { api: { getSession: jest.fn() } } }))
 
 const stew = { id: 'stew', name: 'Stew', mundaneIngredients: ['Salt', 'Water'] }
 const bread = { id: 'bread', name: 'Bread', mundaneIngredients: ['Flour'] }

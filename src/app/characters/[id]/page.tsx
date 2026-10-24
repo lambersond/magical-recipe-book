@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
-import { auth } from '@/auth'
 import { CharacterContainer } from '@/components/containers/character-container'
 import { MagicalBookLoader } from '@/components/magical-book-loader'
+import { getCurrentUser } from '@/lib/session'
 import { pageMain } from '@/utils/styles'
 
 export default async function CharacterPage({
@@ -11,9 +11,9 @@ export default async function CharacterPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const session = await auth()
+  const user = await getCurrentUser()
 
-  if (!session?.user?.id) {
+  if (!user) {
     notFound()
   }
   return (
@@ -25,7 +25,7 @@ export default async function CharacterPage({
           </div>
         }
       >
-        <CharacterContainer id={id} userId={session.user.id} />
+        <CharacterContainer id={id} userId={user.id} />
       </Suspense>
     </main>
   )

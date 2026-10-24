@@ -7,12 +7,12 @@ import { auth } from '@/auth'
 import { sendingStoneService } from '@/server/sending-stone'
 import { mockPostRequest } from '@/utils/test-utils-node'
 
-jest.mock('@/auth', () => ({ auth: jest.fn() }))
+jest.mock('@/auth', () => ({ auth: { api: { getSession: jest.fn() } } }))
 jest.mock('@/server/sending-stone', () => ({
   sendingStoneService: { sendCookedDish: jest.fn() },
 }))
 
-const authMock = auth as unknown as jest.Mock
+const authMock = auth.api.getSession as unknown as jest.Mock
 const sendMock = jest.mocked(sendingStoneService.sendCookedDish)
 const context = {
   params: Promise.resolve({ id: 'character-1', cookedDishId: 'dish-1' }),

@@ -1,8 +1,8 @@
 import { render } from '@test-utils'
 import HomePage from './page'
 
-jest.mock('next-auth/react', () => ({
-  signIn: jest.fn(),
+jest.mock('@/clients/auth-client', () => ({
+  signInWithGoogle: jest.fn(),
 }))
 
 describe('app/page', () => {

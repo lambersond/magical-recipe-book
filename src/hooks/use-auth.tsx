@@ -1,12 +1,22 @@
 import { noop } from 'lodash'
-import { useSession, signIn, signOut } from 'next-auth/react'
 import { useFeatureFlags } from './use-feature-flags'
+import { authClient, signInWithGoogle } from '@/clients/auth-client'
+
+/** Signs in with Google, coming back to the page the player is on. */
+const signIn = () =>
+  signInWithGoogle(globalThis.location.pathname + globalThis.location.search)
+
+const signOut = () => authClient.signOut()
 
 export function useAuth() {
-  const { data: session, status } = useSession()
+  const { data: session, isPending } = authClient.useSession()
   const featureFlags = useFeatureFlags()
 
   const { isAuthEnabled } = featureFlags
+
+  let status = 'unauthenticated'
+  if (isPending) status = 'loading'
+  else if (session) status = 'authenticated'
 
   const user = {
     name: session?.user?.name || 'Unknown',

@@ -8,12 +8,12 @@ import { auth } from '@/auth'
 import { sendingStoneService } from '@/server/sending-stone'
 import { mockDeleteRequest, mockPostRequest } from '@/utils/test-utils-node'
 
-jest.mock('@/auth', () => ({ auth: jest.fn() }))
+jest.mock('@/auth', () => ({ auth: { api: { getSession: jest.fn() } } }))
 jest.mock('@/server/sending-stone', () => ({
   sendingStoneService: { linkCharacter: jest.fn() },
 }))
 
-const authMock = auth as unknown as jest.Mock
+const authMock = auth.api.getSession as unknown as jest.Mock
 const linkMock = jest.mocked(sendingStoneService.linkCharacter)
 const context = { params: Promise.resolve({ id: 'character-1' }) }
 const route = 'api/characters/character-1/sending-stone'

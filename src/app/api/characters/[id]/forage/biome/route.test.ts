@@ -7,12 +7,12 @@ import { auth } from '@/auth'
 import { characterService } from '@/server/characters'
 import { mockPostRequest } from '@/utils/test-utils-node'
 
-jest.mock('@/auth', () => ({ auth: jest.fn() }))
+jest.mock('@/auth', () => ({ auth: { api: { getSession: jest.fn() } } }))
 jest.mock('@/server/characters', () => ({
   characterService: { forageBiome: jest.fn() },
 }))
 
-const authMock = auth as unknown as jest.Mock
+const authMock = auth.api.getSession as unknown as jest.Mock
 const forageMock = jest.mocked(characterService.forageBiome)
 const context = { params: Promise.resolve({ id: 'character-1' }) }
 // NextRequest.json() returns a promise; mockPostRequest's returns the body
