@@ -1,7 +1,15 @@
 import { noop } from 'lodash'
-import { Binoculars, BookPlus, Delete, EditIcon, TentTree } from 'lucide-react'
+import {
+  Binoculars,
+  BookPlus,
+  Delete,
+  EditIcon,
+  Send,
+  TentTree,
+} from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { useCharacter, useCharacterApi } from '../hooks/use-character'
+import { useSendingStoneLink } from '../hooks/use-sending-stone-link'
 import { useModals } from '@/hooks/use-modals'
 import type { Option } from '@/components/common'
 import type {
@@ -11,12 +19,18 @@ import type {
   LogForagingResults,
 } from '@/types'
 
-export function useCharacterActions() {
+/**
+ * The character's actions, for its menu and buttons.
+ * @param isSendingStoneEnabled - Offers linking to Sending Stone, for the
+ *   menu to pass on from the feature flags.
+ */
+export function useCharacterActions({ isSendingStoneEnabled = false } = {}) {
   const { id } = useParams<{ id: string }>()
   const character = useCharacter()
   const updateCharacter = useCharacterApi()
   const { openModal } = useModals()
   const router = useRouter()
+  const openSendingStoneLink = useSendingStoneLink()
 
   const forage: Option = {
     label: 'Go Foraging',
@@ -114,7 +128,20 @@ export function useCharacterActions() {
     },
   }
 
+  const sendingStoneOptions: Option[] = isSendingStoneEnabled
+    ? [
+        {
+          label: character.settings?.sendingStoneLinkedAt
+            ? 'Sending Stone Link'
+            : 'Link Sending Stone',
+          icon: <Send />,
+          onClick: openSendingStoneLink,
+        },
+      ]
+    : []
+
   const characterOptions: Option[] = [
+    ...sendingStoneOptions,
     {
       label: 'Edit Character',
       icon: <EditIcon />,

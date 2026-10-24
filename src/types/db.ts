@@ -32,6 +32,8 @@ export type CookedDish = {
   status: CookedDishStatus
   cookedOnDay: number
   consumedOnDay: number | null
+  /** When it was sent to Foundry through Sending Stone, if it was */
+  sentAt?: Date | string | null
   recipe: CookedDishRecipe
 }
 
@@ -138,6 +140,12 @@ export type FullCharacter = {
   ingredientsPouch: IngredientsPouch
   backpack: Backpack
   abilities: CharacterAbilities
+  settings?: CharacterSettings | null
+}
+
+export type CharacterSettings = {
+  /** When the character was linked to Sending Stone; null while it isn't */
+  sendingStoneLinkedAt: Date | string | null
 }
 
 export type CharacterAbilities = {

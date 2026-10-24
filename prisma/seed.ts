@@ -36,6 +36,8 @@ async function main() {
         rarity: ing.rarity,
         boon: ing.boon,
         bane: ing.bane,
+        boonChanges: ing.boonChanges,
+        baneChanges: ing.baneChanges,
       },
       create: {
         name: ing.name,
@@ -43,6 +45,8 @@ async function main() {
         rarity: ing.rarity,
         boon: ing.boon,
         bane: ing.bane,
+        boonChanges: ing.boonChanges,
+        baneChanges: ing.baneChanges,
       },
     })
 

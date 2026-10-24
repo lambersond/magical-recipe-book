@@ -3,9 +3,11 @@
 import { MoreVertical, TentTree, Binoculars, BookPlus } from 'lucide-react'
 import { useCharacterActions } from '../hooks/use-character-actions'
 import { Menu, Popover, Tooltip } from '@/components/common'
+import { useFeatureFlags } from '@/hooks/use-feature-flags'
 
 export function CharacterActionsMenu() {
-  const { options, ...actions } = useCharacterActions()
+  const { isSendingStoneEnabled } = useFeatureFlags()
+  const { options, ...actions } = useCharacterActions({ isSendingStoneEnabled })
 
   const iconClasses =
     'size-10 rounded-full hover:bg-hover p-2.25 cursor-pointer text-text-primary hover:text-primary hidden sm:block'

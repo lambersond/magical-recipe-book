@@ -72,14 +72,16 @@ export function deriveStatusChipDetails(
   }
 }
 
-export function actionButtonClasses(type: 'consume' | 'discard') {
+export function actionButtonClasses(type: 'consume' | 'discard' | 'send') {
   return clsx(
-    'px-3 py-1 text-lg font-semibold items-center transition-colors flex items-center gap-1 cursor-pointer first:rounded-l-lg last:rounded-r-lg',
+    'px-3 py-1 text-lg font-semibold items-center transition-colors flex items-center gap-1 cursor-pointer first:rounded-l-lg last:rounded-r-lg disabled:opacity-60 disabled:cursor-wait',
     {
       'bg-success/80 hover:bg-success text-text-primary md:after:content-["Finish"]':
         type === 'consume',
       'bg-danger/80 hover:bg-danger text-text-primary md:after:content-["Discard"]':
         type === 'discard',
+      'bg-primary/80 hover:bg-primary text-text-primary md:after:content-["Send"]':
+        type === 'send',
     },
   )
 }

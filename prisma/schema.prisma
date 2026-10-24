@@ -86,6 +86,9 @@ model Ingredient {
   description      String
   boon             String             // positive effects, e.g. "increases strength"
   bane             String             // negative effects, e.g. "decreases speed"
+  // What boon and bane change on a character in Foundry, from the seed data
+  boonChanges      Json               @default("[]")
+  baneChanges      Json               @default("[]")
 
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
@@ -225,6 +228,7 @@ model CookedDish {
   status        String      // success | fail | boon | bane | prepared
   consumedOnDay Int?        // null if not consumed yet
   cookedOnDay   Int
+  sentAt        DateTime?   // when it was sent to Foundry through Sending Stone
 
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -256,6 +260,10 @@ model CharacterSettings {
   id          String    @id @default(cuid())
   characterId String    @unique
   campaignId  String    @default("")
+  // The link code from Sending Stone that sends this character's dishes to
+  // its game. Never sent back to the browser.
+  sendingStoneToken    String?
+  sendingStoneLinkedAt DateTime?
   
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

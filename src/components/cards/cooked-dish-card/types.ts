@@ -10,7 +10,8 @@ export type StatusChipProps = {
 
 export type ActionButtonProps = {
   onClick: VoidFunction
-  type: 'discard' | 'consume'
+  type: 'discard' | 'consume' | 'send'
+  disabled?: boolean
 }
 
 export type BonusesListClasses = {
@@ -24,4 +25,7 @@ export type CoookedDishCardProps = CookedDish & {
   currentDay: number
   onConsume: ({ id, recipe }: { id: string; recipe: CookedDishRecipe }) => void
   onDiscard: (id: string) => void
+  /** Sends the eaten dish to Foundry; left out while sending is off. */
+  onSend?: (id: string) => void
+  isSending?: boolean
 }

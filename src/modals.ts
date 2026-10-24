@@ -41,6 +41,11 @@ export const MODALS = {
       default: module.GoForagingModal,
     })),
   ),
+  LinkSendingStoneModal: lazy(() =>
+    import('./components/modals').then(module => ({
+      default: module.LinkSendingStoneModal,
+    })),
+  ),
   PrepareRecipeModal: lazy(() =>
     import('./components/modals').then(module => ({
       default: module.PrepareRecipeModal,
