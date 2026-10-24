@@ -8,10 +8,10 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
+  id            String          @id
+  name          String
   email         String          @unique
-  emailVerified DateTime?
+  emailVerified Boolean         @default(false)
   image         String?
   accounts      Account[]
   sessions      Session[]
@@ -23,45 +23,56 @@ model User {
 }
 
 // -----------------------
-// Authentication models for Auth.js
+// Authentication models for Better Auth
 // -----------------------
 model Account {
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
- 
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  @@id([provider, providerAccountId])
+
+  // One account row per sign-in identity, as Better Auth expects
+  @@unique([providerId, accountId])
+  @@index([userId])
 }
- 
+
 model Session {
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
- 
-model VerificationToken {
+
+model Verification {
+  id         String   @id
   identifier String
-  token      String
-  expires    DateTime
- 
-  @@id([identifier, token])
+  value      String
+  expiresAt  DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([identifier])
 }
 
 // -----------------------

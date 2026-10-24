@@ -1,42 +1,32 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/auth'
+import { withUser } from '@/lib/auth-handlers'
 import { characterService } from '@/server/characters'
 
-export async function GET({ nextUrl }: NextRequest) {
-  const details = nextUrl.searchParams.get('details') || 'full'
-  const session = await auth()
+export const GET = withUser(
+  async ({ nextUrl }: NextRequest, _context: unknown, userId: string) => {
+    const details = nextUrl.searchParams.get('details') || 'full'
 
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+    if (details === 'lite') {
+      const data = await characterService.getUserCharactersLite(userId)
+      return NextResponse.json(data)
+    }
 
-  if (details === 'lite') {
-    const data = await characterService.getUserCharactersLite(session.user.id)
+    const data = await characterService.findCharactersByUserId(userId)
     return NextResponse.json(data)
-  }
+  },
+)
 
-  const data = await characterService.findCharactersByUserId(session.user.id)
-  return NextResponse.json(data)
-}
+export const POST = withUser(
+  async (req: NextRequest, _context: unknown, userId: string) => {
+    const data = await req.json()
+    const newCharacter = await characterService.createCharacter(data, userId)
 
-export async function POST(req: NextRequest) {
-  const data = await req.json()
-  const session = await auth()
-
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
-  const newCharacter = await characterService.createCharacter(
-    data,
-    session?.user?.id,
-  )
-
-  if (!newCharacter) {
-    return NextResponse.json(
-      { error: 'Failed to create character' },
-      { status: 500 },
-    )
-  }
-  return NextResponse.json(newCharacter)
-}
+    if (!newCharacter) {
+      return NextResponse.json(
+        { error: 'Failed to create character' },
+        { status: 500 },
+      )
+    }
+    return NextResponse.json(newCharacter)
+  },
+)

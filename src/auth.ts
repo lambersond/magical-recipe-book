@@ -1,26 +1,18 @@
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import NextAuth from 'next-auth'
-import { providers } from './auth-providers'
+import { betterAuth } from 'better-auth'
+import { prismaAdapter } from 'better-auth/adapters/prisma'
+import { nextCookies } from 'better-auth/next-js'
+import { socialProviders } from './auth-providers'
 import prisma from './clients/prisma'
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
-  providers: providers(),
-  adapter: PrismaAdapter(prisma),
-  secret: process.env.AUTH_SECRET,
-  trustHost: true,
+// The secret is BETTER_AUTH_SECRET, or AUTH_SECRET as before; the app's
+// address is BETTER_AUTH_URL.
+export const auth = betterAuth({
+  database: prismaAdapter(prisma, { provider: 'postgresql' }),
+  socialProviders: socialProviders(),
   session: {
-    strategy: 'jwt',
-    maxAge: +(process.env.AUTH_MAX_AGE as unknown as number) || 30 * 86_400,
+    expiresIn: Number(process.env.AUTH_MAX_AGE) || 30 * 86_400, // 30 days
     updateAge: 86_400,
   },
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) token.id = user.id
-      return token
-    },
-    session({ session, token }) {
-      session.user.id = token.id as string
-      return session
-    },
-  },
+  // nextCookies must stay the last plugin
+  plugins: [nextCookies()],
 })
