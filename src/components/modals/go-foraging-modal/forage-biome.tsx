@@ -76,25 +76,33 @@ export function ForageBiome({
   }
 
   if (result) {
-    const { ingredient, dc, roll, success } = result
+    const { ingredient, dc, roll } = result
     return (
       <div className='flex flex-col gap-4 pt-2'>
         <div
-          className={`rounded-lg border p-4 ${success ? 'border-success/60 bg-success/10' : 'border-danger/60 bg-danger/10'}`}
+          className={`rounded-lg border p-4 ${ingredient ? 'border-success/60 bg-success/10' : 'border-danger/60 bg-danger/10'}`}
         >
           <p className='text-sm font-bold uppercase text-text-secondary'>
-            {success ? 'You found' : 'It got away'}
+            {ingredient ? 'You found' : 'Nothing found'}
           </p>
-          <div className='flex items-center justify-between gap-2 py-1'>
-            <p className='text-2xl font-bold'>{ingredient.name}</p>
-            <RarityChip rarity={ingredient.rarity} />
-          </div>
-          <p className='text-sm text-text-secondary italic'>
-            {ingredient.description}
-          </p>
+          {ingredient ? (
+            <>
+              <div className='flex items-center justify-between gap-2 py-1'>
+                <p className='text-2xl font-bold'>{ingredient.name}</p>
+                <RarityChip rarity={ingredient.rarity} />
+              </div>
+              <p className='text-sm text-text-secondary italic'>
+                {ingredient.description}
+              </p>
+            </>
+          ) : (
+            <p className='text-xl font-bold py-1'>
+              You were unable to locate a magical plant
+            </p>
+          )}
           <p className='pt-3 font-semibold' data-testid='forage-biome__outcome'>
             Rolled {roll} vs DC {dc}:{' '}
-            {success
+            {ingredient
               ? 'added to your ingredients pouch.'
               : 'nothing was added.'}
           </p>

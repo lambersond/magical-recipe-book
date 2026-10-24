@@ -181,7 +181,9 @@ export type BiomeOption = {
 
 /** The outcome of a Survival check made to forage a biome. */
 export type BiomeForagingResult = {
-  ingredient: Pick<MagicalIngredient, 'id' | 'name' | 'rarity' | 'description'>
+  /** What was found; left out when the roll found nothing */
+  ingredient?: Pick<MagicalIngredient, 'id' | 'name' | 'rarity' | 'description'>
+  /** The found ingredient's DC, or the biome's lowest when nothing was found */
   dc: number
   roll: number
   success: boolean

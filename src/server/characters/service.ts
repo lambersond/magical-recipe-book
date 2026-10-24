@@ -1,6 +1,10 @@
 import { isEqual } from 'lodash'
 import * as repository from './repository'
-import { RARITY_DC } from '@/constants/rarity'
+import {
+  BIOME_SEARCH_CHANCES,
+  BIOME_SEARCH_DC_REDUCTION,
+  RARITY_DC,
+} from '@/constants/rarity'
 import { isSelf } from '@/lib/auth-handlers'
 import { biomeService } from '@/server/biomes'
 import type {
@@ -262,10 +266,41 @@ export function cookRecipe(
   )
 }
 
+/** The DC a biome search finds an ingredient of this rarity at. */
+export const biomeSearchDc = (rarity: Rarity) =>
+  RARITY_DC[rarity] - BIOME_SEARCH_DC_REDUCTION
+
 /**
- * Forages a biome with a Survival check: draws one of the biome's magical
- * ingredients at random, and adds it to the character's pouch when the roll
- * meets the ingredient's rarity DC.
+ * What a biome search finds with this roll: one of the rarities the roll
+ * reaches, by its chance in BIOME_SEARCH_CHANCES scaled to those rarities,
+ * then one of the biome's ingredients of that rarity. Nothing when the roll
+ * reaches none.
+ */
+export function searchIngredients<I extends { rarity: Rarity }>(
+  ingredients: I[],
+  roll: number,
+  random: () => number = Math.random,
+) {
+  const reached = ingredients.filter(
+    ({ rarity }) => roll >= biomeSearchDc(rarity),
+  )
+  const rarities = (Object.keys(BIOME_SEARCH_CHANCES) as Rarity[]).filter(
+    rarity => reached.some(ingredient => ingredient.rarity === rarity),
+  )
+  if (rarities.length === 0) return
+
+  const chance = (rarity: Rarity) => BIOME_SEARCH_CHANCES[rarity] ?? 0
+  let pick = random() * rarities.reduce((sum, r) => sum + chance(r), 0)
+  const rarity = rarities.find(r => (pick -= chance(r)) < 0) ?? rarities.at(-1)
+  const found = reached.filter(ingredient => ingredient.rarity === rarity)
+  return found[Math.floor(random() * found.length)]
+}
+
+/**
+ * Forages a biome with a Survival check. The roll finds an ingredient whose
+ * rarity it reaches, rarer ones less often, and adds it to the character's
+ * pouch; or nothing, when it's below every DC in the biome. Common
+ * ingredients aren't found this way.
  */
 export async function forageBiome(
   characterId: string,
@@ -281,7 +316,10 @@ export async function forageBiome(
     return { ok: false, status: 404, error: 'Character not found' } as const
   }
 
-  const ingredients = await biomeService.getBiomeIngredients(biomeId)
+  const biomeIngredients = await biomeService.getBiomeIngredients(biomeId)
+  const ingredients = biomeIngredients
+    .map(ingredient => ({ ...ingredient, rarity: ingredient.rarity as Rarity }))
+    .filter(({ rarity }) => rarity in BIOME_SEARCH_CHANCES)
   if (ingredients.length === 0) {
     return {
       ok: false,
@@ -290,21 +328,29 @@ export async function forageBiome(
     } as const
   }
 
-  const found = ingredients[Math.floor(random() * ingredients.length)]
-  const ingredient = { ...found, rarity: found.rarity as Rarity }
-  const dc = RARITY_DC[ingredient.rarity] ?? RARITY_DC.common
-  const success = roll >= dc
+  const ingredient = searchIngredients(ingredients, roll, random)
+  if (!ingredient) {
+    // The easiest find in the biome, which the roll fell short of
+    const dc = Math.min(
+      ...ingredients.map(({ rarity }) => biomeSearchDc(rarity)),
+    )
+    return { ok: true, result: { dc, roll, success: false } } as const
+  }
 
-  const updated = success
-    ? await repository.updateCharacterForagingLogById(
-        characterId,
-        { commonIngredients: 0, magicalIngredientId: ingredient.id },
-        userId,
-      )
-    : undefined
+  const updated = await repository.updateCharacterForagingLogById(
+    characterId,
+    { commonIngredients: 0, magicalIngredientId: ingredient.id },
+    userId,
+  )
 
   return {
     ok: true,
-    result: { ingredient, dc, roll, success, ...updated },
+    result: {
+      ingredient,
+      dc: biomeSearchDc(ingredient.rarity),
+      roll,
+      success: true,
+      ...updated,
+    },
   } as const
 }
