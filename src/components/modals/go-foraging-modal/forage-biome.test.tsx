@@ -19,7 +19,7 @@ const found = {
     rarity: 'rare',
     description: 'Sweet crystals from cooled lava.',
   },
-  dc: 15,
+  dc: 13,
   roll: 17,
   success: true,
   ingredientsPouch: { id: 'pouch-1' },
@@ -86,21 +86,24 @@ describe('components/modals/go-foraging-modal/forage-biome', () => {
     )
     expect(screen.getByText('Ash Sugar')).toBeInTheDocument()
     expect(screen.getByTestId('forage-biome__outcome')).toHaveTextContent(
-      'Rolled 17 vs DC 15: added to your ingredients pouch.',
+      'Rolled 17 vs DC 13: added to your ingredients pouch.',
     )
     expect(onForaged).toHaveBeenCalledWith(found)
   })
 
-  it('should report a failed check without adding anything', async () => {
-    const { user, onForaged } = setup({ ...found, roll: 9, success: false })
+  it('should say nothing was found when the roll is below every DC', async () => {
+    const { user, onForaged } = setup({ dc: 10, roll: 9, success: false })
 
     await chooseBiome(user)
     await user.type(screen.getByLabelText('Roll result'), '9')
     await user.click(screen.getByRole('button', { name: 'Forage' }))
 
-    expect(await screen.findByText('It got away')).toBeInTheDocument()
+    expect(await screen.findByText('Nothing found')).toBeInTheDocument()
+    expect(
+      screen.getByText('You were unable to locate a magical plant'),
+    ).toBeInTheDocument()
     expect(screen.getByTestId('forage-biome__outcome')).toHaveTextContent(
-      'Rolled 9 vs DC 15: nothing was added.',
+      'Rolled 9 vs DC 10: nothing was added.',
     )
     expect(onForaged).not.toHaveBeenCalled()
   })

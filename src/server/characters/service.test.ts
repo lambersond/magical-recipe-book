@@ -3,12 +3,15 @@
  */
 
 import {
+  biomeSearchDc,
   forageBiome,
   getCharacterByIdAndUserId,
   personalizeCookbook,
+  searchIngredients,
   updateCookbookRecipeCommonIngredients,
 } from './service'
 import { prismaMock } from '@/utils/test-utils-node'
+import type { Rarity } from '@/types'
 
 // The service only needs isSelf; skip loading next-auth's ESM adapter
 jest.mock('@/auth', () => ({ auth: jest.fn() }))
@@ -19,19 +22,47 @@ const bread = { id: 'bread', name: 'Bread', mundaneIngredients: ['Flour'] }
 const update = (names: string[]) =>
   updateCookbookRecipeCommonIngredients('character-1', 'user-1', 'stew', names)
 
+const ingredient = (id: string, rarity: Rarity) => ({
+  id,
+  name: id,
+  rarity,
+  description: '',
+})
+
+// One of each rarity, and a second rare. Searched at DC 8, 10, 13, 16, 20
+// and 24.
 const BIOME_INGREDIENTS = [
-  { id: 'moss', name: 'Cave Moss', rarity: 'common', description: '' },
-  { id: 'sugar', name: 'Ash Sugar', rarity: 'rare', description: '' },
-  {
-    id: 'heart',
-    name: 'Treant Heartwood',
-    rarity: 'legendary',
-    description: '',
-  },
+  ingredient('moss', 'common'),
+  ingredient('salt', 'uncommon'),
+  ingredient('sugar', 'rare'),
+  ingredient('sage', 'rare'),
+  ingredient('pearl', 'very-rare'),
+  ingredient('pepper', 'epic'),
+  ingredient('heart', 'legendary'),
 ]
 
-// Picks the ingredient at `index` from BIOME_INGREDIENTS
-const pick = (index: number) => () => (index + 0.5) / BIOME_INGREDIENTS.length
+// Each call answers the next value
+const sequence =
+  (...values: number[]) =>
+  () =>
+    values.shift() ?? 0
+
+// How often each rarity is found over an even spread of the rarity draw
+function rarityShares(ingredients: typeof BIOME_INGREDIENTS, roll: number) {
+  const draws = 1000
+  const counts: Record<string, number> = {}
+  for (let draw = 0; draw < draws; draw++) {
+    const found = searchIngredients(
+      ingredients,
+      roll,
+      sequence((draw + 0.5) / draws, 0),
+    )
+    if (found) counts[found.rarity] = (counts[found.rarity] ?? 0) + 1
+  }
+  return Object.fromEntries(
+    Object.entries(counts).map(([rarity, count]) => [rarity, count / draws]),
+  )
+}
 
 function mockForaging({
   owner = 'user-1',
@@ -195,6 +226,91 @@ describe('server/characters/service', () => {
     })
   })
 
+  describe('biomeSearchDc', () => {
+    it.each([
+      ['common', 8],
+      ['uncommon', 10],
+      ['rare', 13],
+      ['very-rare', 16],
+      ['epic', 20],
+      ['legendary', 24],
+    ] as const)(
+      'should search for %s at DC %i, 2 below its DC',
+      (rarity, dc) => {
+        expect(biomeSearchDc(rarity)).toBe(dc)
+      },
+    )
+  })
+
+  describe('searchIngredients', () => {
+    it('should find nothing below every DC', () => {
+      expect(searchIngredients(BIOME_INGREDIENTS, 9)).toBeUndefined()
+    })
+
+    it('should never find a common ingredient', () => {
+      expect(
+        searchIngredients([ingredient('moss', 'common')], 30),
+      ).toBeUndefined()
+    })
+
+    it('should find a rarity at its lowered DC', () => {
+      expect(searchIngredients(BIOME_INGREDIENTS, 10)).toMatchObject({
+        id: 'salt',
+      })
+    })
+
+    it('should never find a rarity the roll doesn’t reach', () => {
+      for (const draw of [0, 0.5, 0.999]) {
+        const found = searchIngredients(
+          BIOME_INGREDIENTS,
+          15,
+          sequence(draw, draw),
+        )
+        expect(['uncommon', 'rare']).toContain(found?.rarity)
+      }
+    })
+
+    it('should find each rarity by its chance when the roll reaches them all', () => {
+      expect(rarityShares(BIOME_INGREDIENTS, 24)).toEqual({
+        uncommon: 0.4,
+        rare: 0.3,
+        'very-rare': 0.15,
+        epic: 0.1,
+        legendary: 0.05,
+      })
+    })
+
+    it('should scale the chances to the rarities the roll reaches', () => {
+      // 40 to 30, of 70
+      expect(rarityShares(BIOME_INGREDIENTS, 13)).toEqual({
+        uncommon: 0.571,
+        rare: 0.429,
+      })
+    })
+
+    it('should scale the chances to the rarities the biome has', () => {
+      const biome = [ingredient('sugar', 'rare'), ingredient('pepper', 'epic')]
+
+      // 30 to 10, of 40
+      expect(rarityShares(biome, 30)).toEqual({ rare: 0.75, epic: 0.25 })
+    })
+
+    it.each([
+      [0, 'sugar'],
+      [0.49, 'sugar'],
+      [0.5, 'sage'],
+      [0.99, 'sage'],
+    ])(
+      'should pick evenly among the ingredients of the rarity found (%p)',
+      (draw, id) => {
+        // 0.99 draws rare, the rarest a roll of 13 reaches
+        expect(
+          searchIngredients(BIOME_INGREDIENTS, 13, sequence(0.99, draw))?.id,
+        ).toBe(id)
+      },
+    )
+  })
+
   describe('forageBiome', () => {
     it("should 404 for someone else's character", async () => {
       mockForaging({ owner: 'user-2' })
@@ -205,31 +321,68 @@ describe('server/characters/service', () => {
       expect(prismaMock.biome.findMany).not.toHaveBeenCalled()
     })
 
-    it('should 404 for a biome with no ingredients', async () => {
-      mockForaging({ ingredients: [] })
+    it.each([
+      ['no ingredients', []],
+      ['only common ingredients', [ingredient('moss', 'common')]],
+    ])('should 404 for a biome with %s', async (_, ingredients) => {
+      mockForaging({ ingredients })
 
       await expect(
         forageBiome('character-1', 'user-1', 'biome-1', 20),
-      ).resolves.toMatchObject({ ok: false, status: 404 })
+      ).resolves.toEqual({
+        ok: false,
+        status: 404,
+        error: 'No ingredients grow in that biome',
+      })
     })
 
-    it('should add the drawn ingredient when the roll meets its DC', async () => {
+    it('should find nothing below every DC, and say the lowest', async () => {
+      mockForaging()
+
+      // Above common's DC 8, which searching ignores, below uncommon's 10
+      await expect(
+        forageBiome('character-1', 'user-1', 'biome-1', 9),
+      ).resolves.toEqual({
+        ok: true,
+        result: { dc: 10, roll: 9, success: false },
+      })
+      expect(prismaMock.foragedIngredient.create).not.toHaveBeenCalled()
+    })
+
+    it('should say the lowest DC of the biome’s own ingredients', async () => {
+      mockForaging({
+        ingredients: [
+          ingredient('pepper', 'epic'),
+          ingredient('sugar', 'rare'),
+        ],
+      })
+
+      await expect(
+        forageBiome('character-1', 'user-1', 'biome-1', 12),
+      ).resolves.toEqual({
+        ok: true,
+        result: { dc: 13, roll: 12, success: false },
+      })
+    })
+
+    it('should add what the roll finds to the pouch', async () => {
       mockForaging()
 
       const outcome = await forageBiome(
         'character-1',
         'user-1',
         'biome-1',
-        15,
-        pick(1),
+        14,
+        sequence(0.99, 0),
       )
 
+      // The DC is the rare's, 13, not the roll
       expect(outcome).toMatchObject({
         ok: true,
         result: {
-          ingredient: { id: 'sugar', name: 'Ash Sugar', rarity: 'rare' },
-          dc: 15,
-          roll: 15,
+          ingredient: { id: 'sugar', rarity: 'rare' },
+          dc: 13,
+          roll: 14,
           success: true,
           ingredientsPouch: { id: 'pouch-1' },
         },
@@ -243,47 +396,6 @@ describe('server/characters/service', () => {
           }),
         }),
       )
-    })
-
-    it('should add nothing when the roll misses the DC', async () => {
-      mockForaging()
-
-      const outcome = await forageBiome(
-        'character-1',
-        'user-1',
-        'biome-1',
-        25,
-        pick(2),
-      )
-
-      expect(outcome).toEqual({
-        ok: true,
-        result: {
-          ingredient: BIOME_INGREDIENTS[2],
-          dc: 26,
-          roll: 25,
-          success: false,
-        },
-      })
-      expect(prismaMock.foragedIngredient.create).not.toHaveBeenCalled()
-    })
-
-    it('should draw from every ingredient in the biome', async () => {
-      mockForaging()
-      const drawn = new Set<string>()
-
-      for (const index of [0, 1, 2]) {
-        const outcome = await forageBiome(
-          'character-1',
-          'user-1',
-          'biome-1',
-          0,
-          pick(index),
-        )
-        if (outcome.ok) drawn.add(outcome.result.ingredient.id)
-      }
-
-      expect(drawn).toEqual(new Set(['moss', 'sugar', 'heart']))
     })
   })
 })
