@@ -349,6 +349,22 @@ describe('server/characters/service', () => {
       expect(prismaMock.foragedIngredient.create).not.toHaveBeenCalled()
     })
 
+    it('should say the lowest DC of the biome’s own ingredients', async () => {
+      mockForaging({
+        ingredients: [
+          ingredient('pepper', 'epic'),
+          ingredient('sugar', 'rare'),
+        ],
+      })
+
+      await expect(
+        forageBiome('character-1', 'user-1', 'biome-1', 12),
+      ).resolves.toEqual({
+        ok: true,
+        result: { dc: 13, roll: 12, success: false },
+      })
+    })
+
     it('should add what the roll finds to the pouch', async () => {
       mockForaging()
 
@@ -356,16 +372,17 @@ describe('server/characters/service', () => {
         'character-1',
         'user-1',
         'biome-1',
-        13,
+        14,
         sequence(0.99, 0),
       )
 
+      // The DC is the rare's, 13, not the roll
       expect(outcome).toMatchObject({
         ok: true,
         result: {
           ingredient: { id: 'sugar', rarity: 'rare' },
           dc: 13,
-          roll: 13,
+          roll: 14,
           success: true,
           ingredientsPouch: { id: 'pouch-1' },
         },
