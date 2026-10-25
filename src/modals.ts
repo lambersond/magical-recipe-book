@@ -11,6 +11,11 @@ export const MODALS = {
       default: module.AddCookbookRecipeModal,
     })),
   ),
+  CharacterSettingsModal: lazy(() =>
+    import('./components/modals').then(module => ({
+      default: module.CharacterSettingsModal,
+    })),
+  ),
   CookRecipeModal: lazy(() =>
     import('./components/modals').then(module => ({
       default: module.CookRecipeModal,
@@ -39,11 +44,6 @@ export const MODALS = {
   GoForagingModal: lazy(() =>
     import('./components/modals').then(module => ({
       default: module.GoForagingModal,
-    })),
-  ),
-  LinkSendingStoneModal: lazy(() =>
-    import('./components/modals').then(module => ({
-      default: module.LinkSendingStoneModal,
     })),
   ),
   PrepareRecipeModal: lazy(() =>

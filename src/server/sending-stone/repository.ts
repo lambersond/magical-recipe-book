@@ -3,7 +3,8 @@ import prisma from '@/clients/prisma'
 
 /**
  * A cooked dish of the user's character, with what sending it needs: its
- * recipe's text and ingredients' changes, its cook's name and link code.
+ * recipe's text and ingredients' changes, its cook's name, link code and
+ * whether it sends dishes at all.
  */
 export async function findCookedDishToSend(
   cookedDishId: string,
@@ -42,7 +43,9 @@ export async function findCookedDishToSend(
           character: {
             select: {
               name: true,
-              settings: { select: { sendingStoneToken: true } },
+              settings: {
+                select: { sendingStoneToken: true, sendToFoundry: true },
+              },
             },
           },
         },

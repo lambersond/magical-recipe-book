@@ -35,6 +35,12 @@ export async function sendCookedDish(
   if (cookedDish.status === 'prepared') {
     return refused(409, 'Finish cooking this dish before sending it')
   }
+  if (!character.settings?.sendToFoundry) {
+    return refused(
+      409,
+      'Turn on “Send to FoundryVTT via the Sending Stone” in this character’s settings first',
+    )
+  }
   const token = character.settings?.sendingStoneToken
   if (!token) return refused(409, 'Link this character to Sending Stone first')
   if (cookedDish.sentAt) return refused(409, 'This dish was already sent')

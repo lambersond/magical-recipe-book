@@ -7,6 +7,7 @@ import {
 } from '@/constants/rarity'
 import { isSelf } from '@/lib/auth-handlers'
 import { biomeService } from '@/server/biomes'
+import type { CharacterSettingsFields } from '@/schemas/character-settings'
 import type {
   CookedDishStatus,
   EditableCharacter,
@@ -146,11 +147,30 @@ export async function advanceDay(id: string, userId: string) {
   return updatedCharacter
 }
 
+/**
+ * Logs what the character foraged. A character in Game mode finds magical
+ * ingredients only by foraging a biome, so can't log one picked directly.
+ */
 export async function logForagingResults(
   id: string,
   data: LogForagingResults,
   userId: string,
 ) {
+  if (data.isMagical && data.magicalIngredientId) {
+    const character = await repository.findCharacterMode(id, userId)
+    if (!character) {
+      return { ok: false, status: 404, error: 'Character not found' } as const
+    }
+    if (character.settings?.mode === 'game') {
+      return {
+        ok: false,
+        status: 409,
+        error:
+          'In Game mode, magical ingredients are found by foraging a biome',
+      } as const
+    }
+  }
+
   const minQuantity = Math.max(0, data.quantity || 0)
   const quantity = Math.min(minQuantity, 7)
   const updatedCharacter = await repository.updateCharacterForagingLogById(
@@ -164,7 +184,20 @@ export async function logForagingResults(
     userId,
   )
 
-  return updatedCharacter
+  return { ok: true, result: updatedCharacter } as const
+}
+
+/** Changes the user's character's mode, or whether it sends dishes to Foundry. */
+export async function updateCharacterSettings(
+  id: string,
+  userId: string,
+  settings: CharacterSettingsFields,
+) {
+  const updated = await repository.upsertCharacterSettings(id, userId, settings)
+  if (!updated) {
+    return { ok: false, status: 404, error: 'Character not found' } as const
+  }
+  return { ok: true, result: updated } as const
 }
 
 export async function getUserCharactersLite(userId: string) {

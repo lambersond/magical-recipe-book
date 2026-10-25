@@ -11,11 +11,14 @@ export const POST = withUser(
     const { id } = await params
     const data = await req.json()
 
-    const character = await characterService.logForagingResults(
-      id,
-      data,
-      userId,
-    )
-    return NextResponse.json(character)
+    const outcome = await characterService.logForagingResults(id, data, userId)
+
+    if (!outcome.ok) {
+      return NextResponse.json(
+        { error: outcome.error },
+        { status: outcome.status },
+      )
+    }
+    return NextResponse.json(outcome.result)
   },
 )
