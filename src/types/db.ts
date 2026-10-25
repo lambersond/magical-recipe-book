@@ -143,7 +143,13 @@ export type FullCharacter = {
   settings?: CharacterSettings | null
 }
 
+/** companion: the player enters roll results; game: the app's dice roll them */
+export type CharacterMode = 'companion' | 'game'
+
 export type CharacterSettings = {
+  mode: CharacterMode
+  /** Whether its cooked dishes are sent to Foundry through Sending Stone */
+  sendToFoundry: boolean
   /** When the character was linked to Sending Stone; null while it isn't */
   sendingStoneLinkedAt: Date | string | null
 }

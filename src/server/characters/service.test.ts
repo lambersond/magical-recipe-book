@@ -6,8 +6,10 @@ import {
   biomeSearchDc,
   forageBiome,
   getCharacterByIdAndUserId,
+  logForagingResults,
   personalizeCookbook,
   searchIngredients,
+  updateCharacterSettings,
   updateCookbookRecipeCommonIngredients,
 } from './service'
 import { prismaMock } from '@/utils/test-utils-node'
@@ -395,6 +397,150 @@ describe('server/characters/service', () => {
             pouchId: 'pouch-1',
           }),
         }),
+      )
+    })
+  })
+
+  describe('logForagingResults', () => {
+    const pick = { quantity: 0, isMagical: true, magicalIngredientId: 'sugar' }
+
+    beforeEach(() => {
+      mockForaging()
+    })
+
+    it.each([
+      ['in Companion mode', { mode: 'companion' }],
+      // An older character may have no settings, and plays in Companion mode
+      // eslint-disable-next-line unicorn/no-null
+      ['for a character without settings', null],
+    ])('should log a picked ingredient %s', async (_, settings) => {
+      prismaMock.character.findFirst.mockResolvedValue({ settings } as any)
+
+      await expect(
+        logForagingResults('character-1', pick, 'user-1'),
+      ).resolves.toMatchObject({
+        ok: true,
+        result: { ingredientsPouch: { id: 'pouch-1' } },
+      })
+      expect(prismaMock.character.findFirst).toHaveBeenCalledWith({
+        where: { id: 'character-1', userId: 'user-1' },
+        select: { settings: { select: { mode: true } } },
+      })
+      expect(prismaMock.foragedIngredient.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ magicalIngredientId: 'sugar' }),
+        }),
+      )
+    })
+
+    it('should refuse a picked ingredient in Game mode', async () => {
+      prismaMock.character.findFirst.mockResolvedValue({
+        settings: { mode: 'game' },
+      } as any)
+
+      await expect(
+        logForagingResults('character-1', pick, 'user-1'),
+      ).resolves.toEqual({
+        ok: false,
+        status: 409,
+        error:
+          'In Game mode, magical ingredients are found by foraging a biome',
+      })
+      expect(prismaMock.foragedIngredient.create).not.toHaveBeenCalled()
+    })
+
+    it('should 404 a picked ingredient for someone else’s character', async () => {
+      // Prisma's findFirst resolves null when nothing matches
+      // eslint-disable-next-line unicorn/no-null
+      prismaMock.character.findFirst.mockResolvedValue(null)
+
+      await expect(
+        logForagingResults('character-1', pick, 'user-2'),
+      ).resolves.toEqual({
+        ok: false,
+        status: 404,
+        error: 'Character not found',
+      })
+      expect(prismaMock.foragedIngredient.create).not.toHaveBeenCalled()
+    })
+
+    it('should log common ingredients in any mode, at most 7', async () => {
+      await expect(
+        logForagingResults(
+          'character-1',
+          { quantity: 9, isMagical: false },
+          'user-1',
+        ),
+      ).resolves.toMatchObject({ ok: true })
+      // The quantity is rolled in the browser, so the mode isn't looked up
+      expect(prismaMock.character.findFirst).not.toHaveBeenCalled()
+      expect(prismaMock.foragedIngredient.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ commonIngredients: 7 }),
+        }),
+      )
+    })
+  })
+
+  describe('updateCharacterSettings', () => {
+    const saved = {
+      mode: 'game',
+      sendToFoundry: true,
+      sendingStoneLinkedAt: new Date('2026-10-24T12:00:00Z'),
+    }
+
+    beforeEach(() => {
+      prismaMock.character.findFirst.mockResolvedValue({
+        id: 'character-1',
+      } as any)
+      prismaMock.characterSettings.upsert.mockResolvedValue(saved as any)
+    })
+
+    it('should 404 for someone else’s character', async () => {
+      // eslint-disable-next-line unicorn/no-null
+      prismaMock.character.findFirst.mockResolvedValue(null)
+
+      await expect(
+        updateCharacterSettings('character-1', 'user-2', { mode: 'game' }),
+      ).resolves.toEqual({
+        ok: false,
+        status: 404,
+        error: 'Character not found',
+      })
+      expect(prismaMock.character.findFirst).toHaveBeenCalledWith({
+        where: { id: 'character-1', userId: 'user-2' },
+        select: { id: true },
+      })
+      expect(prismaMock.characterSettings.upsert).not.toHaveBeenCalled()
+    })
+
+    it('should save the settings, creating them for an older character', async () => {
+      await expect(
+        updateCharacterSettings('character-1', 'user-1', {
+          mode: 'game',
+          sendToFoundry: true,
+        }),
+      ).resolves.toEqual({ ok: true, result: saved })
+      expect(prismaMock.characterSettings.upsert).toHaveBeenCalledWith({
+        where: { characterId: 'character-1' },
+        update: { mode: 'game', sendToFoundry: true },
+        create: {
+          characterId: 'character-1',
+          mode: 'game',
+          sendToFoundry: true,
+        },
+        // Sending Stone's link code stays on the server
+        omit: { sendingStoneToken: true },
+      })
+    })
+
+    it('should change only the settings given', async () => {
+      await updateCharacterSettings('character-1', 'user-1', {
+        sendToFoundry: false,
+      })
+
+      expect(prismaMock.characterSettings.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({ update: { sendToFoundry: false } }),
       )
     })
   })

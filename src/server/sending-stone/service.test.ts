@@ -35,7 +35,7 @@ function cookedDish(overrides: Record<string, unknown> = {}) {
     backpack: {
       character: {
         name: 'Thorin',
-        settings: { sendingStoneToken: 'link-code' },
+        settings: { sendingStoneToken: 'link-code', sendToFoundry: true },
       },
     },
     ...overrides,
@@ -117,6 +117,25 @@ describe('server/sending-stone/service', () => {
       )
     })
 
+    it('should read whether the character sends its dishes', async () => {
+      await send()
+
+      expect(
+        prismaMock.cookedDish.findFirst.mock.calls[0][0]?.include?.backpack,
+      ).toEqual({
+        select: {
+          character: {
+            select: {
+              name: true,
+              settings: {
+                select: { sendingStoneToken: true, sendToFoundry: true },
+              },
+            },
+          },
+        },
+      })
+    })
+
     it.each([
       ['no dish', null, 404, 'Dish not found'],
       [
@@ -126,9 +145,38 @@ describe('server/sending-stone/service', () => {
         'Finish cooking this dish before sending it',
       ],
       [
-        'a character without a link',
+        'a character that doesn’t send its dishes',
+        cookedDish({
+          backpack: {
+            character: {
+              name: 'Thorin',
+              settings: {
+                sendingStoneToken: 'link-code',
+                sendToFoundry: false,
+              },
+            },
+          },
+        }),
+        409,
+        'Turn on “Send to FoundryVTT via the Sending Stone” in this character’s settings first',
+      ],
+      [
+        'a character without settings',
         cookedDish({
           backpack: { character: { name: 'Thorin', settings: null } },
+        }),
+        409,
+        'Turn on “Send to FoundryVTT via the Sending Stone” in this character’s settings first',
+      ],
+      [
+        'a character without a link',
+        cookedDish({
+          backpack: {
+            character: {
+              name: 'Thorin',
+              settings: { sendingStoneToken: null, sendToFoundry: true },
+            },
+          },
         }),
         409,
         'Link this character to Sending Stone first',

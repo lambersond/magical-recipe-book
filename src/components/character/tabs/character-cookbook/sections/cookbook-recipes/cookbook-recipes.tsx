@@ -6,7 +6,7 @@ import { useCharacterCookbook } from '@/components/character/hooks/use-character
 
 export function CookbookRecipes() {
   const character = useCharacter()
-  const { filter, sort, viewMode } = useCharacterCookbook()
+  const { filter, matchesSearch, sort, viewMode } = useCharacterCookbook()
   const { cookbook } = character
 
   const ViewComponent = viewMode === 'card' ? RecipeCard : RecipeListItem
@@ -15,10 +15,20 @@ export function CookbookRecipes() {
     .filter(recipe => filter(recipe))
     .toSorted(sort)
 
+  const emptyMessage = () => {
+    if (cookbook.knownRecipes.length === 0) {
+      return 'No recipes found in your cookbook.'
+    }
+    if (!cookbook.knownRecipes.some(recipe => matchesSearch(recipe))) {
+      return 'No recipes match your search.'
+    }
+    return 'You don’t have the ingredients for any of these recipes. Turn on “Show recipes missing ingredients” to see them.'
+  }
+
   if (filteredRecipeList.length === 0) {
     return (
       <div className='col-span-1 md:col-span-2 lg:col-span-3 text-center text-text-tertiary text-left'>
-        No recipes found in your cookbook.
+        {emptyMessage()}
       </div>
     )
   }

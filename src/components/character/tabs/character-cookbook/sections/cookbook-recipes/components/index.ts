@@ -1,3 +1,4 @@
+export { MissingIngredientsWarning } from './missing-ingredients-warning'
 export { RecipeActions } from './recipe-actions'
 export { RecipeIngredients } from './recipe-ingredients'
 export { RecipeOutcomes } from './recipe-outcomes'

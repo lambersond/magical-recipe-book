@@ -3,6 +3,7 @@
 import { Check, X } from 'lucide-react'
 import { SelectionButton } from '../../buttons'
 import {
+  useCookingAvailability,
   useCookingIngredientsPouch,
   useCookingRecipe,
 } from '../../hooks/use-cook-recipe'
@@ -12,6 +13,7 @@ import { CommonChip } from '@/components/chips'
 export function Selection() {
   const recipe = useCookingRecipe()
   const ingredientsPouch = useCookingIngredientsPouch()
+  const { hasCommonIngredients } = useCookingAvailability()
 
   return (
     <div className='flex flex-col gap-4 justify-between h-full'>
@@ -32,8 +34,7 @@ export function Selection() {
             You have: {ingredientsPouch?.commonIngredients} common ingredients
           </span>
           <span className='min-w-6'>
-            {(ingredientsPouch?.commonIngredients ?? 0) >=
-            recipe.mundaneIngredients.length ? (
+            {hasCommonIngredients ? (
               <Check className='text-success size-6' />
             ) : (
               <X className='text-danger size-6' />

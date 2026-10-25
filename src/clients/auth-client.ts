@@ -13,10 +13,12 @@ export async function signInWithGoogle(callbackURL: string) {
   })
   if (!error) return
 
+  // Better Auth's own reason, e.g. "Invalid origin", tells the owner what to fix
+  const reason = error.message ? ` (${error.message})` : ''
   // eslint-disable-next-line no-alert
   alert(
     error.status === 429
       ? 'Too many sign-in attempts. Please wait a few seconds and try again.'
-      : 'Sign-in failed. Please try again.',
+      : `Sign-in failed${reason}. Please try again.`,
   )
 }

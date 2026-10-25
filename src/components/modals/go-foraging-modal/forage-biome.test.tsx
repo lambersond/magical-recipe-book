@@ -6,6 +6,7 @@ import {
   waitFor,
 } from '@test-utils'
 import { ForageBiome } from './forage-biome'
+import type { CharacterMode } from '@/types'
 
 // Forests is not first, so a dropdown that resets to its first option shows
 const BIOMES = [
@@ -26,7 +27,11 @@ const found = {
   foragingLog: [],
 }
 
-function setup(forageResponse: object = found, status = 200) {
+function setup(
+  forageResponse: object = found,
+  status = 200,
+  mode?: CharacterMode,
+) {
   const fetchMock = mockManyFetch([
     { responseData: BIOMES },
     { status, responseData: forageResponse },
@@ -36,12 +41,15 @@ function setup(forageResponse: object = found, status = 200) {
   const view = useUser(
     <ForageBiome
       characterId='character-1'
+      mode={mode}
       onForaged={onForaged}
       onClose={onClose}
     />,
   )
   return { ...view, fetchMock, onForaged, onClose }
 }
+
+const setupGame = () => setup(found, 200, 'game')
 
 async function chooseBiome(user: ReturnType<typeof useUser>['user']) {
   await user.click(screen.getByTestId('Dropdown__button'))
@@ -156,5 +164,59 @@ describe('components/modals/go-foraging-modal/forage-biome', () => {
     expect(screen.getByText('Enter your roll result')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(onClose).toHaveBeenCalled()
+  })
+
+  describe('in Game mode', () => {
+    it('should not take a typed roll result', async () => {
+      const { user } = setupGame()
+      const rollResult = screen.getByLabelText('Roll result')
+
+      await user.type(rollResult, '17')
+
+      expect(rollResult).toHaveAttribute('readonly')
+      expect(rollResult).not.toHaveValue()
+      expect(rollResult).toHaveAttribute(
+        'placeholder',
+        'Roll your Survival check above',
+      )
+    })
+
+    it('should ask for the Survival check before foraging', async () => {
+      const { user, fetchMock } = setupGame()
+
+      await chooseBiome(user)
+      await user.click(screen.getByRole('button', { name: 'Forage' }))
+
+      expect(
+        screen.getByText('Roll your Survival check above', { selector: 'p' }),
+      ).toBeInTheDocument()
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+    })
+
+    it('should forage with the Survival check’s roll', async () => {
+      diceRollMock.mockResolvedValue({
+        id: 'roll-1',
+        at: 0,
+        pools: [{ sides: 20, count: 1, rolls: [[17]], kept: [17] }],
+        modifier: 0,
+        total: 17,
+      })
+      const { user, fetchMock } = setupGame()
+
+      await chooseBiome(user)
+      await user.click(screen.getByRole('button', { name: 'Roll' }))
+      await waitFor(() =>
+        expect(screen.getByLabelText('Roll result')).toHaveValue(17),
+      )
+      await user.click(screen.getByRole('button', { name: 'Forage' }))
+
+      expect(await screen.findByText('You found')).toBeInTheDocument()
+      expect(fetchMock).toHaveBeenLastCalledWith(
+        '/api/characters/character-1/forage/biome',
+        expect.objectContaining({
+          body: JSON.stringify({ biomeId: 'forest', roll: 17 }),
+        }),
+      )
+    })
   })
 })

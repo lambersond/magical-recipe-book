@@ -4,12 +4,13 @@ import {
   useCharacterCookbook,
   useCharacterCookbookApi,
 } from '@/components/character/hooks/use-character-cookbook'
-import { Search } from '@/components/common'
+import { Search, Switch } from '@/components/common'
 import { RaritySortMenu } from '@/components/rarity-sort-menu'
 
 export function CookbookHeader() {
-  const { setSearchString, setSortBy } = useCharacterCookbookApi()
-  const { sortBy } = useCharacterCookbook()
+  const { setSearchString, setSortBy, setShowMissingIngredients } =
+    useCharacterCookbookApi()
+  const { sortBy, showMissingIngredients } = useCharacterCookbook()
   return (
     <div className='flex flex-col md:flex-row gap-2 items-center justify-between'>
       <ToggleViewMode />
@@ -20,6 +21,13 @@ export function CookbookHeader() {
           placeholder='Search recipes...'
         />
         <RaritySortMenu value={sortBy} onChange={setSortBy} />
+        <Switch
+          name='show-missing-ingredients'
+          label='Show recipes missing ingredients'
+          labelSize='sm'
+          checked={showMissingIngredients}
+          onChange={e => setShowMissingIngredients(e.target.checked)}
+        />
       </div>
     </div>
   )

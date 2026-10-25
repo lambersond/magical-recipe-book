@@ -20,21 +20,26 @@ While it's off, the app shows no way to link or send, and its routes answer
 
 ## Linking a character
 
+A character sends its dishes once its player turns on **Send to FoundryVTT via
+the Sending Stone** in the character's menu, **Character Settings**
+(`CharacterSettings.sendToFoundry`, off for a new character). Turning it on
+shows where to link the character.
+
 Each character is linked to its seat in Sending Stone with a **link code** that
-Sending Stone gives its player, pasted under the character's menu, **Link
-Sending Stone**. The code says which campaign and Foundry character a dish is
-for, so the cookbook needs nothing else. It's kept on the server
-(`CharacterSettings.sendingStoneToken`) and never sent back to the browser; the
-browser sees only when it was linked (`sendingStoneLinkedAt`).
+Sending Stone gives its player, pasted there. The code says which campaign and
+Foundry character a dish is for, so the cookbook needs nothing else. It's kept
+on the server (`CharacterSettings.sendingStoneToken`) and never sent back to
+the browser; the browser sees only when it was linked (`sendingStoneLinkedAt`).
 
 A code is 1 to 256 of `A-Z a-z 0-9 _ . ~ -`.
 
 ## Sending a dish
 
 A dish that has been eaten (boon, bane, success or failure, not prepared or
-spoiled) has **Send** on its card in the backpack. It's sent once: the dish is
-marked `sentAt` before it goes, and unmarked if Sending Stone doesn't take it, so
-the player can try again.
+spoiled) has **Send** on its card in the backpack, for a character that sends
+its dishes; the route refuses one that doesn't with `409`. It's sent once: the
+dish is marked `sentAt` before it goes, and unmarked if Sending Stone doesn't
+take it, so the player can try again.
 
 ```
 POST <SENDING_STONE_URL>/api/cookbook/dishes

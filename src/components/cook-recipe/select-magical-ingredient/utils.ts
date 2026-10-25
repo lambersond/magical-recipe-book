@@ -6,7 +6,7 @@ import {
   isUncommon,
   isVeryRare,
 } from '@/utils/rarity'
-import type { IngredientsPouch, Rarity } from '@/types'
+import type { Rarity } from '@/types'
 
 export function getContainerStyles(rarity: Rarity) {
   return clsx(
@@ -34,13 +34,4 @@ export function getButtonStyles(isSelected: boolean) {
 
 export function getButtonText(isSelected: boolean) {
   return isSelected ? 'Selected' : 'Select Ingredient'
-}
-
-export function getFoundMagicalIngredientsCount(
-  ingredientId: string,
-  ingredientsPouch: IngredientsPouch,
-) {
-  return ingredientsPouch.magicalIngredients.filter(
-    ({ magicalIngredient }) => magicalIngredient?.id === ingredientId,
-  ).length
 }

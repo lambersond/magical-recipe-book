@@ -25,7 +25,10 @@ const dish = {
   },
 }
 
-function setup(linkedAt: string | null = '2026-10-23T12:00:00.000Z') {
+function setup({
+  linkedAt = '2026-10-23T12:00:00.000Z',
+  sendToFoundry = true,
+}: { linkedAt?: string | null; sendToFoundry?: boolean } = {}) {
   return useUser(
     <ModalProvider>
       <CharacterProvider
@@ -34,7 +37,11 @@ function setup(linkedAt: string | null = '2026-10-23T12:00:00.000Z') {
           name: 'Thorin',
           currentDay: 3,
           backpack: { cookedDishes: [dish] },
-          settings: { sendingStoneLinkedAt: linkedAt },
+          settings: {
+            mode: 'companion',
+            sendToFoundry,
+            sendingStoneLinkedAt: linkedAt,
+          },
         }}
       >
         <CharacterBackpack />
@@ -55,6 +62,12 @@ describe('components/character/tabs/character-backpack', () => {
     useFeatureFlagsMock.mockReturnValue({})
 
     setup()
+
+    expect(sendButton()).not.toBeInTheDocument()
+  })
+
+  it('should not offer to send the dishes of a character that doesn’t send them', () => {
+    setup({ sendToFoundry: false })
 
     expect(sendButton()).not.toBeInTheDocument()
   })
@@ -90,14 +103,18 @@ describe('components/character/tabs/character-backpack', () => {
     await waitFor(() => expect(sendButton()).toBeEnabled())
   })
 
-  it('should ask to link the character before sending its first dish', async () => {
+  it('should open the character’s settings to link it before sending its first dish', async () => {
     mockFetch()
-    const { user } = setup(null)
+    const { user } = setup({ linkedAt: null })
 
     await user.click(sendButton()!)
 
+    expect(await screen.findByText('⚙️ Character Settings')).toBeInTheDocument()
     expect(
-      await screen.findByTestId('link-sending-stone-form__token'),
+      screen.getByLabelText('Send to FoundryVTT via the Sending Stone'),
+    ).toBeChecked()
+    expect(
+      screen.getByTestId('link-sending-stone-form__token'),
     ).toBeInTheDocument()
     expect(globalThis.fetch).not.toHaveBeenCalled()
   })
@@ -106,7 +123,7 @@ describe('components/character/tabs/character-backpack', () => {
     mockFetch({
       responseData: { sendingStoneLinkedAt: '2026-10-24T12:00:00.000Z' },
     })
-    const { user } = setup(null)
+    const { user } = setup({ linkedAt: null })
 
     await user.click(sendButton()!)
     await user.type(
@@ -126,11 +143,11 @@ describe('components/character/tabs/character-backpack', () => {
         },
       ),
     )
-    await waitFor(() =>
-      expect(
-        screen.queryByTestId('link-sending-stone-form__token'),
-      ).not.toBeInTheDocument(),
-    )
+    expect(await screen.findByText(/Linked on/)).toBeInTheDocument()
+    expect(
+      screen.queryByTestId('link-sending-stone-form__token'),
+    ).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
 
     mockFetch({
       responseData: { id: 'dish-1', sentAt: '2026-10-24T12:00:00.000Z' },

@@ -16,12 +16,15 @@ export const CharacterCookbookContext = createContext<{
   sortBy: RaritySort
   filterStatus: filterStatus
   viewMode: CookbookRecipesViewMode
+  /** Whether recipes the pouch lacks ingredients for are listed */
+  showMissingIngredients: boolean
 }>({
   searchString: '',
   filterRarity: 'all',
   sortBy: 'default',
   filterStatus: 'all',
   viewMode: 'card',
+  showMissingIngredients: true,
 })
 
 export const CharacterCookbookApiContext = createContext<{
@@ -30,12 +33,14 @@ export const CharacterCookbookApiContext = createContext<{
   setFilterRarity: Dispatch<SetStateAction<Rarity | 'all'>>
   setSortBy: Dispatch<SetStateAction<RaritySort>>
   setFilterStatus: Dispatch<SetStateAction<filterStatus>>
+  setShowMissingIngredients: Dispatch<SetStateAction<boolean>>
 }>({
   setSearchString: noop,
   setFilterRarity: noop,
   setSortBy: noop,
   setFilterStatus: noop,
   setViewMode: noop,
+  setShowMissingIngredients: noop,
 })
 
 export function CharacterCookbookProvider({
@@ -48,6 +53,7 @@ export function CharacterCookbookProvider({
   const [filterRarity, setFilterRarity] = useState<Rarity | 'all'>('all')
   const [sortBy, setSortBy] = useState<RaritySort>('default')
   const [filterStatus, setFilterStatus] = useState<filterStatus>('all')
+  const [showMissingIngredients, setShowMissingIngredients] = useState(true)
 
   const state = {
     searchString,
@@ -55,6 +61,7 @@ export function CharacterCookbookProvider({
     sortBy,
     filterStatus,
     viewMode,
+    showMissingIngredients,
   }
 
   const api = {
@@ -63,6 +70,7 @@ export function CharacterCookbookProvider({
     setSortBy,
     setFilterStatus,
     setViewMode,
+    setShowMissingIngredients,
   }
 
   return (

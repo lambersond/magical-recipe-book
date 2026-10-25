@@ -9,11 +9,16 @@ import { primaryButton, secondaryButton } from '@/utils/styles'
 import type { ForageBiomeProps } from './types'
 import type { BiomeForagingResult, BiomeOption } from '@/types'
 
+// In game mode the roll result comes only from the Survival check's dice
+const GAME_MODE_ROLL_PROMPT = 'Roll your Survival check above'
+
 export function ForageBiome({
   characterId,
+  mode,
   onForaged,
   onClose,
 }: Readonly<ForageBiomeProps>) {
+  const isGameMode = mode === 'game'
   const [biomes, setBiomes] = useState<BiomeOption[]>([])
   const [biomeId, setBiomeId] = useState('')
   const [rollResult, setRollResult] = useState('')
@@ -42,7 +47,12 @@ export function ForageBiome({
       roll: rollResult === '' ? undefined : Number(rollResult),
     })
     if (!parsed.success) {
-      setError(parsed.error.issues[0].message)
+      const [issue] = parsed.error.issues
+      setError(
+        isGameMode && issue.path[0] === 'roll'
+          ? GAME_MODE_ROLL_PROMPT
+          : issue.message,
+      )
       return
     }
 
@@ -146,11 +156,16 @@ export function ForageBiome({
         name='roll-result'
         type='number'
         value={rollResult}
+        readOnly={isGameMode}
         onChange={e => {
           setRollResult(e.target.value)
           setRollDetail('')
         }}
-        placeholder='Roll above, or enter your own roll'
+        placeholder={
+          isGameMode
+            ? GAME_MODE_ROLL_PROMPT
+            : 'Roll above, or enter your own roll'
+        }
         hint={rollDetail}
         error={error}
       />

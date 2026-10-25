@@ -271,6 +271,8 @@ model CharacterSettings {
   id          String    @id @default(cuid())
   characterId String    @unique
   campaignId  String    @default("")
+  mode          String  @default("companion") // companion: the player enters roll results; game: the app's dice roll them
+  sendToFoundry Boolean @default(false)       // whether its cooked dishes are sent to Foundry through Sending Stone
   // The link code from Sending Stone that sends this character's dishes to
   // its game. Never sent back to the browser.
   sendingStoneToken    String?
