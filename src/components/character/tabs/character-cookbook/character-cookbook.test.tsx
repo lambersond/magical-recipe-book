@@ -88,7 +88,7 @@ const missingIngredientsToggle = () =>
   screen.getByRole('checkbox', { name: 'Show recipes missing ingredients' })
 
 const warnings = () =>
-  screen.queryAllByRole('button', { name: 'Missing ingredients' })
+  screen.queryAllByRole('button', { name: /^Missing ingredients for / })
 
 const listItem = () =>
   screen.getByRole('heading', { level: 3 }).closest('section')!
@@ -184,7 +184,7 @@ describe('components/character/tabs/character-cookbook', () => {
       const elixir = screen.getByRole('heading', { name: 'Elixir' })
       expect(
         within(elixir.parentElement!).getByRole('button', {
-          name: 'Missing ingredients',
+          name: 'Missing ingredients for Elixir',
         }),
       ).toBeInTheDocument()
     })
@@ -383,8 +383,16 @@ describe('components/character/tabs/character-cookbook', () => {
       })
 
       await user.click(
-        screen.getByRole('button', { name: 'Missing ingredients' }),
+        screen.getByRole('button', { name: 'Missing ingredients for Elixir' }),
       )
+      // Focus lands on the dialog itself, so it carries the name and words
+      const dialog = await screen.findByRole('dialog', {
+        name: 'Missing ingredients for Elixir',
+      })
+      expect(dialog).toHaveAccessibleDescription(
+        /Common ingredients: you have 2 of the 3 needed\./,
+      )
+      expect(dialog).toHaveFocus()
       const text = screen.getByText(
         'Common ingredients: you have 2 of the 3 needed.',
       )

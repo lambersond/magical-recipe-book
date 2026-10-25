@@ -26,7 +26,10 @@ export function RecipeListItem({ recipe }: Readonly<RecipeCardProps>) {
               <h3 className='text-xl font-bold text-text-primary'>
                 {recipe.name}
               </h3>
-              <MissingIngredientsWarning availability={availability} />
+              <MissingIngredientsWarning
+                availability={availability}
+                recipeName={recipe.name}
+              />
             </div>
             <div className='hidden sm:block'>
               <DifficultyChallengeChip difficulty={recipe.difficulty} />

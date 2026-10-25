@@ -48,6 +48,11 @@ export function CharacterSettingsPanel({
   const [saving, setSaving] = useState(false)
 
   const handleSave = async () => {
+    // A code typed but not linked would be lost, and Send would open settings
+    if (isSendingStoneEnabled && sendToFoundry && !linkedAt) {
+      setError('Link this character first, or turn sending off.')
+      return
+    }
     setSaving(true)
     setError('')
     try {
@@ -87,7 +92,11 @@ export function CharacterSettingsPanel({
           {sendToFoundry && (
             <SendingStoneLink
               linkedAt={linkedAt}
-              onLink={async token => setLinkedAt(await onLink(token))}
+              onLink={async token => {
+                setLinkedAt(await onLink(token))
+                // Linked is sending, even if the player closes without Save
+                await onSave({ sendToFoundry: true })
+              }}
               onUnlink={async () => setLinkedAt(await onUnlink())}
             />
           )}

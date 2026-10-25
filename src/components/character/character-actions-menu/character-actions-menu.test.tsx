@@ -96,10 +96,14 @@ describe('components/character/character-actions-menu', () => {
   it('should save the settings to the character', async () => {
     const fetchMock = mockApi({
       'PUT /api/characters/character-1/settings': {
-        body: { mode: 'game', sendToFoundry: true, sendingStoneLinkedAt: null },
+        body: {
+          mode: 'game',
+          sendToFoundry: true,
+          sendingStoneLinkedAt: LINKED_AT,
+        },
       },
     })
-    const { user, choose } = setup()
+    const { user, choose } = setup({ sendingStoneLinkedAt: LINKED_AT })
 
     await choose('Character Settings')
     await user.click(await screen.findByRole('button', { name: 'Game' }))
