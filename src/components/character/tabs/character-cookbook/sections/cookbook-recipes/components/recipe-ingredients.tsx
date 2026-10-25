@@ -7,6 +7,7 @@ export function RecipeIngredients({
   mundaneIngredients,
   magicalIngredients,
   onEditCommonIngredients,
+  magicalIngredientCounts,
 }: Readonly<RecipeIngredientsProps>) {
   return (
     <>
@@ -49,6 +50,7 @@ export function RecipeIngredients({
                 key={ingredient.id}
                 rarity={ingredient.rarity}
                 description={ingredient.description}
+                count={magicalIngredientCounts?.[ingredient.id]}
               />
             ))}
           </div>

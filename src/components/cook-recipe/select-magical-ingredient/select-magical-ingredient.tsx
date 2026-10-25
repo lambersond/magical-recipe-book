@@ -6,12 +6,8 @@ import {
   useCookingRequiredIngredientsApi,
   useRequiredIngredientsSelected,
 } from '../hooks/use-cook-recipe'
-import {
-  getButtonStyles,
-  getButtonText,
-  getContainerStyles,
-  getFoundMagicalIngredientsCount,
-} from './utils'
+import { getButtonStyles, getButtonText, getContainerStyles } from './utils'
+import { countAvailableMagicalIngredient } from '@/utils/recipe-availability'
 import type { SelectMagicalIngredientProps } from './types'
 import type { IngredientsPouch } from '@/types'
 
@@ -30,9 +26,9 @@ export function SelectMagicalIngredient({
     requiredIngredientsSelected[ingredientId],
   )
   const buttonText = getButtonText(requiredIngredientsSelected[ingredientId])
-  const foundMagicalIngredients = getFoundMagicalIngredientsCount(
-    ingredientId,
+  const foundMagicalIngredients = countAvailableMagicalIngredient(
     ingredientsPouch as IngredientsPouch,
+    ingredientId,
   )
 
   const onSelect = () => {
@@ -43,7 +39,9 @@ export function SelectMagicalIngredient({
     <span className={containerClasses}>
       <div className='flex justify-between items-baseline'>
         <span className='font-semibold text-lg'>{name}</span>
-        <span className='text-sm'>Available: {foundMagicalIngredients}</span>
+        {foundMagicalIngredients > 1 && (
+          <span className='text-sm'>You have {foundMagicalIngredients}</span>
+        )}
       </div>
       <div className='flex justify-between items-center gap-2'>
         <div className='text-xs opacity-80'>{description}</div>

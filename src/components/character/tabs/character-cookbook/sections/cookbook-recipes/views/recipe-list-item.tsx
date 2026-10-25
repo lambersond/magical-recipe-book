@@ -1,13 +1,20 @@
 'use client'
 
-import { RecipeActions, RecipeIngredients, RecipeOutcomes } from '../components'
+import {
+  MissingIngredientsWarning,
+  RecipeActions,
+  RecipeIngredients,
+  RecipeOutcomes,
+} from '../components'
 import { useEditCommonIngredients } from '../hooks/use-edit-common-ingredients'
+import { useRecipeAvailability } from '../hooks/use-recipe-availability'
 import { DifficultyChallengeChip } from '@/components/chips'
 import { CollapsibleCard } from '@/components/common'
 import type { RecipeCardProps } from './types'
 
 export function RecipeListItem({ recipe }: Readonly<RecipeCardProps>) {
   const { onEditCommonIngredients } = useEditCommonIngredients(recipe)
+  const availability = useRecipeAvailability(recipe)
 
   return (
     <CollapsibleCard
@@ -15,14 +22,17 @@ export function RecipeListItem({ recipe }: Readonly<RecipeCardProps>) {
       title={
         <div className='flex justify-between items-center'>
           <div className='flex gap-1 sm:gap-2 items-start sm:items-center'>
-            <h3 className='text-xl font-bold text-text-primary'>
-              {recipe.name}
-            </h3>
+            <div className='flex items-center gap-1'>
+              <h3 className='text-xl font-bold text-text-primary'>
+                {recipe.name}
+              </h3>
+              <MissingIngredientsWarning availability={availability} />
+            </div>
             <div className='hidden sm:block'>
               <DifficultyChallengeChip difficulty={recipe.difficulty} />
             </div>
           </div>
-          <RecipeActions recipe={recipe} />
+          <RecipeActions recipe={recipe} disabled={!availability.canMake} />
         </div>
       }
       subtitle={
@@ -49,6 +59,7 @@ export function RecipeListItem({ recipe }: Readonly<RecipeCardProps>) {
         mundaneIngredients={recipe.mundaneIngredients}
         onEditCommonIngredients={onEditCommonIngredients}
         magicalIngredients={recipe.magicalIngredients}
+        magicalIngredientCounts={availability.magicalIngredientCounts}
       />
       <RecipeOutcomes
         baneText={recipe.baneText}

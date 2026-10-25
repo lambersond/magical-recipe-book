@@ -3,6 +3,7 @@ import {
   CookRecipeDataContext,
   CookRecipeDispatchContext,
 } from '../cook-recipe-provider'
+import { getRecipeAvailability } from '@/utils/recipe-availability'
 import type { CookingResult } from '../types'
 
 export function useDishActions() {
@@ -152,14 +153,18 @@ export function useRequiredIngredientsSelected() {
   return useContext(CookRecipeDataContext).requiredIngredientsSelected
 }
 
-export function useIsReady() {
-  const ingredients = useRequiredIngredientsSelected()
+/** What the pouch holds of the recipe's ingredients, as the cookbook sees it */
+export function useCookingAvailability() {
   const recipe = useCookingRecipe()
   const ingredientsPouch = useCookingIngredientsPouch()
-  const hasCommonIngredients =
-    ingredientsPouch!.commonIngredients >= recipe.mundaneIngredients.length
+  return getRecipeAvailability(recipe, ingredientsPouch!)
+}
 
-  return hasCommonIngredients && Object.values(ingredients).every(Boolean)
+export function useIsReady() {
+  const ingredients = useRequiredIngredientsSelected()
+  const { canMake } = useCookingAvailability()
+
+  return canMake && Object.values(ingredients).every(Boolean)
 }
 
 export function useCookingResults(): CookingResult {
