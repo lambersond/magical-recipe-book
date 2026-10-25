@@ -6,6 +6,7 @@ import { ForageBiome } from './forage-biome'
 import { ButtonGroup, Dropdown, Modal, Switch } from '@/components/common'
 import { DropdownOption } from '@/components/common/dropdown'
 import { D6Icon } from '@/components/common/icons'
+import { DEFAULT_CHARACTER_MODE } from '@/constants/character-settings'
 import { useDice } from '@/hooks/dice'
 import { useModals } from '@/hooks/use-modals'
 import { Ingredient } from '@/types'
@@ -20,6 +21,7 @@ const MAGICAL_MODES: { id: MagicalMode; text: string; icon: typeof Trees }[] = [
 
 export function GoForagingModal({
   characterId,
+  mode = DEFAULT_CHARACTER_MODE,
   onSubmit,
   onForaged,
   open,
@@ -30,7 +32,10 @@ export function GoForagingModal({
   const [magicalIngredient, setMagicalIngredient] = useState('')
   const [isMagical, setIsMagical] = useState(true)
   const [magicalMode, setMagicalMode] = useState<MagicalMode>('biome')
-  const isForagingBiome = isMagical && magicalMode === 'biome'
+  // In game mode, rolls come from the app's dice and magical ingredients
+  // only from foraging a biome
+  const isGameMode = mode === 'game'
+  const isForagingBiome = isMagical && (isGameMode || magicalMode === 'biome')
   const [magicalOptions, setMagicalOptions] = useState<DropdownOption[]>([])
   const foragingOptionText = isMagical
     ? 'Ingredient Foraged'
@@ -106,7 +111,7 @@ export function GoForagingModal({
           rightText='Magical'
           onChange={handleSwitchChange}
         />
-        {isMagical && (
+        {isMagical && !isGameMode && (
           <div className='mt-4'>
             <ButtonGroup<MagicalMode>
               options={MAGICAL_MODES}
@@ -118,6 +123,7 @@ export function GoForagingModal({
         {isForagingBiome ? (
           <ForageBiome
             characterId={characterId}
+            mode={mode}
             onForaged={onForaged}
             onClose={onClose}
           />
@@ -139,20 +145,21 @@ export function GoForagingModal({
                 </div>
               ) : (
                 <>
-                  {[2, 3, 4, 5, 6, 7].map(num => (
-                    <button
-                      key={num}
-                      type='button'
-                      onClick={() => setQuantity(num)}
-                      className={`p-3 rounded-lg border-2 transition-all cursor-pointer ${
-                        quantity === num
-                          ? 'border-green-400 bg-green-900/30 text-green-300 shadow-md'
-                          : 'border-gray-600 hover:border-green-500 hover:bg-green-900/20 text-gray-300 hover:text-green-300'
-                      }`}
-                    >
-                      <span className='font-semibold text-lg'>{num}</span>
-                    </button>
-                  ))}
+                  {!isGameMode &&
+                    [2, 3, 4, 5, 6, 7].map(num => (
+                      <button
+                        key={num}
+                        type='button'
+                        onClick={() => setQuantity(num)}
+                        className={`p-3 rounded-lg border-2 transition-all cursor-pointer ${
+                          quantity === num
+                            ? 'border-green-400 bg-green-900/30 text-green-300 shadow-md'
+                            : 'border-gray-600 hover:border-green-500 hover:bg-green-900/20 text-gray-300 hover:text-green-300'
+                        }`}
+                      >
+                        <span className='font-semibold text-lg'>{num}</span>
+                      </button>
+                    ))}
                   <button
                     className='group p-4 rounded-full cursor-pointer bg-white/10 hover:bg-white/30 col-span-full place-self-center uppercase flex text-2xl font-bold items-center gap-2'
                     onClick={onClick}
@@ -160,6 +167,16 @@ export function GoForagingModal({
                     <D6Icon className='text-primary size-10 group-hover:animate-dice-spin duration-700 ease-in-out' />
                     Roll
                   </button>
+                  {isGameMode && (
+                    <p
+                      className='col-span-full text-center text-text-secondary'
+                      data-testid='go-foraging-modal__quantity'
+                    >
+                      {quantity > 0
+                        ? `You found ${quantity} common ingredients.`
+                        : 'Roll 1d6 + 1 for how many you found.'}
+                    </p>
+                  )}
                 </>
               )}
             </div>

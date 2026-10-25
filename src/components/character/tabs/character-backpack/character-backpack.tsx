@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { noop } from 'lodash'
 import { useCharacter, useCharacterApi } from '../../hooks/use-character'
-import { useSendingStoneLink } from '../../hooks/use-sending-stone-link'
+import { useCharacterSettings } from '../../hooks/use-character-settings'
 import { CookedDishCard } from '@/components/cards'
 import { useFeatureFlags } from '@/hooks/use-feature-flags'
 import { useModals } from '@/hooks/use-modals'
@@ -14,7 +14,7 @@ export function CharacterBackpack() {
   const { openModal } = useModals()
   const updateCharacter = useCharacterApi()
   const { isSendingStoneEnabled } = useFeatureFlags()
-  const openSendingStoneLink = useSendingStoneLink()
+  const openCharacterSettings = useCharacterSettings({ isSendingStoneEnabled })
   const [sendingId, setSendingId] = useState<string>()
 
   const handleDiscardCookedDish = async (id: string) => {
@@ -67,7 +67,7 @@ export function CharacterBackpack() {
 
   const handleSendCookedDish = async (id: string) => {
     if (!character.settings?.sendingStoneLinkedAt) {
-      openSendingStoneLink()
+      openCharacterSettings()
       return
     }
 
@@ -106,6 +106,7 @@ export function CharacterBackpack() {
   }
 
   const cookedDishes = character.backpack?.cookedDishes || []
+  const canSend = isSendingStoneEnabled && !!character.settings?.sendToFoundry
 
   return (
     <div className='py-4'>
@@ -123,7 +124,7 @@ export function CharacterBackpack() {
             currentDay={character.currentDay}
             onConsume={handleConsumeCookedDish}
             onDiscard={handleDiscardCookedDish}
-            onSend={isSendingStoneEnabled ? handleSendCookedDish : undefined}
+            onSend={canSend ? handleSendCookedDish : undefined}
             isSending={sendingId === cookedDish.id}
           />
         ))}

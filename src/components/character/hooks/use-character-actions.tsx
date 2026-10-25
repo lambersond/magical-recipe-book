@@ -4,12 +4,12 @@ import {
   BookPlus,
   Delete,
   EditIcon,
-  Send,
+  Settings,
   TentTree,
 } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { useCharacter, useCharacterApi } from '../hooks/use-character'
-import { useSendingStoneLink } from '../hooks/use-sending-stone-link'
+import { useCharacterSettings } from '../hooks/use-character-settings'
 import { useModals } from '@/hooks/use-modals'
 import type { Option } from '@/components/common'
 import type {
@@ -21,8 +21,8 @@ import type {
 
 /**
  * The character's actions, for its menu and buttons.
- * @param isSendingStoneEnabled - Offers linking to Sending Stone, for the
- *   menu to pass on from the feature flags.
+ * @param isSendingStoneEnabled - Offers sending dishes to Foundry in the
+ *   character's settings, for the menu to pass on from the feature flags.
  */
 export function useCharacterActions({ isSendingStoneEnabled = false } = {}) {
   const { id } = useParams<{ id: string }>()
@@ -30,7 +30,7 @@ export function useCharacterActions({ isSendingStoneEnabled = false } = {}) {
   const updateCharacter = useCharacterApi()
   const { openModal } = useModals()
   const router = useRouter()
-  const openSendingStoneLink = useSendingStoneLink()
+  const openCharacterSettings = useCharacterSettings({ isSendingStoneEnabled })
 
   const forage: Option = {
     label: 'Go Foraging',
@@ -39,6 +39,7 @@ export function useCharacterActions({ isSendingStoneEnabled = false } = {}) {
     onClick: () => {
       openModal('GoForagingModal', {
         characterId: id,
+        mode: character.settings?.mode,
         onForaged: ({ ingredientsPouch, foragingLog }) => {
           updateCharacter((prev: FullCharacter) => ({
             ...prev,
@@ -61,6 +62,16 @@ export function useCharacterActions({ isSendingStoneEnabled = false } = {}) {
             }),
           })
           const data = await res.json()
+          if (!res.ok) {
+            openModal('ConfirmModal', {
+              title: 'Not Logged',
+              message: data.error ?? 'Could not log what you foraged',
+              confirmButtonText: 'Okay',
+              onConfirm: noop,
+              hideCancelButton: true,
+            })
+            return
+          }
           updateCharacter((prev: FullCharacter) => ({
             ...prev,
             ingredientsPouch: data.ingredientsPouch,
@@ -128,20 +139,12 @@ export function useCharacterActions({ isSendingStoneEnabled = false } = {}) {
     },
   }
 
-  const sendingStoneOptions: Option[] = isSendingStoneEnabled
-    ? [
-        {
-          label: character.settings?.sendingStoneLinkedAt
-            ? 'Sending Stone Link'
-            : 'Link Sending Stone',
-          icon: <Send />,
-          onClick: openSendingStoneLink,
-        },
-      ]
-    : []
-
   const characterOptions: Option[] = [
-    ...sendingStoneOptions,
+    {
+      label: 'Character Settings',
+      icon: <Settings />,
+      onClick: openCharacterSettings,
+    },
     {
       label: 'Edit Character',
       icon: <EditIcon />,

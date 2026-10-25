@@ -2,6 +2,7 @@
 import prisma from '@/clients/prisma'
 import { NotFoundError } from '@/errors'
 import type {
+  CharacterSettings,
   CookedDishStatus,
   EditableCharacter,
   FullCharacter,
@@ -119,6 +120,39 @@ export async function findCharacterById(
   return prisma.character.findFirst({
     where: { id },
     ...options,
+  })
+}
+
+/** The user's character's mode; null when the character isn't the user's. */
+export async function findCharacterMode(id: string, userId: string) {
+  return prisma.character.findFirst({
+    where: { id, userId },
+    select: { settings: { select: { mode: true } } },
+  })
+}
+
+/**
+ * Changes the user's character's settings, creating them for an older
+ * character that has none.
+ * @returns The settings, as the character has them; undefined when the
+ *   character isn't the user's.
+ */
+export async function upsertCharacterSettings(
+  characterId: string,
+  userId: string,
+  data: Partial<Pick<CharacterSettings, 'mode' | 'sendToFoundry'>>,
+) {
+  const character = await prisma.character.findFirst({
+    where: { id: characterId, userId },
+    select: { id: true },
+  })
+  if (!character) return
+
+  return prisma.characterSettings.upsert({
+    where: { characterId },
+    update: data,
+    create: { characterId, ...data },
+    ...returnFields.settings,
   })
 }
 
