@@ -14,8 +14,9 @@ ALTER COLUMN "emailVerified" SET DEFAULT false,
 ALTER COLUMN "emailVerified" SET NOT NULL;
 
 -- Account: same rows, renamed to Better Auth's fields, with an id of their own.
-ALTER TABLE "Account" DROP CONSTRAINT "Account_pkey";
-
+-- The old primary key stays until the new one replaces it: a database that
+-- publishes changes (Prisma Postgres does) refuses to update a table without
+-- one.
 ALTER TABLE "Account" RENAME COLUMN "provider" TO "providerId";
 ALTER TABLE "Account" RENAME COLUMN "providerAccountId" TO "accountId";
 ALTER TABLE "Account" RENAME COLUMN "access_token" TO "accessToken";
@@ -36,6 +37,7 @@ UPDATE "Account" SET
   "scope" = NULLIF(array_to_string(regexp_split_to_array(btrim("scope"), '[\s,]+'), ','), '');
 
 ALTER TABLE "Account" ALTER COLUMN "id" SET NOT NULL,
+DROP CONSTRAINT "Account_pkey",
 ADD CONSTRAINT "Account_pkey" PRIMARY KEY ("id");
 
 ALTER TABLE "Account" DROP COLUMN "type",
