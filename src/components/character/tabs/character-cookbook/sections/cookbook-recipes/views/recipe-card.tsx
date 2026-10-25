@@ -28,7 +28,10 @@ export function RecipeCard({ recipe }: Readonly<RecipeCardProps>) {
               <h3 className='text-xl font-bold text-text-primary'>
                 {recipe.name}
               </h3>
-              <MissingIngredientsWarning availability={availability} />
+              <MissingIngredientsWarning
+                availability={availability}
+                recipeName={recipe.name}
+              />
             </div>
             <DifficultyChallengeChip difficulty={recipe.difficulty} />
           </div>

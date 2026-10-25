@@ -66,7 +66,13 @@ describe('components/modals/character-settings-modal', () => {
   })
 
   it('should save the mode and switch, then close', async () => {
-    const { user, onSave } = setup()
+    const { user, onSave } = setup({
+      settings: {
+        mode: 'companion',
+        sendToFoundry: false,
+        sendingStoneLinkedAt: LINKED_AT,
+      },
+    })
 
     await user.click(screen.getByRole('button', { name: 'Game' }))
     await user.click(sendSwitch()!)
@@ -76,6 +82,20 @@ describe('components/modals/character-settings-modal', () => {
     await waitFor(() =>
       expect(mockCloseModal).toHaveBeenCalledWith('CharacterSettingsModal'),
     )
+  })
+
+  it('should not save sending before the character is linked', async () => {
+    const { user, onSave } = setup()
+
+    await user.click(sendSwitch()!)
+    await user.type(tokenInput()!, 'ss_abc123')
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+
+    expect(
+      screen.getByText('Link this character first, or turn sending off.'),
+    ).toBeInTheDocument()
+    expect(onSave).not.toHaveBeenCalled()
+    expect(mockCloseModal).not.toHaveBeenCalled()
   })
 
   it('should start a character without settings in Companion mode, not sending', async () => {
@@ -148,7 +168,10 @@ describe('components/modals/character-settings-modal', () => {
     await waitFor(() => expect(onLink).toHaveBeenCalledWith('ss_abc123'))
     expect(await screen.findByText(/Linked on/)).toBeInTheDocument()
     expect(tokenInput()).not.toBeInTheDocument()
-    expect(onSave).not.toHaveBeenCalled()
+    // Linked is sending, so closing without Save still shows Send
+    await waitFor(() =>
+      expect(onSave).toHaveBeenCalledWith({ sendToFoundry: true }),
+    )
     expect(mockCloseModal).not.toHaveBeenCalled()
   })
 

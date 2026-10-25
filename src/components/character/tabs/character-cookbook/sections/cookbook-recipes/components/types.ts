@@ -19,6 +19,8 @@ export type RecipeIngredientsProps = Pick<
 
 export type MissingIngredientsWarningProps = {
   availability: RecipeAvailability
+  /** Names the warning for screen readers, as each recipe has one */
+  recipeName?: string
 }
 
 export type RecipeOutcomesProps = Pick<
