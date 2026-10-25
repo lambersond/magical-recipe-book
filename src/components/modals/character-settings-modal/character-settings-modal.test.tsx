@@ -96,6 +96,13 @@ describe('components/modals/character-settings-modal', () => {
     ).toBeInTheDocument()
     expect(onSave).not.toHaveBeenCalled()
     expect(mockCloseModal).not.toHaveBeenCalled()
+
+    // Linking answers it
+    await user.click(screen.getByRole('button', { name: 'Link' }))
+    expect(await screen.findByText(/Linked on/)).toBeInTheDocument()
+    expect(
+      screen.queryByText('Link this character first, or turn sending off.'),
+    ).not.toBeInTheDocument()
   })
 
   it('should start a character without settings in Companion mode, not sending', async () => {

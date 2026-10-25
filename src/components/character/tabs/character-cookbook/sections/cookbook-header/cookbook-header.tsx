@@ -25,6 +25,8 @@ export function CookbookHeader() {
           name='show-missing-ingredients'
           label='Show recipes missing ingredients'
           labelSize='sm'
+          // On a phone it takes its own line, so keep it off the screen's edges
+          labelClassName='text-text-primary gap-3 px-4 sm:px-0'
           checked={showMissingIngredients}
           onChange={e => setShowMissingIngredients(e.target.checked)}
         />

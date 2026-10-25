@@ -392,7 +392,7 @@ describe('components/character/tabs/character-cookbook', () => {
       expect(dialog).toHaveAccessibleDescription(
         /Common ingredients: you have 2 of the 3 needed\./,
       )
-      expect(dialog).toHaveFocus()
+      await waitFor(() => expect(dialog).toHaveFocus())
       const text = screen.getByText(
         'Common ingredients: you have 2 of the 3 needed.',
       )

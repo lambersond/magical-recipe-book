@@ -94,6 +94,7 @@ export function CharacterSettingsPanel({
               linkedAt={linkedAt}
               onLink={async token => {
                 setLinkedAt(await onLink(token))
+                setError('')
                 // Linked is sending, even if the player closes without Save
                 await onSave({ sendToFoundry: true })
               }}
