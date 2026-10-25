@@ -44,4 +44,16 @@ describe('clients/auth-client', () => {
 
     expect(alertSpy).toHaveBeenCalledWith('Sign-in failed. Please try again.')
   })
+
+  it('should say why when Better Auth gives a reason', async () => {
+    mockSocial.mockResolvedValue({
+      error: { status: 403, message: 'Invalid origin' },
+    })
+
+    await signInWithGoogle('/user')
+
+    expect(alertSpy).toHaveBeenCalledWith(
+      'Sign-in failed (Invalid origin). Please try again.',
+    )
+  })
 })
