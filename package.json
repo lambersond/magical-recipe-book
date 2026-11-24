@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "db:setup": "prisma generate --no-engine && prisma migrate deploy && prisma db push",
+    "db:setup": "prisma generate && prisma migrate deploy && prisma db push",
     "db:seed": "ts-node prisma/seed.ts",
     "dev": "TZ=UTC next dev --turbopack",
     "lint:fix": "eslint . --fix",
@@ -16,8 +16,8 @@
     "test:watch": "jest --watch",
     "test": "jest",
     "vercel-build": "npm run vercel-build:seed",
-    "vercel-build:seed": "prisma generate --no-engine && prisma migrate deploy && prisma db push && npm run db:seed && next build",
-    "vercel-build:blank": "prisma generate --no-engine && prisma migrate deploy && next build"
+    "vercel-build:seed": "prisma generate && prisma migrate deploy && prisma db push && npm run db:seed && next build",
+    "vercel-build:blank": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.20",
