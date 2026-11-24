@@ -6,7 +6,7 @@ export async function GET() {
     featureFlags: {
       isAuthEnabled:
         process.env.AUTH_GOOGLE_ENABLED?.toLowerCase() === 'true' || false,
-      isDatabaseEnabled: (process.env.DATABASE_URL?.length || 0) > 0,
+      isDatabaseEnabled: (process.env.DB_DATABASE_URL_POOLED?.length || 0) > 0,
       isSendingStoneEnabled: isSendingStoneEnabled(),
     },
   })

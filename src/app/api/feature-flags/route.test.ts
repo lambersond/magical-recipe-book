@@ -7,7 +7,7 @@ import { GET } from './route'
 describe('app/api/feature-flags', () => {
   it('should return true for isAuthEnabled', async () => {
     process.env.AUTH_GOOGLE_ENABLED = 'true'
-    process.env.DATABASE_URL = 'fake-db-connection-string'
+    process.env.DB_DATABASE_URL_POOLED = 'fake-db-connection-string'
     process.env.SENDING_STONE_ENABLED = 'true'
 
     const response = await GET()
@@ -20,7 +20,7 @@ describe('app/api/feature-flags', () => {
 
   it('should return false for isAuthEnabled', async () => {
     process.env.AUTH_GOOGLE_ENABLED = 'false'
-    process.env.DATABASE_URL = ''
+    process.env.DB_DATABASE_URL_POOLED = ''
     delete process.env.SENDING_STONE_ENABLED
 
     const response = await GET()
